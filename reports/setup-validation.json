@@ -1,0 +1,24 @@
+{
+  "versions": {
+    "MEArec": "1.11.0",
+    "NEURON": "8.2.7",
+    "LFPy": "2.3.6",
+    "numpy": "2.5.4"
+  },
+  "python": "3.12.15",
+  "seed": 42,
+  "probe": "Neuronexus-32",
+  "cell_model": "L5_STPC_cADpyr232_1",
+  "duration_s": 1,
+  "sample_rate_hz": 32000,
+  "recording_shape": [
+    32000,
+    32
+  ],
+  "dtype": "float32",
+  "units": "microvolts",
+  "template_count": 2,
+  "neuron_count": 1,
+  "ground_truth_spikes": 9,
+  "validation": "HDF5 reload, expected shape, finite nonconstant samples, nonempty ground truth"
+}

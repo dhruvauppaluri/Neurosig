@@ -8,6 +8,8 @@ The MEArec setup is working on Apple Silicon macOS with Python 3.12.15, MEArec 1
 
 The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references are implemented; RTL filter arithmetic and the spike detector are the next milestones.
 
+A separate research UI under [`viz/`](viz/README.md) streams stylized 3D brain activity, synthetic spikes, and fixture Neuropixels **sorted-spike** playback. It imports the golden-model Python APIs and does not modify RTL.
+
 ## Setup and validation
 
 Run these commands from the repository root:

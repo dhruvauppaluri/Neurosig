@@ -19,7 +19,7 @@ The initial recording target is 32 channels. Keep the channel count configurable
 - [ ] Quantize and implement decoder inference in RTL.
 - [ ] Explore synthesis and SKY130/OpenROAD implementation after functional verification.
 
-Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. On October 19, 2026, `.venv/bin/python scripts/smoke_mearec.py` passed on Apple Silicon macOS: two templates, 32,000 samples × 32 channels, one second at 32 kHz, and nine ground-truth spikes. `reports/setup-validation.json` records the result. Hardware results remain future work.
+Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. On October 19, 2026, `.venv/bin/python scripts/smoke_mearec.py` passed on Apple Silicon macOS: two templates, 32,000 samples × 32 channels, one second at 32 kHz, and nine ground-truth spikes. `reports/setup-validation.json` records the result. On November 1, 2026, the same command passed on Ubuntu 24.04 x86_64 with those versions and the same recording shape and spike count. Hardware results remain future work.
 
 ## Working rules
 
@@ -39,6 +39,15 @@ Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURO
 - Define signedness, scaling, saturation or overflow behavior, ordering, handshake behavior, and reset behavior before implementing RTL interfaces. Compare RTL against a deterministic software reference.
 - Report measured accuracy, latency, throughput, area, and power separately from targets or estimates. Document tool versions and constraints for physical design results.
 - Keep the first implementation small enough to validate end to end. Expand channel count or model complexity after the existing pipeline is reproducible.
+
+## Cursor Cloud specific instructions
+
+There is no long-running service. `scripts/setup.sh` creates `.tools/` and `.venv/`; run project commands with `.venv/bin/python`.
+
+- NEURON mechanism compilation invokes `c++`. On the Cloud Agent image that command is Clang and selects the newest GCC installation (GCC 14). Install `libstdc++-14-dev` so `libstdc++.so` is on the link path before `scripts/smoke_mearec.py`. `scripts/setup.sh` does not install that package.
+- RTL testbenches need the `iverilog` apt package (`iverilog` and `vvp`). The README lists the two commands.
+- Unit tests: `.venv/bin/python -m unittest discover -s tests`.
+- End-to-end check: `.venv/bin/python scripts/smoke_mearec.py`. Output stays under gitignored `data/smoke/`. Matplotlib scripts select the Agg backend, so no display is required.
 
 ## Parallel work
 

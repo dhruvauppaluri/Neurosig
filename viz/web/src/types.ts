@@ -89,10 +89,10 @@ export const KIND_COLORS: Record<EventKind, string> = {
 };
 
 export const KIND_LABELS: Record<EventKind, string> = {
-  synthetic_source: "Synthetic source",
-  neuropixels_spike: "Neuropixels spike",
-  electrode_activity: "Electrode activity",
-  detected_spike: "Detected spike",
-  missed_spike: "Missed spike",
+  synthetic_source: "Synthetic source (cyan pulse)",
+  neuropixels_spike: "Neuropixels spike (gold pulse)",
+  electrode_activity: "Electrode activity (probe flash)",
+  detected_spike: "NeuroSig detection (mint octahedron)",
+  missed_spike: "Missed spike (red octahedron)",
   localization_estimate: "Localization estimate",
 };

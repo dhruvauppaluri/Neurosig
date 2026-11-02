@@ -6,8 +6,8 @@ import {
   REGION_DOWNSTREAM,
   REGION_TARGETS,
   TRACTS,
-  cortexMaterial,
   curveThrough,
+  holographicMaterial,
   makeBrainstemGeometry,
   makeCerebellumGeometry,
   makeHemisphereGeometry,
@@ -20,6 +20,10 @@ interface Pulse {
   event: NeuralEvent;
   born: number;
 }
+
+const PULSE_LIFE_S = 0.12;
+const SOURCE_KINDS: EventKind[] = ["synthetic_source", "neuropixels_spike"];
+const DETECT_KINDS: EventKind[] = ["detected_spike", "missed_spike"];
 
 function RegionHit({
   region,
@@ -39,13 +43,8 @@ function RegionHit({
         onSelect(region.region_id);
       }}
     >
-      <sphereGeometry args={[1, 20, 14]} />
-      <meshBasicMaterial
-        color={region.color}
-        transparent
-        opacity={selected ? 0.18 : 0.0}
-        depthWrite={false}
-      />
+      <sphereGeometry args={[1, 16, 12]} />
+      <meshBasicMaterial color={region.color} transparent opacity={0} depthWrite={false} />
     </mesh>
   );
 }
@@ -55,28 +54,28 @@ function BrainMesh() {
   const right = useMemo(() => makeHemisphereGeometry(1), []);
   const cerebellum = useMemo(() => makeCerebellumGeometry(), []);
   const stem = useMemo(() => makeBrainstemGeometry(), []);
-  const outer = useMemo(() => cortexMaterial(0.5), []);
-  const cere = useMemo(
-    () =>
-      new THREE.MeshPhysicalMaterial({
-        color: "#5b8fb0",
-        emissive: "#143044",
-        emissiveIntensity: 0.3,
-        roughness: 0.5,
-        transparent: true,
-        opacity: 0.55,
-        depthWrite: false,
-      }),
-    [],
-  );
+  const hologram = useMemo(() => holographicMaterial(), []);
+  const cere = useMemo(() => holographicMaterial(), []);
+
+  useFrame(({ clock }) => {
+    hologram.uniforms.uTime.value = clock.getElapsedTime();
+    cere.uniforms.uTime.value = clock.getElapsedTime();
+  });
 
   return (
     <group>
-      <mesh geometry={left} material={outer} />
-      <mesh geometry={right} material={outer} />
+      <mesh geometry={left} material={hologram} />
+      <mesh geometry={right} material={hologram} />
       <mesh geometry={cerebellum} material={cere} />
-      <mesh geometry={stem} position={[0, -32, -28]} rotation={[0.55, 0, 0]}>
-        <meshStandardMaterial color="#2a4a5c" emissive="#0e2430" emissiveIntensity={0.35} />
+      <mesh geometry={stem} position={[0, -34, -30]} rotation={[0.62, 0, 0]}>
+        <meshStandardMaterial
+          color="#1a4a5c"
+          emissive="#1ec8e8"
+          emissiveIntensity={0.18}
+          transparent
+          opacity={0.55}
+          depthWrite={false}
+        />
       </mesh>
     </group>
   );
@@ -87,14 +86,14 @@ function TractGuides() {
     () =>
       TRACTS.map((tract) => ({
         id: tract.id,
-        points: curveThrough(tract.points).getPoints(48).map((point) => point.toArray() as Vec3),
+        points: curveThrough(tract.points).getPoints(40).map((point) => point.toArray() as Vec3),
       })),
     [],
   );
   return (
     <group>
       {lines.map((line) => (
-        <Line key={line.id} points={line.points} color="#4cc9f0" lineWidth={1.2} transparent opacity={0.18} />
+        <Line key={line.id} points={line.points} color="#67e8f9" lineWidth={0.7} transparent opacity={0.12} />
       ))}
     </group>
   );
@@ -110,30 +109,37 @@ function Probe({
   const sites = session.electrodes.sites;
   const first = sites[0]?.xyz_mm;
   const last = sites[sites.length - 1]?.xyz_mm;
-  const mid = first && last ? ([0.5 * (first[0] + last[0]), 0.5 * (first[1] + last[1]), 0.5 * (first[2] + last[2])] as Vec3) : ([0, -72, 8] as Vec3);
-  const length = first && last ? Math.hypot(last[0] - first[0], last[1] - first[1], last[2] - first[2]) + 6 : 20;
+  const mid =
+    first && last
+      ? ([0.5 * (first[0] + last[0]), 0.5 * (first[1] + last[1]), 0.5 * (first[2] + last[2])] as Vec3)
+      : ([0, -72, 8] as Vec3);
+  const length = first && last ? Math.hypot(last[0] - first[0], last[1] - first[1], last[2] - first[2]) + 4 : 20;
   const glow = useRef<number[]>(sites.map(() => 0));
   const meshes = useRef<(THREE.Mesh | null)[]>([]);
 
   useFrame((_, delta) => {
     const now = performance.now() / 1000;
     const levels = glow.current;
-    for (let i = 0; i < levels.length; i += 1) levels[i] *= Math.max(0, 1 - delta * 6);
+    for (let i = 0; i < levels.length; i += 1) levels[i] *= Math.max(0, 1 - delta * 8);
     for (const pulse of pulses) {
       const channel = pulse.event.channel_id;
       if (channel == null || channel < 0 || channel >= levels.length) continue;
-      if (pulse.event.kind !== "electrode_activity" && pulse.event.kind !== "detected_spike" && pulse.event.kind !== "neuropixels_spike") {
+      if (
+        pulse.event.kind !== "electrode_activity" &&
+        pulse.event.kind !== "detected_spike" &&
+        pulse.event.kind !== "neuropixels_spike"
+      ) {
         continue;
       }
       const age = now - pulse.born;
-      if (age < 0.28) levels[channel] = Math.max(levels[channel], 1 - age / 0.28);
+      if (age < 0.18) levels[channel] = Math.max(levels[channel], 1 - age / 0.18);
     }
     meshes.current.forEach((mesh, index) => {
       if (!mesh) return;
       const material = mesh.material as THREE.MeshStandardMaterial;
       const level = levels[index] ?? 0;
-      material.emissiveIntensity = 0.25 + 4.5 * level;
-      mesh.scale.setScalar(1 + 1.8 * level);
+      material.emissiveIntensity = 0.2 + 3.2 * level;
+      mesh.scale.setScalar(1 + 0.45 * level);
     });
   });
 
@@ -141,8 +147,8 @@ function Probe({
     <group>
       {first && last && (
         <mesh position={mid}>
-          <cylinderGeometry args={[0.38, 0.48, length, 10]} />
-          <meshStandardMaterial color="#f72585" emissive="#f72585" emissiveIntensity={0.35} metalness={0.4} roughness={0.3} />
+          <cylinderGeometry args={[0.22, 0.32, length, 8]} />
+          <meshStandardMaterial color="#fb7185" emissive="#f43f5e" emissiveIntensity={0.45} metalness={0.5} roughness={0.28} />
         </mesh>
       )}
       {sites.map((site, index) => (
@@ -153,11 +159,11 @@ function Probe({
             meshes.current[index] = node;
           }}
         >
-          <sphereGeometry args={[0.9, 12, 12]} />
+          <sphereGeometry args={[0.38, 8, 8]} />
           <meshStandardMaterial
-            color={session.selected_channel === site.channel_id ? "#80ffdb" : "#ff4d6d"}
-            emissive="#ff4d6d"
-            emissiveIntensity={0.4}
+            color={session.selected_channel === site.channel_id ? "#80ffdb" : "#fb7185"}
+            emissive="#fb7185"
+            emissiveIntensity={0.35}
             toneMapped={false}
           />
         </mesh>
@@ -190,11 +196,24 @@ function destinationFor(event: NeuralEvent, session: Session): Vec3 {
   return REGION_TARGETS[downstream] ?? REGION_TARGETS.thalamus;
 }
 
-function PulseField({ pulses, kinds }: { pulses: Pulse[]; kinds: Set<EventKind> }) {
+function InstancedPulses({
+  pulses,
+  kinds,
+  filter,
+  geometry,
+  scaleMul,
+}: {
+  pulses: Pulse[];
+  kinds: Set<EventKind>;
+  filter: EventKind[];
+  geometry: THREE.BufferGeometry;
+  scaleMul: number;
+}) {
   const mesh = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const color = useMemo(() => new THREE.Color(), []);
-  const maxCount = 1600;
+  const maxCount = 1200;
+  const allowed = useMemo(() => new Set(filter), [filter]);
 
   useFrame(() => {
     const instance = mesh.current;
@@ -202,16 +221,15 @@ function PulseField({ pulses, kinds }: { pulses: Pulse[]; kinds: Set<EventKind> 
     const now = performance.now() / 1000;
     let visible = 0;
     for (const pulse of pulses) {
-      if (!kinds.has(pulse.event.kind)) continue;
+      if (!kinds.has(pulse.event.kind) || !allowed.has(pulse.event.kind)) continue;
       const age = now - pulse.born;
-      const life = 0.22;
-      if (age > life * 3) continue;
-      const fade = Math.exp(-age / life);
+      if (age > PULSE_LIFE_S * 2.2) continue;
+      const fade = Math.exp(-age / PULSE_LIFE_S);
       dummy.position.set(...pulse.event.xyz_mm);
-      dummy.scale.setScalar((1.4 + 2.2 * fade) * (pulse.event.kind === "detected_spike" ? 1.35 : 1));
+      dummy.scale.setScalar(scaleMul * (0.65 + 0.55 * fade));
       dummy.updateMatrix();
       instance.setMatrixAt(visible, dummy.matrix);
-      color.set(KIND_COLORS[pulse.event.kind]).multiplyScalar(0.45 + fade);
+      color.set(KIND_COLORS[pulse.event.kind]).multiplyScalar(0.55 + 0.9 * fade);
       instance.setColorAt(visible, color);
       visible += 1;
       if (visible >= maxCount) break;
@@ -222,10 +240,20 @@ function PulseField({ pulses, kinds }: { pulses: Pulse[]; kinds: Set<EventKind> 
   });
 
   return (
-    <instancedMesh ref={mesh} args={[undefined, undefined, maxCount]}>
-      <sphereGeometry args={[1, 8, 8]} />
-      <meshBasicMaterial transparent opacity={0.95} toneMapped={false} />
+    <instancedMesh ref={mesh} args={[geometry, undefined, maxCount]}>
+      <meshBasicMaterial transparent opacity={0.92} toneMapped={false} />
     </instancedMesh>
+  );
+}
+
+function PulseField({ pulses, kinds }: { pulses: Pulse[]; kinds: Set<EventKind> }) {
+  const spark = useMemo(() => new THREE.SphereGeometry(0.42, 8, 8), []);
+  const detect = useMemo(() => new THREE.OctahedronGeometry(0.55, 0), []);
+  return (
+    <group>
+      <InstancedPulses pulses={pulses} kinds={kinds} filter={SOURCE_KINDS} geometry={spark} scaleMul={1} />
+      <InstancedPulses pulses={pulses} kinds={kinds} filter={DETECT_KINDS} geometry={detect} scaleMul={1.15} />
+    </group>
   );
 }
 
@@ -241,10 +269,11 @@ function TravelTraces({
   const head = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const color = useMemo(() => new THREE.Color(), []);
-  const maxHeads = 240;
+  const maxHeads = 180;
   const curves = useMemo(() => {
     const map = new Map<string, THREE.QuadraticBezierCurve3>();
-    for (const pulse of pulses.slice(-400)) {
+    for (const pulse of pulses.slice(-280)) {
+      if (pulse.event.kind === "electrode_activity" || pulse.event.kind === "missed_spike") continue;
       if (map.has(pulse.event.event_id)) continue;
       map.set(pulse.event.event_id, travelCurve(pulse.event.xyz_mm, destinationFor(pulse.event, session)));
     }
@@ -260,16 +289,15 @@ function TravelTraces({
     const now = performance.now() / 1000;
     let visible = 0;
     for (const pulse of pulses) {
-      if (pulse.event.kind === "missed_spike") continue;
+      if (pulse.event.kind === "missed_spike" || pulse.event.kind === "electrode_activity") continue;
       const age = now - pulse.born;
-      const duration = 0.55;
+      const duration = 0.48;
       if (age < 0 || age > duration) continue;
       const curve = curves.get(pulse.event.event_id);
       if (!curve) continue;
       const t = age / duration;
-      const point = curve.getPoint(t);
-      dummy.position.copy(point);
-      dummy.scale.setScalar(1.15 + 1.4 * (1 - t));
+      dummy.position.copy(curve.getPoint(t));
+      dummy.scale.setScalar(0.38 + 0.22 * (1 - t));
       dummy.updateMatrix();
       instance.setMatrixAt(visible, dummy.matrix);
       color.set(KIND_COLORS[pulse.event.kind] ?? "#ffffff");
@@ -284,12 +312,13 @@ function TravelTraces({
 
   const trailGeoms = useMemo(() => {
     const list: { id: string; points: Vec3[]; kind: EventKind }[] = [];
-    for (const pulse of pulses.slice(-36)) {
+    for (const pulse of pulses.slice(-24)) {
+      if (pulse.event.kind === "electrode_activity" || pulse.event.kind === "missed_spike") continue;
       const curve = curves.get(pulse.event.event_id);
       if (!curve) continue;
       list.push({
         id: pulse.event.event_id,
-        points: curve.getPoints(18).map((point) => point.toArray() as Vec3),
+        points: curve.getPoints(16).map((point) => point.toArray() as Vec3),
         kind: pulse.event.kind,
       });
     }
@@ -299,17 +328,17 @@ function TravelTraces({
   return (
     <group visible={enabled}>
       <instancedMesh ref={head} args={[undefined, undefined, maxHeads]}>
-        <sphereGeometry args={[0.85, 8, 8]} />
-        <meshBasicMaterial toneMapped={false} />
+        <sphereGeometry args={[0.32, 6, 6]} />
+        <meshBasicMaterial toneMapped={false} transparent opacity={0.9} />
       </instancedMesh>
       {trailGeoms.map((trail) => (
         <Line
           key={trail.id}
           points={trail.points}
           color={KIND_COLORS[trail.kind]}
-          lineWidth={1.6}
+          lineWidth={0.9}
           transparent
-          opacity={0.45}
+          opacity={0.28}
         />
       ))}
     </group>
@@ -331,15 +360,13 @@ export function BrainScene({
 
   return (
     <>
-      <color attach="background" args={["#03050a"]} />
-      <fog attach="fog" args={["#03050a", 220, 480]} />
-      <ambientLight intensity={0.42} />
-      <pointLight position={[90, 130, 80]} intensity={1.55} color="#b7f0ff" />
-      <pointLight position={[-110, -20, -40]} intensity={0.7} color="#5e60ce" />
-      <spotLight position={[0, 160, 40]} intensity={1.1} angle={0.7} penumbra={0.5} color="#dff6ff" />
-      <directionalLight position={[-80, 40, 120]} intensity={0.85} color="#9ad7ff" />
-      <directionalLight position={[90, -10, -80]} intensity={0.35} color="#4cc9f0" />
-      <Stars radius={220} depth={50} count={900} factor={2.6} fade speed={0.25} />
+      <color attach="background" args={["#02040a"]} />
+      <fog attach="fog" args={["#02040a", 240, 520]} />
+      <ambientLight intensity={0.28} />
+      <pointLight position={[90, 120, 70]} intensity={1.1} color="#b8f3ff" />
+      <pointLight position={[-100, -30, -50]} intensity={0.45} color="#3a7ca5" />
+      <spotLight position={[40, 150, 30]} intensity={0.7} angle={0.65} penumbra={0.6} color="#d9fbff" />
+      <Stars radius={240} depth={60} count={800} factor={2.2} fade speed={0.2} />
       <BrainMesh />
       <TractGuides />
       {session.regions.map((region) => (
@@ -353,13 +380,7 @@ export function BrainScene({
       <Probe session={session} pulses={pulses} />
       <PulseField pulses={pulses} kinds={kinds} />
       <TravelTraces pulses={pulses} session={session} enabled={showTraces} />
-      <OrbitControls
-        enableDamping
-        dampingFactor={0.08}
-        minDistance={80}
-        maxDistance={340}
-        target={[0, -8, 0]}
-      />
+      <OrbitControls enableDamping dampingFactor={0.08} minDistance={70} maxDistance={360} target={[0, -10, 0]} />
     </>
   );
 }

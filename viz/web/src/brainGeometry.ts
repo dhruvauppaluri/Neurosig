@@ -1,7 +1,12 @@
 import * as THREE from "three";
 
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
 function hash3(x: number, y: number, z: number): number {
-  return Math.sin(x * 17.13 + y * 9.71 + z * 13.27) * 43758.5453;
+  const s = Math.sin(x * 17.13 + y * 9.71 + z * 13.27) * 43758.5453;
+  return s - Math.floor(s);
 }
 
 function noise(x: number, y: number, z: number): number {
@@ -28,67 +33,75 @@ function noise(x: number, y: number, z: number): number {
   const x11 = n011 + (n111 - n011) * ux;
   const y0 = x00 + (x10 - x00) * uy;
   const y1 = x01 + (x11 - x01) * uy;
-  return (y0 + (y1 - y0) * uz) % 1;
+  return y0 + (y1 - y0) * uz;
 }
 
-function fbm(x: number, y: number, z: number): number {
-  return (
-    0.55 * noise(x * 0.07, y * 0.07, z * 0.07) +
-    0.28 * noise(x * 0.16, y * 0.16, z * 0.16) +
-    0.17 * noise(x * 0.33, y * 0.31, z * 0.29)
-  );
-}
-
-/** Build one cortical hemisphere. +1 is right, -1 is left. Coordinates in mm. */
-export function makeHemisphereGeometry(side: 1 | -1, radius = 54, detail = 112): THREE.BufferGeometry {
-  const geometry = new THREE.SphereGeometry(radius, detail, detail);
+/**
+ * One cortical hemisphere in millimetres.
+ * +X is right, +Y is anterior, +Z is superior.
+ */
+export function makeHemisphereGeometry(side: 1 | -1, detail = 196): THREE.BufferGeometry {
+  const geometry = new THREE.SphereGeometry(1, detail, detail);
   const pos = geometry.attributes.position;
   const vertex = new THREE.Vector3();
   for (let i = 0; i < pos.count; i += 1) {
     vertex.fromBufferAttribute(pos, i);
-    let { x, y, z } = vertex;
+    const nx = vertex.x;
+    const ny = vertex.y;
+    const nz = vertex.z;
+    const theta = Math.atan2(ny, Math.max(0.05, Math.abs(nx)));
+    const phi = Math.acos(clamp(nz, -1, 1));
 
-    x *= 0.88;
-    y *= 1.36;
-    z *= 1.1;
+    let x = 8 + Math.abs(nx) * 58;
+    let y = ny * 84;
+    let z = nz * 60;
 
-    // Flatten the medial face so two lobes read as hemispheres, not one blob.
-    const medial = Math.max(0, 20 - side * x);
-    x += side * medial * 0.95;
-
-    // Temporal lobe hangs inferior-lateral.
-    const temporalGate = Math.exp(-((y + 6) ** 2) / 900) * Math.exp(-((z + 6) ** 2) / 700);
-    x += side * 16 * temporalGate;
-    z -= 22 * temporalGate;
-
-    // Occipital pole
-    if (y < -18) {
-      y -= 6 * Math.max(0, (-y - 18) / 40);
-      z *= 0.94;
+    if (ny < -0.32) {
+      const t = (-ny - 0.32) / 0.68;
+      x *= 1 - 0.1 * t;
+      z *= 1 - 0.06 * t;
+      y -= 10 * t * t;
     }
-    // Frontal pole — keep rounded, avoid a horn.
-    if (y > 32) {
-      y = 32 + (y - 32) * 0.55;
-      x *= 0.94;
+    if (ny > 0.42) {
+      const t = (ny - 0.42) / 0.58;
+      x *= 1 - 0.2 * t;
+      z *= 1 - 0.14 * t;
     }
+
+    const temporal =
+      Math.exp(-(((ny + 0.02) / 0.4) ** 2)) *
+      Math.exp(-(((nz + 0.38) / 0.48) ** 2)) *
+      Math.max(0.15, Math.abs(nx));
+    x += 24 * temporal;
+    z -= 30 * temporal;
+    y += 2 * temporal;
+
+    const sylvian = Math.exp(-(((nz + 0.02) / 0.16) ** 2)) * Math.exp(-(((ny - 0.04) / 0.42) ** 2));
+    z -= 9 * sylvian;
+    x -= 3.5 * sylvian;
+
+    const central = Math.exp(-(((ny - 0.14) / 0.065) ** 2)) * Math.exp(-(((nz - 0.42) / 0.2) ** 2));
+    const calcarine = Math.exp(-(((ny + 0.62) / 0.12) ** 2)) * Math.exp(-((nz / 0.22) ** 2));
+    const intraparietal = Math.exp(-(((ny + 0.22) / 0.1) ** 2)) * Math.exp(-(((nz - 0.5) / 0.18) ** 2));
 
     const gyri =
-      3.2 * Math.sin(y * 0.31 + side * 0.4) * Math.sin(z * 0.27 + x * 0.05) +
-      2.1 * Math.sin(x * 0.38 + y * 0.22) +
-      1.4 * (fbm(x, y, z) - 0.5) * 2.0;
+      2.15 * Math.sin(15 * phi + 5 * theta) * Math.sin(10 * theta + 2 * phi) +
+      1.45 * Math.sin(27 * phi + 8 * theta) +
+      0.95 * Math.sin(41 * theta + 19 * phi) * Math.max(0.2, Math.sin(phi)) +
+      0.7 * (noise(x * 0.09, y * 0.09, z * 0.09) - 0.5) * 2;
 
-    const sylvian = 7.5 * Math.exp(-((z + 4) ** 2) / 55) * Math.exp(-((y - 4) ** 2) / 220);
-    const central = 6.2 * Math.exp(-((y - 10) ** 2) / 38) * Math.exp(-((z - 24) ** 2) / 110);
-    const calcarine = 4.5 * Math.exp(-((y + 55) ** 2) / 90) * Math.exp(-(z ** 2) / 70);
+    const len = Math.hypot(x, y, z) || 1;
+    const gx = x / len;
+    const gy = y / len;
+    const gz = z / len;
+    const displacement = 2.05 * gyri - 7.2 * central - 4.2 * sylvian - 3.4 * calcarine - 3.6 * intraparietal;
+    x += gx * displacement;
+    y += gy * displacement;
+    z += gz * displacement * 0.9;
 
-    const n = new THREE.Vector3(x, y, z).normalize();
-    x += n.x * (0.55 * gyri - 0.35 * sylvian);
-    y += n.y * (0.55 * gyri - 0.2 * central);
-    z += n.z * (0.55 * gyri) - sylvian * 0.45 - central * 0.55 - calcarine * 0.4;
-
-    x += side * 8;
-    if (side * x < 3.5) {
-      x = side * 3.5;
+    x *= side;
+    if (side * x < 2.4) {
+      x = side * 2.4;
     }
     pos.setXYZ(i, x, y, z);
   }
@@ -97,52 +110,70 @@ export function makeHemisphereGeometry(side: 1 | -1, radius = 54, detail = 112):
 }
 
 export function makeCerebellumGeometry(): THREE.BufferGeometry {
-  const geometry = new THREE.SphereGeometry(22, 64, 48);
+  const geometry = new THREE.SphereGeometry(1, 96, 72);
   const pos = geometry.attributes.position;
   const vertex = new THREE.Vector3();
   for (let i = 0; i < pos.count; i += 1) {
     vertex.fromBufferAttribute(pos, i);
-    const folia = 1.6 * Math.sin(vertex.x * 1.4) * Math.sin(vertex.z * 0.9);
-    vertex.x *= 1.35;
-    vertex.y *= 0.72;
-    vertex.z *= 0.85;
-    const split = Math.exp(-(vertex.x ** 2) / 18) * 2.2;
-    vertex.y -= split * 0.2;
-    vertex.addScaledVector(vertex.clone().normalize(), folia);
-    vertex.y -= 78;
-    vertex.z -= 16;
-    pos.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    let x = vertex.x * 28;
+    let y = vertex.y * 16;
+    let z = vertex.z * 18;
+    const vermis = Math.exp(-(x * x) / 28);
+    x *= 1 + 0.08 * (1 - vermis);
+    y -= 4 * vermis;
+    const folia = 1.15 * Math.sin(x * 1.65) * Math.sin(z * 1.1 + y * 0.4);
+    const n = Math.hypot(x, y, z) || 1;
+    x += (x / n) * folia;
+    y += (y / n) * folia * 0.4;
+    z += (z / n) * folia * 0.5;
+    pos.setXYZ(i, x, y - 76, z - 20);
   }
   geometry.computeVertexNormals();
   return geometry;
 }
 
 export function makeBrainstemGeometry(): THREE.CylinderGeometry {
-  return new THREE.CylinderGeometry(5.5, 7.5, 36, 18, 1, false);
+  return new THREE.CylinderGeometry(4.2, 6.4, 34, 20, 1, false);
 }
 
-export function cortexMaterial(opacity = 0.7): THREE.MeshStandardMaterial {
-  return new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#7eb4d0"),
-    emissive: new THREE.Color("#0c2a3c"),
-    emissiveIntensity: 0.22,
-    roughness: 0.62,
-    metalness: 0.04,
+export function holographicMaterial(): THREE.ShaderMaterial {
+  return new THREE.ShaderMaterial({
     transparent: true,
-    opacity,
+    depthWrite: false,
     side: THREE.DoubleSide,
-    depthWrite: false,
-  });
-}
-
-export function innerMaterial(): THREE.MeshStandardMaterial {
-  return new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#07141f"),
-    emissive: new THREE.Color("#0b2a3c"),
-    emissiveIntensity: 0.4,
-    transparent: true,
-    opacity: 0.55,
-    depthWrite: false,
+    uniforms: {
+      uTime: { value: 0 },
+    },
+    vertexShader: `
+      varying vec3 vNormal;
+      varying vec3 vView;
+      varying vec3 vPos;
+      void main() {
+        vec4 world = modelMatrix * vec4(position, 1.0);
+        vPos = position;
+        vNormal = normalize(normalMatrix * normal);
+        vView = cameraPosition - world.xyz;
+        gl_Position = projectionMatrix * viewMatrix * world;
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vNormal;
+      varying vec3 vView;
+      varying vec3 vPos;
+      uniform float uTime;
+      void main() {
+        vec3 n = normalize(vNormal);
+        vec3 v = normalize(vView);
+        float fresnel = pow(1.0 - max(dot(n, v), 0.0), 2.35);
+        float scan = 0.04 * sin(vPos.y * 0.35 + uTime * 1.4);
+        vec3 core = vec3(0.03, 0.14, 0.20);
+        vec3 rim = vec3(0.42, 0.90, 1.0);
+        vec3 color = mix(core, rim, fresnel * 0.95 + scan);
+        color += rim * fresnel * 0.35;
+        float alpha = 0.075 + 0.58 * fresnel;
+        gl_FragColor = vec4(color, alpha);
+      }
+    `,
   });
 }
 
@@ -154,7 +185,6 @@ export interface Tract {
   label: string;
 }
 
-/** Stylized white-matter guides for travel animation — not measured tracts. */
 export const TRACTS: Tract[] = [
   {
     id: "callosal",

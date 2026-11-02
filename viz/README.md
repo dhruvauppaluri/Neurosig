@@ -16,7 +16,7 @@ Interactive research UI for stylized whole-brain activity, synthetic spike gener
 Use the project virtualenv (do **not** `uv pip sync` the MEArec lock after this; that would drop visualization extras):
 
 ```sh
-.venv/bin/python -m pip install -r viz/requirements.txt
+.tools/bin/uv pip install --python .venv/bin/python -r viz/requirements.txt
 cd viz/web && npm install && npm run build && cd ../..
 .venv/bin/python -m viz.sim.server
 ```

@@ -11,6 +11,7 @@ export function App() {
   const [pulses, setPulses] = useState<Pulse[]>([]);
   const [inspected, setInspected] = useState<NeuralEvent | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showTraces, setShowTraces] = useState(true);
   const clockRef = useRef(0);
 
   useEffect(() => {
@@ -116,6 +117,10 @@ export function App() {
           />
           Golden-model detections
         </div>
+        <div className="toggle">
+          <input type="checkbox" checked={showTraces} onChange={(event) => setShowTraces(event.target.checked)} />
+          Travel traces (stylized)
+        </div>
         <h2>Event visibility</h2>
         {ALL_KINDS.map((kind) => (
           <label className="toggle" key={kind}>
@@ -134,13 +139,17 @@ export function App() {
           </label>
         ))}
         <p className="inspect">{session.honesty.synthetic}</p>
+        <p className="inspect">
+          Travel traces follow stylized white-matter guides (callosal, thalamic, visual radiation). They are not measured axonal conduction.
+        </p>
       </aside>
 
       <div className="stage">
-        <Canvas camera={{ position: [0, 40, 210], fov: 42, near: 0.1, far: 2000 }}>
+        <Canvas camera={{ position: [168, 36, 148], fov: 40, near: 0.1, far: 2000 }}>
           <BrainScene
             session={session}
             pulses={pulses}
+            showTraces={showTraces}
             onSelectRegion={(id) => void send({ selected_region: id })}
           />
         </Canvas>

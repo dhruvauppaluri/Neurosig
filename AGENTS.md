@@ -12,7 +12,7 @@ The initial recording target is 32 channels. Keep the channel count configurable
 - [x] Complete reproducible setup scripts and dependency locks.
 - [x] Complete and verify a short MEArec template and recording generation smoke test.
 - [x] Document the exact validation command and generated output summary.
-- [ ] Establish 32-channel recording parameters and a software spike detection reference.
+- [x] Establish 32-channel recording parameters and a floating-point software spike detection reference.
 - [ ] Define the sample stream interface, fixed point representation, and RTL verification vectors.
 - [ ] Implement and verify the SystemVerilog spike detector.
 - [ ] Select a labeled decoding task and establish a software baseline.
@@ -23,6 +23,13 @@ Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURO
 
 ## Working rules
 
+- Support the user's learning: explain concepts and give incremental instructions; let them choose ADC limits and calculate quantization before supplying a finished conversion implementation.
+- `scripts/unfiltered_mearec.py` regenerates the smoke data with recording filtering disabled for ADC range inspection; outputs live under `data/unfiltered/`.
+- The selected digital filter is a causal cascade of a second-order 300 Hz Butterworth high-pass and a second-order 6 kHz Butterworth low-pass at 32 kHz. `scripts/filter_iir.py` is the float64 reference. Recheck pole locations after every coefficient quantization change; float stability does not prove fixed-point stability.
+- `scripts/detect_spikes.py` is the floating-point detector reference: per-channel MAD noise, negative six-sigma threshold, local-minimum timestamps, 1 ms refractory time, 0.5 ms cross-channel merge, and 1 ms ground-truth matching tolerance. Its 9/9 result is specific to the seeded one-second single-neuron smoke recording.
+- `scripts/fixed_point_model.py` is the bit-accurate reference: Q2.30 coefficients, 24-bit signed section states at the ADC LSB scale, 64-bit accumulators, and section saturation. Coefficients round half away from zero; section outputs truncate toward zero because nearest rounding caused a 127-code zero-input limit cycle. The runtime detector uses integer threshold registers, comparisons, subtraction, and counters; MAD threshold generation is offline calibration.
+- `scripts/stress_fixed_point.py` runs the reproducible randomized fixed-point stress suite. Preserve its seed, explicit error limits, per-trial report, zero-input decay check, and exact synthetic detector checks when changing arithmetic or event behavior.
+- `rtl/sample_input.sv` and `rtl/biquad_state.sv` have standalone passing testbenches. The latter is one biquad's per-channel history, not the arithmetic filter. Matching copies live in the separate `NeuroSignalProject` VS Code folder; synchronize deliberately when editing either location.
 - Read the README and inspect the current files before extending the project. Keep its status and this checklist consistent with actual results.
 - Use `scripts/setup.sh` for environment setup and `.venv/bin/python` for project commands. Use the dependency files as the source of truth for package versions.
 - Keep local tools, environments, generated datasets, compiled mechanisms, and large simulation outputs out of Git. Commit source, small configurations, and concise result summaries.

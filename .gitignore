@@ -5,3 +5,6 @@ __pycache__/
 *.pyc
 .DS_Store
 data/
+viz/web/node_modules/
+viz/web/dist/
+viz/web/tsconfig.tsbuildinfo

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neurosig.dev/schema/neural_event.v1.json",
+  "title": "Neurosig neural event v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "event_id",
+    "t_s",
+    "xyz_mm",
+    "coordinate_frame",
+    "position_quality",
+    "region_id",
+    "amplitude",
+    "amplitude_units",
+    "source_id",
+    "duration_ms",
+    "kind"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "event_id": { "type": "string", "minLength": 1 },
+    "t_s": { "type": "number" },
+    "xyz_mm": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "type": "number" }
+    },
+    "coordinate_frame": {
+      "type": "string",
+      "enum": ["stylized_human", "allen_ccf_v3"]
+    },
+    "position_quality": {
+      "type": "string",
+      "enum": ["simulated", "unit_ccf", "electrode_channel", "unknown"]
+    },
+    "region_id": { "type": "string" },
+    "amplitude": { "type": "number" },
+    "amplitude_units": { "type": "string", "enum": ["uv", "normalized"] },
+    "source_id": { "type": "string" },
+    "duration_ms": { "type": "number", "minimum": 0 },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "synthetic_source",
+        "neuropixels_spike",
+        "electrode_activity",
+        "detected_spike",
+        "missed_spike",
+        "localization_estimate"
+      ]
+    },
+    "channel_id": { "type": ["integer", "null"] },
+    "ground_truth_event_id": { "type": ["string", "null"] },
+    "metadata": { "type": ["object", "null"] }
+  },
+  "additionalProperties": false
+}

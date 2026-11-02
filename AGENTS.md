@@ -13,6 +13,7 @@ The initial recording target is 32 channels. Keep the channel count configurable
 - [x] Complete and verify a short MEArec template and recording generation smoke test.
 - [x] Document the exact validation command and generated output summary.
 - [x] Establish 32-channel recording parameters and a floating-point software spike detection reference.
+- [ ] Interactive 3D visualization smoke: install `viz/requirements.txt`, build `viz/web`, run `.venv/bin/python -m viz.sim.server`, and run `viz.tests`.
 - [ ] Define the sample stream interface, fixed point representation, and RTL verification vectors.
 - [ ] Implement and verify the SystemVerilog spike detector.
 - [ ] Select a labeled decoding task and establish a software baseline.
@@ -39,6 +40,7 @@ Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURO
 - Define signedness, scaling, saturation or overflow behavior, ordering, handshake behavior, and reset behavior before implementing RTL interfaces. Compare RTL against a deterministic software reference.
 - Report measured accuracy, latency, throughput, area, and power separately from targets or estimates. Document tool versions and constraints for physical design results.
 - Keep the first implementation small enough to validate end to end. Expand channel count or model complexity after the existing pipeline is reproducible.
+- Visualization code lives under `viz/` only. Do not edit golden-model arithmetic or RTL to support the UI. Neuropixels playback is sorted spikes, not ADC samples. Localization remains unimplemented until a validated algorithm exists.
 
 ## Parallel work
 

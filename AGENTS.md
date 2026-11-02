@@ -13,7 +13,7 @@ The initial recording target is 32 channels. Keep the channel count configurable
 - [x] Complete and verify a short MEArec template and recording generation smoke test.
 - [x] Document the exact validation command and generated output summary.
 - [x] Establish 32-channel recording parameters and a floating-point software spike detection reference.
-- [ ] Interactive 3D visualization smoke: install `viz/requirements.txt`, build `viz/web`, run `.venv/bin/python -m viz.sim.server`, and run `viz.tests`.
+- [x] Interactive 3D visualization smoke: install `viz/requirements.txt`, build `viz/web`, run the server, and run `viz.tests`.
 - [ ] Define the sample stream interface, fixed point representation, and RTL verification vectors.
 - [ ] Implement and verify the SystemVerilog spike detector.
 - [ ] Select a labeled decoding task and establish a software baseline.

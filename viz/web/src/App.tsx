@@ -12,6 +12,7 @@ export function App() {
   const [inspected, setInspected] = useState<NeuralEvent | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showTraces, setShowTraces] = useState(true);
+  const [cortexOpacity, setCortexOpacity] = useState(0.25);
   const clockRef = useRef(0);
 
   useEffect(() => {
@@ -59,6 +60,10 @@ export function App() {
 
   const send = async (body: Record<string, unknown>) => {
     const next = await control(body);
+    if ("mode" in body || body.reset === true || "seek_s" in body) {
+      setPulses([]);
+      setInspected(null);
+    }
     setSession(next);
   };
 
@@ -119,8 +124,10 @@ export function App() {
         </div>
         <div className="toggle">
           <input type="checkbox" checked={showTraces} onChange={(event) => setShowTraces(event.target.checked)} />
-          Travel traces (stylized)
+          Illustrative wiring and travel paths
         </div>
+        <label htmlFor="cortex-opacity">Cortex visibility · {Math.round(cortexOpacity * 100)}%</label>
+        <input id="cortex-opacity" type="range" min={0} max={0.65} step={0.01} value={cortexOpacity} onChange={(event) => setCortexOpacity(Number(event.target.value))} />
         <h2>Event visibility</h2>
         {ALL_KINDS.map((kind) => (
           <label className="toggle" key={kind}>
@@ -140,16 +147,17 @@ export function App() {
         ))}
         <p className="inspect">{session.honesty.synthetic}</p>
         <p className="inspect">
-          Travel traces follow stylized white-matter guides (callosal, thalamic, visual radiation). They are not measured axonal conduction.
+          Anatomical surface: Brain Project / Z-Anatomy. The single 32-contact probe is illustrative. Wiring and moving pulses are educational paths, not measured axonal conduction. Recorded mouse Neuropixels spikes appear only in the mapped visual region.
         </p>
       </aside>
 
       <div className="stage">
-        <Canvas camera={{ position: [-290, 20, 36], fov: 30, near: 0.1, far: 2000 }}>
+        <Canvas camera={{ position: [-290, 20, 36], fov: 30, near: 0.1, far: 2400 }} dpr={[1, 1.75]}>
           <BrainScene
             session={session}
             pulses={pulses}
             showTraces={showTraces}
+            cortexOpacity={cortexOpacity}
             onSelectRegion={(id) => void send({ selected_region: id })}
           />
         </Canvas>

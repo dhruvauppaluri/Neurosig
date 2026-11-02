@@ -20,8 +20,8 @@ from viz.sim.regions import (
 
 FIXTURE_PATH = Path(__file__).resolve().parents[1] / "fixtures" / "neuropixels_visual_coding_mini.json"
 DISCLAIMER = (
-    "Stylized human brain mesh. Mouse visual-cortex Neuropixels shown on "
-    "occipital/visual cortex only. Not reconstructed neuron morphologies."
+    "Anatomical human brain surface with illustrative wiring. Mouse visual-cortex "
+    "Neuropixels shown on occipital/visual cortex only. No measured axonal paths."
 )
 
 

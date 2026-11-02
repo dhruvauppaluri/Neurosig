@@ -120,7 +120,7 @@ REGIONS: dict[str, RegionVolume] = {
     ),
     "visual_cortex": RegionVolume(
         "visual_cortex",
-        "Visual cortex (homologous display)",
+        "Visual / occipital cortex",
         (0.0, -72.0, 8.0),
         (28.0, 18.0, 20.0),
         "#ffe066",

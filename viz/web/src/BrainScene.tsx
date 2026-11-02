@@ -11,6 +11,7 @@ import {
   makeBrainstemGeometry,
   makeCerebellumGeometry,
   makeHemisphereGeometry,
+  makeSulcalPolylines,
   travelCurve,
   type Vec3,
 } from "./brainGeometry";
@@ -49,6 +50,24 @@ function RegionHit({
   );
 }
 
+function SulcalGlow() {
+  const lines = useMemo(() => [...makeSulcalPolylines(-1), ...makeSulcalPolylines(1)], []);
+  return (
+    <group>
+      {lines.map((points, index) => (
+        <Line
+          key={`sulcus-${index}`}
+          points={points}
+          color="#7ef6ff"
+          lineWidth={1.05}
+          transparent
+          opacity={0.42}
+        />
+      ))}
+    </group>
+  );
+}
+
 function BrainMesh() {
   const left = useMemo(() => makeHemisphereGeometry(-1), []);
   const right = useMemo(() => makeHemisphereGeometry(1), []);
@@ -67,13 +86,14 @@ function BrainMesh() {
       <mesh geometry={left} material={hologram} />
       <mesh geometry={right} material={hologram} />
       <mesh geometry={cerebellum} material={cere} />
-      <mesh geometry={stem} position={[0, -34, -30]} rotation={[0.62, 0, 0]}>
+      <SulcalGlow />
+      <mesh geometry={stem} position={[0, -22, -52]} rotation={[Math.PI / 2, 0, 0]}>
         <meshStandardMaterial
           color="#1a4a5c"
           emissive="#1ec8e8"
-          emissiveIntensity={0.18}
+          emissiveIntensity={0.22}
           transparent
-          opacity={0.55}
+          opacity={0.58}
           depthWrite={false}
         />
       </mesh>
@@ -362,25 +382,33 @@ export function BrainScene({
     <>
       <color attach="background" args={["#02040a"]} />
       <fog attach="fog" args={["#02040a", 240, 520]} />
-      <ambientLight intensity={0.28} />
-      <pointLight position={[90, 120, 70]} intensity={1.1} color="#b8f3ff" />
-      <pointLight position={[-100, -30, -50]} intensity={0.45} color="#3a7ca5" />
-      <spotLight position={[40, 150, 30]} intensity={0.7} angle={0.65} penumbra={0.6} color="#d9fbff" />
-      <Stars radius={240} depth={60} count={800} factor={2.2} fade speed={0.2} />
-      <BrainMesh />
-      <TractGuides />
-      {session.regions.map((region) => (
-        <RegionHit
-          key={region.region_id}
-          region={region}
-          selected={session.selected_region === region.region_id}
-          onSelect={(id) => onSelectRegion(session.selected_region === id ? null : id)}
-        />
-      ))}
-      <Probe session={session} pulses={pulses} />
-      <PulseField pulses={pulses} kinds={kinds} />
-      <TravelTraces pulses={pulses} session={session} enabled={showTraces} />
-      <OrbitControls enableDamping dampingFactor={0.08} minDistance={70} maxDistance={360} target={[0, -10, 0]} />
+      <ambientLight intensity={0.22} />
+      <pointLight position={[-160, 90, 40]} intensity={1.35} color="#c8f7ff" />
+      <pointLight position={[80, -40, -70]} intensity={0.4} color="#245a78" />
+      <spotLight position={[-40, 140, -20]} intensity={0.85} angle={0.7} penumbra={0.55} color="#e7fdff" />
+      <Stars radius={240} depth={60} count={1400} factor={2.4} fade speed={0.18} />
+      <group rotation={[-Math.PI / 2, 0, 0]}>
+        <BrainMesh />
+        <TractGuides />
+        {session.regions.map((region) => (
+          <RegionHit
+            key={region.region_id}
+            region={region}
+            selected={session.selected_region === region.region_id}
+            onSelect={(id) => onSelectRegion(session.selected_region === id ? null : id)}
+          />
+        ))}
+        <Probe session={session} pulses={pulses} />
+        <PulseField pulses={pulses} kinds={kinds} />
+        <TravelTraces pulses={pulses} session={session} enabled={showTraces} />
+      </group>
+      <OrbitControls
+        enableDamping
+        dampingFactor={0.08}
+        minDistance={90}
+        maxDistance={380}
+        target={[0, -8, 8]}
+      />
     </>
   );
 }

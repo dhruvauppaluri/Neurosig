@@ -20,10 +20,8 @@ from viz.sim.regions import (
 
 FIXTURE_PATH = Path(__file__).resolve().parents[1] / "fixtures" / "neuropixels_visual_coding_mini.json"
 DISCLAIMER = (
-    "Allen Visual Coding Neuropixels is a mouse visual-cortex recording. "
-    "Events are shown in a homologous stylized visual-cortex region, not as "
-    "human whole-brain physiology. Positions are electrode- or CCF-relative, "
-    "not reconstructed neuron morphologies."
+    "Stylized human brain mesh. Mouse visual-cortex Neuropixels shown on "
+    "occipital/visual cortex only. Not reconstructed neuron morphologies."
 )
 
 

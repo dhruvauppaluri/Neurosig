@@ -43,6 +43,7 @@ button, select, input { font: inherit; color: inherit; }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .panel { padding: 12px 14px; overflow: auto; }

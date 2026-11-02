@@ -145,7 +145,7 @@ export function App() {
       </aside>
 
       <div className="stage">
-        <Canvas camera={{ position: [150, 28, 125], fov: 38, near: 0.1, far: 2000 }}>
+        <Canvas camera={{ position: [-290, 20, 36], fov: 30, near: 0.1, far: 2000 }}>
           <BrainScene
             session={session}
             pulses={pulses}

@@ -1,12 +1,12 @@
 # Neurosig visualization
 
-Interactive research UI for stylized whole-brain activity, synthetic spike generation, and Allen Visual Coding Neuropixels **sorted-spike** playback. This stack is isolated from RTL. It is not an anatomically exact brain, not a biophysical network, and not chip validation.
+Interactive research UI for a stylized whole human brain, synthetic spike generation, and Allen Visual Coding Neuropixels **sorted-spike** playback. This stack is isolated from RTL. The mesh is not an atlas, not a biophysical network, and not chip validation.
 
 ## Honesty
 
-- The 3D brain is a sci-fi / educational mesh with named ellipsoidal regions.
+- The 3D mesh is a stylized whole human brain (sci-fi / educational envelope with named ellipsoidal regions), not a scanned atlas.
 - Synthetic activity is a toy stochastic model (region-dependent rates, bursts, weak correlation).
-- Allen Visual Coding Neuropixels is a **mouse visual-cortex** dataset. Playback is confined to a homologous stylized visual-cortex volume. Original CCF coordinates stay in event metadata and are never treated as human MNI.
+- Allen Visual Coding Neuropixels is a **mouse visual-cortex** dataset. Playback is mapped onto the occipital / visual region of that human-looking mesh only. Original CCF coordinates stay in event metadata and are never treated as human MNI.
 - Mode B plays already-sorted spike times. Sorted timestamps are never fed to the ADC.
 - Golden-model detections are offline software windows using the existing float ADC / IIR / detector APIs. They are not RTL results.
 - Localization is a labeled placeholder: **Localization not implemented**.

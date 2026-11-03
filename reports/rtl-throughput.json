@@ -1,0 +1,14 @@
+{
+  "accepted_samples": 131072,
+  "first_acceptance_cycle": 2,
+  "last_acceptance_cycle": 393213,
+  "elapsed_cycles_inclusive": 393212,
+  "average_cycles_per_sample": 2.999969,
+  "maximum_cycles_between_acceptances": 3,
+  "assumed_clock_hz": 100000000,
+  "projected_samples_per_second_at_assumed_clock": 33333672.421,
+  "required_samples_per_second": 1024000,
+  "minimum_clock_hz_for_required_average_rate": 3071968.750,
+  "stimulus": "4096 frames x 32 channels, zero codes, valid held high",
+  "timing_qualification": "Assumed clock only; no synthesis or static timing verification"
+}

@@ -5,6 +5,7 @@ module spike_detector_channel_reference_tb;
     always #5 clk = ~clk;
     logic rst_n = 1;
     logic sample_valid = 0;
+    logic end_of_stream = 0;
     logic signed [23:0] sample_code = 0;
     logic signed [23:0] threshold_code;
     logic [31:0] sample_index = 0;

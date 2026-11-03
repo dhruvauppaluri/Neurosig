@@ -6,7 +6,7 @@ Neurosig is a neural signal processing hardware project inspired by Neuropixels 
 
 The MEArec setup is working on Apple Silicon macOS with Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. The verified smoke test compiles NEURON mechanisms, generates two biophysical templates, and produces a one-second, 32-channel recording at 32 kHz with nine ground-truth spikes (seed 42). It reloads the HDF5 recording and checks its shape, finite nonconstant samples, and spike ground truth. See [the validation summary](reports/setup-validation.json).
 
-The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly; decoder selection is the next project milestone.
+The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly. A 32-feature linear decoder has been trained and verified in RTL on both synthetic spike-count windows and a small processed real Neuropixels session.
 
 A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It imports the golden-model Python APIs and does not modify RTL.
 
@@ -140,9 +140,49 @@ verilator --binary --timing -j 4 -Wno-fatal --top-module neurosig_pipeline_refer
 .venv/bin/python rtl/tb/evaluate_pipeline_events.py
 ```
 
-On November 2, 2026, Verilator 5.050 passed all 1,024,000 signed ADC codes and produced the same nine merged events as Python, matching each sample index, channel ID, and signed output code. Against MEArec ground truth with 1 ms one-to-one matching, the RTL produced 9 true positives, 0 false positives, and 0 false negatives; precision and recall were both 1.0 on this seeded recording. The measured result is in `reports/rtl-pipeline-validation.json`. RTL throughput, synthesized timing, area, and power have not been measured. The event queue depth and end-of-stream flush protocol still need evaluation under denser recordings and a system-level source. The channel detector needs 16 following valid samples to close a peak search; a crossing in the final 16 samples of a finite recording currently requires explicit padding or a separate end-of-stream search rule to match Python's shortened window.
+On November 2, 2026, Verilator 5.050 passed all 1,024,000 signed ADC codes and produced the same nine merged events as Python, matching each sample index, channel ID, and signed output code. Against MEArec ground truth with 1 ms one-to-one matching, the RTL produced 9 true positives, 0 false positives, and 0 false negatives; precision and recall were both 1.0 on this seeded recording. The measured result is in `reports/rtl-pipeline-validation.json`. Synthesized timing, area, and power have not been measured. The November 3 stress and finite-recording tests are described below.
+
+### Cycle throughput
+
+`rtl/tb/neurosig_throughput_tb.sv` drives the complete pipeline with `sample_valid` held high and advances the channel and sample only after a rising-edge ready/valid handshake. It uses 4,096 frames × 32 channels of zero ADC codes, so the test measures the steady input acceptance rate without file I/O or event-queue activity. Reproduce it with:
+
+```sh
+verilator --binary --timing -j 4 -Wno-fatal --top-module neurosig_throughput_tb --Mdir /tmp/neurosig-verilator-throughput rtl/tb/neurosig_throughput_tb.sv rtl/neurosig_pipeline.sv rtl/sample_input.sv rtl/spike_band_filter.sv rtl/biquad_controller.sv rtl/biquad_state.sv rtl/biquad_arithmetic.sv rtl/spike_detector_multichannel.sv rtl/spike_detector_channel.sv rtl/spike_event_merge.sv
+/tmp/neurosig-verilator-throughput/Vneurosig_throughput_tb +REPORT=reports/rtl-throughput.json
+```
+
+On November 2, 2026, Verilator 5.050 accepted 131,072 samples in 393,212 inclusive cycles: 2.999969 cycles/sample on average, with a maximum 3-cycle gap between accepted samples. At an **assumed** 100 MHz clock, this is 33.334 million samples/s, above the 1.024 million samples/s target. Equivalently, the observed cycle rate would need an approximately 3.072 MHz clock to meet the average target. These are cycle-simulation results and a clock-rate projection; synthesis and static timing analysis have not shown that the design meets any specific clock frequency. The measurements are in `reports/rtl-throughput.json`.
 
 MEArec reference: [installation documentation](https://mearec.readthedocs.io/en/latest/installation.html) and [source repository](https://github.com/SpikeInterface/MEArec).
+
+### Decoder baseline and RTL inference
+
+`scripts/synthetic_decoder.py` defines a reproducible **synthetic** binary latent-state task from 100 ms windows of 32 Poisson spike-count channels. With seed `20261102`, a held-out 1,024-example test achieved 94.5% float and fixed accuracy, with all predictions agreeing. The weights are quantized to signed 16-bit Q8.8 and the bias to signed 32-bit Q8.8. `rtl/spike_count_decoder.sv` sums 32 unsigned 8-bit count × signed weight products with the bias and classifies by score sign. All 1,024 RTL scores matched Python exactly. This task is a hardware exercise and does not establish movement-decoding performance.
+
+```sh
+.venv/bin/python scripts/synthetic_decoder.py
+iverilog -g2012 -Wall -s spike_count_decoder_tb -o /tmp/neurosig-decoder.vvp rtl/spike_count_decoder.sv rtl/tb/spike_count_decoder_tb.sv
+vvp /tmp/neurosig-decoder.vvp +WEIGHTS=data/decoder/weights.txt +VECTORS=data/decoder/rtl_vectors.txt
+```
+
+For a test with **real processed Neuropixels data**, download the small single-session extract from [Steinmetz et al. 2019 via Programming in Neuroscience](https://programminginneuroscience.com/2026/09/30/does-this-neuron-care-about-the-stimulus/):
+
+```sh
+mkdir -p data/neuropixels
+curl -L --fail https://programminginneuroscience.com/wp-content/uploads/2026/09/steinmetz_session11.zip -o data/neuropixels/steinmetz_session11.zip
+.venv/bin/python scripts/neuropixels_decoder.py
+iverilog -g2012 -Wall -s spike_count_decoder_tb -o /tmp/neurosig-decoder.vvp rtl/spike_count_decoder.sv rtl/tb/spike_count_decoder_tb.sv
+vvp /tmp/neurosig-decoder.vvp +WEIGHTS=data/neuropixels/decoder/weights.txt +VECTORS=data/neuropixels/decoder/rtl_vectors.txt +EXPECTED=73
+vvp /tmp/neurosig-decoder.vvp +WEIGHTS=data/neuropixels/decoder/weights.txt +VECTORS=data/neuropixels/decoder/all_rtl_vectors.txt +EXPECTED=240
+```
+
+The downloaded file's SHA-256 was `9c055f1248670cd39c15f6ebba5e1d5dac72cda8a15778221aaf8fc379d6417b`. The task is blank versus full right-side visual contrast, using counts from the first 32 VISp units in a 50–250 ms post-stimulus window. A seed `20261103` stratified split gave 167 train and 73 held-out trials. Float and fixed models both scored 90.4% on the held-out trials versus a 69.9% majority-class baseline; all 73 held-out RTL scores and all 240 eligible-trial RTL scores matched fixed Python exactly. See `reports/neuropixels-decoder.json`. These are sorted, trial-binned spikes, **not raw voltage**: they stress the decoder but cannot validate the ADC, filter, or spike detector. This is visual-stimulus decoding in one mouse session, not intended movement decoding.
+
+### Integrated RTL stress and finite-recording behavior
+
+`rtl/tb/generate_pipeline_stress.py` makes seeded dense ADC streams and exact Python event vectors. With seed `20261103`, 256 frames at 1, 4, and 32 channels all passed end-to-end RTL comparison: respectively 5, 20, and 160 channel candidates merged to 5 events in each case. The detector's `end_of_stream` closes a partial 16-sample peak search at the end of a finite recording; the pipeline sends this signal to one channel per clock before flushing the event merge. Stop input and let the filter drain before asserting `flush`, and reset between recordings. Directed tests cover partial searches, a midstream integrated reset, and sticky queue overflow at 65 candidates with queue depth 64. See `reports/rtl-stress.json`. A system-level source still needs to exercise queue sizing under varied event densities.
+
+For a dense case, run `.venv/bin/python rtl/tb/generate_pipeline_stress.py --channels 4 --frames 256 --prefix /tmp/ns-stress4`, compile `rtl/tb/neurosig_pipeline_reference_tb.sv` with Verilator `-GCHANNELS=4 -GFRAMES=256` and the same source list as the integrated test above, then pass `+ADC=/tmp/ns-stress4-adc.txt +THRESHOLDS=/tmp/ns-stress4-thresholds.txt +EVENTS=/tmp/ns-stress4-events.txt +OBSERVED=/tmp/ns-stress4-observed.txt`. Repeat with 1 and 32 channels. The directed checks are `rtl/tb/spike_detector_channel_tb.sv`, `rtl/tb/spike_event_merge_tb.sv`, and `rtl/tb/neurosig_reset_tb.sv`.
 
 ## Project plan
 

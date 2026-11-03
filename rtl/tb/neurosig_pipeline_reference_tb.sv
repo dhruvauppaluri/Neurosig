@@ -1,19 +1,21 @@
 `timescale 1ns/1ps
 
-module neurosig_pipeline_reference_tb;
-    localparam int FRAMES = 32000;
-    localparam int CHANNELS = 32;
+module neurosig_pipeline_reference_tb #(
+    parameter int FRAMES = 32000,
+    parameter int CHANNELS = 32,
+    parameter int CHANNEL_BITS = (CHANNELS > 1 ? $clog2(CHANNELS) : 1)
+);
     logic clk = 0;
     always #5 clk = ~clk;
     logic rst_n = 1, flush = 0;
     logic sample_valid = 0, sample_ready;
     logic signed [15:0] sample_code = 0;
-    logic [4:0] channel_id = 0;
+    logic [CHANNEL_BITS-1:0] channel_id = 0;
     logic [CHANNELS*24-1:0] threshold_codes = '0;
     logic event_valid, event_overflow;
     logic signed [23:0] event_code;
     logic [31:0] event_index;
-    logic [4:0] event_channel;
+    logic [CHANNEL_BITS-1:0] event_channel;
     logic [15:0] adc_bits;
     logic [23:0] threshold_bits;
     integer adc_fd, threshold_fd, events_fd, observed_fd;
@@ -21,7 +23,7 @@ module neurosig_pipeline_reference_tb;
     integer expected_index, expected_channel, expected_code, scanned;
     string adc_path, threshold_path, events_path, observed_path;
 
-    neurosig_pipeline dut (.*);
+    neurosig_pipeline #(.CHANNELS(CHANNELS), .CHANNEL_BITS(CHANNEL_BITS)) dut (.*);
 
     always @(posedge clk) begin
         #1;
@@ -34,7 +36,7 @@ module neurosig_pipeline_reference_tb;
                               expected_index, expected_channel, expected_code);
             if (scanned != 3) $fatal(1, "missing Python event %0d", observed_count);
             if (event_index !== expected_index ||
-                event_channel !== 5'(expected_channel) ||
+                event_channel !== CHANNEL_BITS'(expected_channel) ||
                 event_code !== 24'(expected_code))
                 $fatal(1, "event %0d RTL=(%0d,%0d,%0d) Python=(%0d,%0d,%0d)",
                        observed_count, event_index, event_channel, event_code,
@@ -78,7 +80,7 @@ module neurosig_pipeline_reference_tb;
             while (!sample_ready) @(negedge clk);
             sample_valid = 1;
             sample_code = adc_bits;
-            channel_id = 5'(i % CHANNELS);
+            channel_id = CHANNEL_BITS'(i % CHANNELS);
             @(posedge clk);
             #1;
             @(negedge clk);

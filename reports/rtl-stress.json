@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-03",
+  "simulators": ["Verilator 5.050", "Icarus Verilog 13.0"],
+  "dense_adc_seed": 20261103,
+  "dense_adc_frames": 256,
+  "dense_adc_cases": [
+    {"channels": 1, "adc_samples": 256, "python_candidates": 5, "exact_merged_events": 5, "passed": true},
+    {"channels": 4, "adc_samples": 1024, "python_candidates": 20, "exact_merged_events": 5, "passed": true},
+    {"channels": 32, "adc_samples": 8192, "python_candidates": 160, "exact_merged_events": 5, "passed": true}
+  ],
+  "end_of_stream_partial_search": "passed: peak emitted when fewer than 16 following samples remain",
+  "integrated_reset": "passed: state and counters cleared midstream; first post-reset filter sample matched reference",
+  "merge_queue_pressure": "passed: 65 candidates with depth 64 set sticky overflow; reset cleared it",
+  "limitations": "Dense test uses seeded synthetic ADC codes; real Neuropixels data tests the decoder through processed spike counts, not raw-voltage filter input."
+}

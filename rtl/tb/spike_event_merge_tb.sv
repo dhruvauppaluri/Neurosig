@@ -26,7 +26,6 @@ module spike_event_merge_tb;
         candidate_code = code;
         @(posedge clk);
         #1;
-        if (overflow) $fatal(1, "queue overflow");
         @(negedge clk);
         candidate_valid = 0;
     endtask
@@ -68,7 +67,19 @@ module spike_event_merge_tb;
         @(posedge clk);
         #1;
         if (event_valid || overflow) $fatal(1, "unexpected third event or overflow");
-        $display("PASS: spike_event_merge_tb (ordering, grouping, margin, flush, concurrent append)");
+        @(negedge clk);
+        rst_n = 0;
+        flush = 0;
+        completed_frames = 0;
+        @(negedge clk);
+        rst_n = 1;
+        for (int i = 0; i < 65; i++) push(100, i % 32, i, -100);
+        if (!overflow) $fatal(1, "65th candidate must set overflow for depth 64");
+        @(negedge clk);
+        rst_n = 0;
+        #1;
+        if (overflow) $fatal(1, "reset did not clear overflow");
+        $display("PASS: spike_event_merge_tb (ordering, grouping, flush, concurrent append, overflow/reset)");
         $finish;
     end
 endmodule

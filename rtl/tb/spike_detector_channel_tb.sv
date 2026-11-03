@@ -5,6 +5,7 @@ module spike_detector_channel_tb;
     always #5 clk = ~clk;
     logic rst_n = 1;
     logic sample_valid = 0;
+    logic end_of_stream = 0;
     logic signed [23:0] sample_code = 0;
     logic signed [23:0] threshold_code = -24'sd100;
     logic [31:0] sample_index = 0;
@@ -82,6 +83,21 @@ module spike_detector_channel_tb;
         sample(49, -110, 0);
         for (int i = 50; i <= 64; i++) sample(i, -120, 0);
         sample(65, -130, 1, -130, 65);
+
+        reset_dut();
+        sample(0, -90, 0);
+        sample(1, -110, 0);
+        sample(2, -140, 0);
+        sample(3, -120, 0);
+        @(negedge clk);
+        end_of_stream = 1;
+        @(posedge clk);
+        #1;
+        if (!spike_valid || spike_code !== -24'sd140 || spike_index !== 32'd2)
+            $fatal(1, "shortened end-of-stream search failed");
+        @(negedge clk);
+        end_of_stream = 0;
+        gap(1);
 
         $display("PASS: spike_detector_channel_tb (%0d sample/idle checks)", checks);
         $finish;

@@ -1,0 +1,19 @@
+{
+  "task": "Synthetic binary latent state from 100 ms 32-channel Poisson spike-count windows",
+  "label_meaning": {
+    "0": "synthetic state A",
+    "1": "synthetic state B"
+  },
+  "seed": 20261102,
+  "train_examples": 3072,
+  "test_examples": 1024,
+  "features": "32 unsigned 8-bit per-channel counts; first 16 channels carry opposing state modulation",
+  "float_test_accuracy": 0.9453125,
+  "fixed_test_accuracy": 0.9453125,
+  "float_fixed_prediction_agreement": 1.0,
+  "weight_format": "signed Q8.8 in 16 bits",
+  "bias_format": "signed Q8.8 in 32 bits",
+  "accumulator_format": "signed 32-bit integer in Q8.8 units",
+  "maximum_absolute_fixed_score": 3181,
+  "limitation": "Labels are generated from a synthetic rate model; this is not movement decoding or real Neuropixels accuracy."
+}

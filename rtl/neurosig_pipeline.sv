@@ -32,6 +32,17 @@ module neurosig_pipeline #(
     logic [31:0] candidate_index, completed_frames;
     logic [CHANNEL_BITS-1:0] candidate_channel;
     logic signed [24:0] candidate_margin;
+    logic [CHANNEL_BITS:0] end_count;
+    logic channel_end;
+    logic merge_flush;
+
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) end_count <= '0;
+        else if (flush && int'(end_count) < CHANNELS + 2)
+            end_count <= end_count + 1'b1;
+    end
+    assign channel_end = flush && int'(end_count) < CHANNELS;
+    assign merge_flush = flush && int'(end_count) >= CHANNELS + 1;
 
     sample_input #(.CHANNELS(CHANNELS), .CHANNEL_BITS(CHANNEL_BITS)) input_buffer (
         .clk(clk), .rst_n(rst_n),
@@ -55,13 +66,14 @@ module neurosig_pipeline #(
         .in_valid(filtered_valid), .in_ready(filtered_ready),
         .in_sample(filtered_code), .in_channel(filtered_channel),
         .threshold_codes(threshold_codes),
+        .end_of_stream(channel_end), .end_channel(CHANNEL_BITS'(end_count)),
         .event_valid(candidate_valid), .event_code(candidate_code),
         .event_index(candidate_index), .event_channel(candidate_channel),
         .event_margin(candidate_margin), .completed_frames(completed_frames)
     );
 
     spike_event_merge #(.CHANNEL_BITS(CHANNEL_BITS)) merger (
-        .clk(clk), .rst_n(rst_n), .flush(flush),
+        .clk(clk), .rst_n(rst_n), .flush(merge_flush),
         .completed_frames(completed_frames),
         .candidate_valid(candidate_valid), .candidate_code(candidate_code),
         .candidate_index(candidate_index), .candidate_channel(candidate_channel),

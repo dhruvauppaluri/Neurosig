@@ -6,6 +6,7 @@ module spike_detector_channel(
     input logic rst_n,
 
     input logic sample_valid,
+    input logic end_of_stream,
     input logic signed [23:0] sample_code,
     input logic signed [23:0] threshold_code,
 
@@ -86,6 +87,16 @@ always_ff @(posedge clk or negedge rst_n) begin
                 end
             end
         end
+            end
+            if (end_of_stream && searching && !sample_valid) begin
+                searching <= 1'b0;
+                if (!have_last_peak || (lowest_index - last_peak_index >= 32'd32)) begin
+                    spike_valid <= 1'b1;
+                    spike_code <= lowest_code;
+                    spike_index <= lowest_index;
+                    last_peak_index <= lowest_index;
+                    have_last_peak <= 1'b1;
+                end
             end
     end
 end

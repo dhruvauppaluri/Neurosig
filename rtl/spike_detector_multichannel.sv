@@ -13,6 +13,8 @@ module spike_detector_multichannel #(
     input  logic signed [23:0] in_sample,
     input  logic [CHANNEL_BITS-1:0] in_channel,
     input  logic [CHANNELS*24-1:0] threshold_codes,
+    input  logic end_of_stream,
+    input  logic [CHANNEL_BITS-1:0] end_channel,
     output logic event_valid,
     output logic signed [23:0] event_code,
     output logic [31:0] event_index,
@@ -37,6 +39,7 @@ module spike_detector_multichannel #(
         spike_detector_channel detector (
             .clk(clk), .rst_n(rst_n),
             .sample_valid(accepted[c]),
+            .end_of_stream(end_of_stream && end_channel == CHANNEL_BITS'(c)),
             .sample_code(in_sample),
             .threshold_code(threshold[c]),
             .sample_index(sample_count[c]),

@@ -1,0 +1,197 @@
+{
+  "task": "Synthetic binary spatial-cluster identity: which of two neighboring source clusters along probe y is more active in a 100 ms window, with label-independent tonic sources along the shank",
+  "label_meaning": {
+    "0": "deep cluster (low y_um) more active",
+    "1": "shallow cluster (high y_um) more active"
+  },
+  "n_classes": 2,
+  "seed": 20261103,
+  "train_examples": 3072,
+  "test_examples": 1024,
+  "split": "contiguous first-N train after seeded generation; same indices for both models",
+  "sources": [
+    {
+      "source_id": 0,
+      "cluster": 0,
+      "xyz_um": [
+        8.724361729942114,
+        180.0,
+        8.792180262281413
+      ]
+    },
+    {
+      "source_id": 1,
+      "cluster": 0,
+      "xyz_um": [
+        -3.158303787983712,
+        200.0,
+        11.241729516789022
+      ]
+    },
+    {
+      "source_id": 2,
+      "cluster": 0,
+      "xyz_um": [
+        10.4579724007112,
+        220.0,
+        -0.9668140741553053
+      ]
+    },
+    {
+      "source_id": 3,
+      "cluster": 0,
+      "xyz_um": [
+        11.102166063574764,
+        240.0,
+        4.145260167467207
+      ]
+    },
+    {
+      "source_id": 4,
+      "cluster": 1,
+      "xyz_um": [
+        9.629064789920811,
+        300.0,
+        7.2217105408409275
+      ]
+    },
+    {
+      "source_id": 5,
+      "cluster": 1,
+      "xyz_um": [
+        -6.181117180344417,
+        320.0,
+        -1.401541003441075
+      ]
+    },
+    {
+      "source_id": 6,
+      "cluster": 1,
+      "xyz_um": [
+        -2.3016106364358997,
+        340.0,
+        -2.5734405267966274
+      ]
+    },
+    {
+      "source_id": 7,
+      "cluster": 1,
+      "xyz_um": [
+        -11.698011921309135,
+        360.0,
+        -1.3768174259055783
+      ]
+    },
+    {
+      "source_id": 8,
+      "cluster": -1,
+      "xyz_um": [
+        5.2124152042397185,
+        40.0,
+        6.642226197816413
+      ]
+    },
+    {
+      "source_id": 9,
+      "cluster": -1,
+      "xyz_um": [
+        4.169501394587542,
+        117.14285714285714,
+        5.602894370816816
+      ]
+    },
+    {
+      "source_id": 10,
+      "cluster": -1,
+      "xyz_um": [
+        10.918444066284838,
+        194.28571428571428,
+        -6.0631161305186625
+      ]
+    },
+    {
+      "source_id": 11,
+      "cluster": -1,
+      "xyz_um": [
+        11.505901692379172,
+        271.42857142857144,
+        6.243813499260341
+      ]
+    },
+    {
+      "source_id": 12,
+      "cluster": -1,
+      "xyz_um": [
+        -9.218447427887556,
+        348.57142857142856,
+        0.5783145024930683
+      ]
+    },
+    {
+      "source_id": 13,
+      "cluster": -1,
+      "xyz_um": [
+        -1.0981338229473927,
+        425.71428571428567,
+        -8.003685525979867
+      ]
+    },
+    {
+      "source_id": 14,
+      "cluster": -1,
+      "xyz_um": [
+        -3.653672835953378,
+        502.85714285714283,
+        9.160162139520008
+      ]
+    },
+    {
+      "source_id": 15,
+      "cluster": -1,
+      "xyz_um": [
+        -6.153514691933623,
+        580.0,
+        10.677828485562515
+      ]
+    }
+  ],
+  "forward_model": "edge.forward.render_recording: quasi-static point-monopole voltages with a triphasic kernel (not LFPy/MEArec morphology)",
+  "used_stub_forward": true,
+  "localizer_method": "amplitude",
+  "localization_fallback": "ground_truth_xyz_plus_gaussian_jitter_um",
+  "jitter_sigma_um": 25.0,
+  "window_s": 0.1,
+  "n_y_bins": 8,
+  "majority_class_test_accuracy": 0.51171875,
+  "baseline": {
+    "features": "32 unsigned per-channel spike counts from forward-model peak channels",
+    "n_features": 32,
+    "trainer": "scripts.synthetic_decoder.train",
+    "test_accuracy": 0.8369140625
+  },
+  "spatial": {
+    "features": "32 counts concatenated with 8 probe-y occupancy bins and mean estimated xyz_um",
+    "n_features": 43,
+    "trainer": "edge.decode.model.train (copied gradient loop, n_features != 32)",
+    "test_accuracy": 0.8408203125
+  },
+  "spatial_improved": true,
+  "accuracy_delta_spatial_minus_baseline": 0.00390625,
+  "same_split": true,
+  "neuropixels": {
+    "status": "skipped",
+    "spatial_features": "off",
+    "zip_path": "data/neuropixels/steinmetz_session11.zip",
+    "limitation": "Steinmetz session-11 zip is not present. Neuropixels path skipped. Fixture sorted-spike playback is not voltage and was not used as ADC input."
+  },
+  "rtl_count_baseline": "rtl/spike_count_decoder.sv remains the 32-count RTL baseline and was not modified",
+  "limitations": [
+    "Synthetic labels mark which simulated source cluster was rate-modulated; they are not perceptions.",
+    "This experiment is not vision restoration, not intended-movement decoding, and not a claim about humans.",
+    "edge.forward.render_recording: quasi-static point-monopole voltages with a triphasic kernel (not LFPy/MEArec morphology)",
+    "Localization uses an importable LocalizationEngine when present; otherwise ground-truth xyz plus Gaussian jitter.",
+    "Spatial improvement is reported only if held-out accuracy rose on the same split; it is not assumed.",
+    "Neuropixels CCF coordinates are not human neuron coordinates and were not mapped through edge.coords."
+  ],
+  "n_test_expected": 1024
+}

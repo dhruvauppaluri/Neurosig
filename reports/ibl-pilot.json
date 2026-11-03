@@ -254,7 +254,73 @@
     "mean_absolute_timing_error_ms": null,
     "maximum_absolute_timing_error_ms": null
   },
+  "sorter_aligned_snr_after_car": {
+    "n": 294,
+    "median_peak_sigma": 3.4181111910766946,
+    "p90_peak_sigma": 5.6473753342914925,
+    "fraction_above_4_sigma": 0.3197278911564626,
+    "fraction_above_6_sigma": 0.07482993197278912
+  },
+  "improved_python_detector": {
+    "events": 236,
+    "channel_candidates": 608,
+    "artifact_rejected_candidates": 0,
+    "noise_sigma_uv": {
+      "minimum": 6.3777860338578325,
+      "median": 8.038864848084046,
+      "maximum": 10.672093463266002
+    },
+    "vs_sorting_ms": {
+      "0.5": {
+        "true_positives": 69,
+        "false_positives": 167,
+        "false_negatives": 225,
+        "precision": 0.2923728813559322,
+        "recall": 0.23469387755102042,
+        "f1": 0.260377358490566,
+        "mean_absolute_timing_error_ms": 0.2647342995169082,
+        "maximum_absolute_timing_error_ms": 0.5
+      },
+      "1.0": {
+        "true_positives": 110,
+        "false_positives": 126,
+        "false_negatives": 184,
+        "precision": 0.4661016949152542,
+        "recall": 0.3741496598639456,
+        "f1": 0.4150943396226415,
+        "mean_absolute_timing_error_ms": 0.5051515151515152,
+        "maximum_absolute_timing_error_ms": 1.0
+      },
+      "2.0": {
+        "true_positives": 197,
+        "false_positives": 39,
+        "false_negatives": 97,
+        "precision": 0.8347457627118644,
+        "recall": 0.6700680272108843,
+        "f1": 0.7433962264150944,
+        "mean_absolute_timing_error_ms": 1.2431472081218276,
+        "maximum_absolute_timing_error_ms": 2.0
+      }
+    },
+    "config": {
+      "sample_rate_hz": 30000.0,
+      "highpass_hz": 300.0,
+      "lowpass_hz": 6000.0,
+      "use_car": true,
+      "car_method": "median",
+      "threshold_sigma": 4.0,
+      "polarity": "negative",
+      "artifact_channel_fraction": 0.5,
+      "peak_search_ms": 0.5,
+      "refractory_ms": 1.0,
+      "merge_ms": 0.5,
+      "match_tolerance_ms": 1.0,
+      "mad_clip_sigma": 6.0,
+      "mad_iterations": 3
+    }
+  },
   "detector_caveat": "30 kHz float voltage filter/detector versus sorter spikes on selected peak channels; no ADC quantization or RTL equivalence, and sorting is an incomplete reference.",
+  "rtl_status": "unchanged; real-recording CAR, 4\u03c3 calibration, and artifact veto are Python-only",
   "trial_columns": [
     "goCue_times",
     "response_times",
@@ -271,9 +337,10 @@
     "intervals_1"
   ],
   "median_axial_disagreement_to_sorter_peak_channel_um": {
-    "amplitude": 30.93900666145123,
-    "template": 40.000000000000455,
-    "beamform": 35.0
+    "amplitude": 40.90273296836608,
+    "template": 79.99999999999977,
+    "beamform": 61.899746129237656,
+    "robust_scan": 42.20155820325954
   },
   "uncertainty": "Sorter peak channel is a proxy, not an independently established neuron position; do not interpret disagreement as localization accuracy.",
   "versions": {

@@ -131,6 +131,7 @@ export function App() {
           <option value="template">Template matching</option>
           <option value="beamform">Normalized spatial scan</option>
           <option value="weighted_scan">Weighted spatial scan</option>
+          <option value="robust_scan">Noise-aware spatial scan</option>
         </select>
         <div className="toggle">
           <input type="checkbox" checked={showTraces} onChange={(event) => setShowTraces(event.target.checked)} />

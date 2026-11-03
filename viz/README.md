@@ -12,7 +12,7 @@ Interactive research UI with a realistic human brain surface, synthetic spike ge
 - Mode B plays already-sorted spike times. Sorted timestamps are never fed to the ADC.
 - Golden-model detections are offline software windows using the existing float ADC / IIR / detector APIs. They are not RTL results.
 - Simulated sources are toy point-current events. Estimated locations come from a simplified 1/r amplitude model on electrode snippets, not a biophysical inverse. Recorded Neuropixels playback is already-sorted mouse spikes mapped onto a stylized human-looking visual region; those CCF coordinates are not exact human neuron positions.
-- The dashboard offers amplitude, template, spatial scan, and weighted scan on the same synthetic event. Truth and estimates use distinct markers; scores and error are shown only where available. The offline research panel uses saved report aggregates, not live ASIC telemetry. Scientific error is in micrometres (`error_um`); viewer markers use stylized millimetres via `edge.coords`.
+- The dashboard offers amplitude, template, spatial scan, weighted scan, and noise-aware scan on the same synthetic event. Truth and estimates use distinct markers; scores and error are shown only where available. The offline research panel uses saved report aggregates, not live ASIC telemetry. Scientific error is in micrometres (`error_um`); viewer markers use stylized millimetres via `edge.coords`.
 
 ## Setup
 

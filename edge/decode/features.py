@@ -45,11 +45,18 @@ def baseline_counts(counts: np.ndarray) -> np.ndarray:
     return row
 
 
-def spatial_vector(counts: np.ndarray, estimated_xyz_um: np.ndarray) -> np.ndarray:
+def spatial_vector(
+    counts: np.ndarray,
+    estimated_xyz_um: np.ndarray,
+    *,
+    y_min: float = Y_MIN_UM,
+    y_max: float = Y_MAX_UM,
+    n_bins: int = N_Y_BINS,
+) -> np.ndarray:
     """Concatenate unsigned-count features with localization-derived extras."""
     counts_f = baseline_counts(counts)
     xyz = np.asarray(estimated_xyz_um, dtype=np.float64).reshape(-1, 3) if len(estimated_xyz_um) else np.zeros((0, 3))
-    occ = y_occupancy(xyz[:, 1] if len(xyz) else np.zeros(0))
+    occ = y_occupancy(xyz[:, 1] if len(xyz) else np.zeros(0), n_bins=n_bins, y_min=y_min, y_max=y_max)
     return np.concatenate([counts_f, occ, mean_xyz(xyz)])
 
 
@@ -60,13 +67,51 @@ def stack_baseline(count_rows: np.ndarray) -> np.ndarray:
     return rows
 
 
-def stack_spatial(count_rows: np.ndarray, estimates: list[np.ndarray]) -> np.ndarray:
+def stack_spatial(
+    count_rows: np.ndarray,
+    estimates: list[np.ndarray],
+    *,
+    y_min: float = Y_MIN_UM,
+    y_max: float = Y_MAX_UM,
+    n_bins: int = N_Y_BINS,
+) -> np.ndarray:
     rows = np.asarray(count_rows, dtype=np.float64)
     if rows.ndim != 2 or rows.shape[1] != N_CHANNELS:
         raise ValueError(f"count stack must be [n, {N_CHANNELS}]")
     if len(estimates) != len(rows):
         raise ValueError("one estimate array required per example")
-    out = np.empty((len(rows), SPATIAL_DIM), dtype=np.float64)
+    out = np.empty((len(rows), N_CHANNELS + n_bins + 3), dtype=np.float64)
     for i, (counts, xyz) in enumerate(zip(rows, estimates)):
-        out[i] = spatial_vector(counts, xyz)
+        out[i] = spatial_vector(counts, xyz, y_min=y_min, y_max=y_max, n_bins=n_bins)
+    return out
+
+
+def spatial_decoder_vector(
+    counts: np.ndarray,
+    estimated_xyz_um: np.ndarray,
+    *,
+    y_min: float = Y_MIN_UM,
+    y_max: float = Y_MAX_UM,
+    n_bins: int = N_Y_BINS,
+) -> np.ndarray:
+    """Counts + occupancy + mean xyz + axial spread. Still a tiny linear-friendly vector."""
+    base = spatial_vector(counts, estimated_xyz_um, y_min=y_min, y_max=y_max, n_bins=n_bins)
+    xyz = np.asarray(estimated_xyz_um, dtype=np.float64).reshape(-1, 3) if len(estimated_xyz_um) else np.zeros((0, 3))
+    spread = float(np.std(xyz[:, 1])) if len(xyz) else 0.0
+    return np.concatenate([base, np.array([spread], dtype=np.float64)])
+
+
+def stack_spatial_decoder(
+    count_rows: np.ndarray,
+    estimates: list[np.ndarray],
+    *,
+    y_min: float = Y_MIN_UM,
+    y_max: float = Y_MAX_UM,
+    n_bins: int = N_Y_BINS,
+) -> np.ndarray:
+    rows = np.asarray(count_rows, dtype=np.float64)
+    width = N_CHANNELS + n_bins + 4
+    out = np.empty((len(rows), width), dtype=np.float64)
+    for i, (counts, xyz) in enumerate(zip(rows, estimates)):
+        out[i] = spatial_decoder_vector(counts, xyz, y_min=y_min, y_max=y_max, n_bins=n_bins)
     return out

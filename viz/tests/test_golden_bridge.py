@@ -33,7 +33,7 @@ class GoldenBridgeTests(unittest.TestCase):
         estimates = [item for item in result.events if item.kind == "localization_estimate"]
         if estimates:
             comparison = estimates[0].metadata["algorithm_comparison"]
-            self.assertEqual(set(comparison), {"amplitude", "template", "beamform", "weighted_scan"})
+            self.assertEqual(set(comparison), {"amplitude", "template", "beamform", "weighted_scan", "robust_scan"})
             self.assertEqual(estimates[0].metadata["method"], "template")
 
     def test_overlapping_templates_are_finite(self) -> None:

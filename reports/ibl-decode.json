@@ -44,6 +44,11 @@
   ],
   "feature_source": "sorted spikes and processed average cluster waveforms",
   "ground_truth_source_coordinates_used": false,
+  "occupancy_y_range_um": [
+    2655.5045144313676,
+    3013.751953143795
+  ],
+  "localizer": "robust_scan on cluster mean waveforms; not trial-wise raw detections",
   "models": [
     {
       "seed": 20261103,
@@ -73,7 +78,7 @@
           ],
           "n_features": 32,
           "model_bytes_float64": 264,
-          "inference_us_per_trial": 0.3645836841315031
+          "inference_us_per_trial": 71.86224074105128
         },
         "B_electrode": {
           "accuracy": 0.7037037037037037,
@@ -97,7 +102,7 @@
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.15277786318350722
+          "inference_us_per_trial": 74.86067592573683
         },
         "C_estimated": {
           "accuracy": 0.7037037037037037,
@@ -121,14 +126,64 @@
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.16088058516659118
+          "inference_us_per_trial": 74.69153703709708
+        },
+        "D_learned_spatial": {
+          "accuracy": 0.7222222222222222,
+          "confusion_matrix": [
+            [
+              50,
+              12
+            ],
+            [
+              18,
+              28
+            ]
+          ],
+          "precision": [
+            0.7352941176470589,
+            0.7
+          ],
+          "recall": [
+            0.8064516129032258,
+            0.6086956521739131
+          ],
+          "n_features": 44,
+          "model_bytes_float64": 5896,
+          "inference_us_per_trial": 187.5563611111762
         }
       },
       "estimate_perturbation_um": {
         "0": 0.7037037037037037,
-        "20": 0.6759259259259259,
-        "50": 0.7037037037037037,
-        "100": 0.5277777777777778
+        "20": 0.6666666666666666,
+        "50": 0.5555555555555556,
+        "100": 0.5
+      },
+      "paired_tests": {
+        "C_vs_A": {
+          "n01_a_only": 1,
+          "n10_b_only": 0,
+          "n_discordant": 1,
+          "p_two_sided": 1.0,
+          "bootstrap_mean_delta": -0.009375000000000003,
+          "bootstrap_ci95": [
+            -0.02777777777777779,
+            0.0
+          ],
+          "bootstrap_n_boot": 400
+        },
+        "D_vs_A": {
+          "n01_a_only": 2,
+          "n10_b_only": 3,
+          "n_discordant": 5,
+          "p_two_sided": 1.0,
+          "bootstrap_mean_delta": 0.010347222222222221,
+          "bootstrap_ci95": [
+            -0.02777777777777779,
+            0.04629629629629639
+          ],
+          "bootstrap_n_boot": 400
+        }
       }
     },
     {
@@ -159,14 +214,14 @@
           ],
           "n_features": 32,
           "model_bytes_float64": 264,
-          "inference_us_per_trial": 0.17785135208180658
+          "inference_us_per_trial": 67.38852777777572
         },
         "B_electrode": {
-          "accuracy": 0.7037037037037037,
+          "accuracy": 0.6944444444444444,
           "confusion_matrix": [
             [
-              50,
-              12
+              49,
+              13
             ],
             [
               20,
@@ -174,23 +229,47 @@
             ]
           ],
           "precision": [
-            0.7142857142857143,
-            0.6842105263157895
+            0.7101449275362319,
+            0.6666666666666666
           ],
           "recall": [
-            0.8064516129032258,
+            0.7903225806451613,
             0.5652173913043478
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.19328608350069434
+          "inference_us_per_trial": 80.17827777785493
         },
         "C_estimated": {
           "accuracy": 0.7037037037037037,
           "confusion_matrix": [
             [
-              50,
-              12
+              51,
+              11
+            ],
+            [
+              21,
+              25
+            ]
+          ],
+          "precision": [
+            0.7083333333333334,
+            0.6944444444444444
+          ],
+          "recall": [
+            0.8225806451612904,
+            0.5434782608695652
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 75.66113888894203
+        },
+        "D_learned_spatial": {
+          "accuracy": 0.7222222222222222,
+          "confusion_matrix": [
+            [
+              52,
+              10
             ],
             [
               20,
@@ -198,23 +277,49 @@
             ]
           ],
           "precision": [
-            0.7142857142857143,
-            0.6842105263157895
+            0.7222222222222222,
+            0.7222222222222222
           ],
           "recall": [
-            0.8064516129032258,
+            0.8387096774193549,
             0.5652173913043478
           ],
-          "n_features": 43,
-          "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.24227753143619607
+          "n_features": 44,
+          "model_bytes_float64": 5896,
+          "inference_us_per_trial": 188.5107037040783
         }
       },
       "estimate_perturbation_um": {
         "0": 0.7037037037037037,
-        "20": 0.7037037037037037,
-        "50": 0.6851851851851852,
-        "100": 0.6851851851851852
+        "20": 0.6666666666666666,
+        "50": 0.6666666666666666,
+        "100": 0.46296296296296297
+      },
+      "paired_tests": {
+        "C_vs_A": {
+          "n01_a_only": 1,
+          "n10_b_only": 3,
+          "n_discordant": 4,
+          "p_two_sided": 0.625,
+          "bootstrap_mean_delta": 0.018101851851851848,
+          "bootstrap_ci95": [
+            -0.01851851851851849,
+            0.05555555555555558
+          ],
+          "bootstrap_n_boot": 400
+        },
+        "D_vs_A": {
+          "n01_a_only": 0,
+          "n10_b_only": 4,
+          "n_discordant": 4,
+          "p_two_sided": 0.125,
+          "bootstrap_mean_delta": 0.03650462962962963,
+          "bootstrap_ci95": [
+            0.00925925925925919,
+            0.07407407407407407
+          ],
+          "bootstrap_n_boot": 400
+        }
       }
     },
     {
@@ -245,7 +350,7 @@
           ],
           "n_features": 32,
           "model_bytes_float64": 264,
-          "inference_us_per_trial": 0.16898115131038208
+          "inference_us_per_trial": 67.23398148214646
         },
         "B_electrode": {
           "accuracy": 0.7222222222222222,
@@ -269,7 +374,7 @@
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.2596482065402799
+          "inference_us_per_trial": 75.96378703759136
         },
         "C_estimated": {
           "accuracy": 0.7222222222222222,
@@ -293,14 +398,64 @@
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.1871117597652806
+          "inference_us_per_trial": 76.32356481487342
+        },
+        "D_learned_spatial": {
+          "accuracy": 0.7222222222222222,
+          "confusion_matrix": [
+            [
+              53,
+              9
+            ],
+            [
+              21,
+              25
+            ]
+          ],
+          "precision": [
+            0.7162162162162162,
+            0.7352941176470589
+          ],
+          "recall": [
+            0.8548387096774194,
+            0.5434782608695652
+          ],
+          "n_features": 44,
+          "model_bytes_float64": 5896,
+          "inference_us_per_trial": 186.82538888857312
         }
       },
       "estimate_perturbation_um": {
         "0": 0.7222222222222222,
-        "20": 0.6666666666666666,
-        "50": 0.6666666666666666,
-        "100": 0.5833333333333334
+        "20": 0.7129629629629629,
+        "50": 0.46296296296296297,
+        "100": 0.49074074074074076
+      },
+      "paired_tests": {
+        "C_vs_A": {
+          "n01_a_only": 0,
+          "n10_b_only": 1,
+          "n_discordant": 1,
+          "p_two_sided": 1.0,
+          "bootstrap_mean_delta": 0.009282407407407406,
+          "bootstrap_ci95": [
+            0.0,
+            0.02800925925925906
+          ],
+          "bootstrap_n_boot": 400
+        },
+        "D_vs_A": {
+          "n01_a_only": 1,
+          "n10_b_only": 2,
+          "n_discordant": 3,
+          "p_two_sided": 1.0,
+          "bootstrap_mean_delta": 0.009375,
+          "bootstrap_ci95": [
+            -0.01851851851851849,
+            0.04629629629629628
+          ],
+          "bootstrap_n_boot": 400
+        }
       }
     }
   ],
@@ -308,18 +463,27 @@
     "A_counts": {
       "mean_accuracy": 0.7037037037037037,
       "min_accuracy": 0.6851851851851852,
-      "max_accuracy": 0.7129629629629629
+      "max_accuracy": 0.7129629629629629,
+      "std_accuracy": 0.013094570021973057
     },
     "B_electrode": {
-      "mean_accuracy": 0.7098765432098766,
-      "min_accuracy": 0.7037037037037037,
-      "max_accuracy": 0.7222222222222222
+      "mean_accuracy": 0.70679012345679,
+      "min_accuracy": 0.6944444444444444,
+      "max_accuracy": 0.7222222222222222,
+      "std_accuracy": 0.011548325267820809
     },
     "C_estimated": {
       "mean_accuracy": 0.7098765432098766,
       "min_accuracy": 0.7037037037037037,
-      "max_accuracy": 0.7222222222222222
+      "max_accuracy": 0.7222222222222222,
+      "std_accuracy": 0.008729713347982055
+    },
+    "D_learned_spatial": {
+      "mean_accuracy": 0.7222222222222222,
+      "min_accuracy": 0.7222222222222222,
+      "max_accuracy": 0.7222222222222222,
+      "std_accuracy": 0.0
     }
   },
-  "limitation": "One session; cluster mean waveforms were computed using the entire recording without labels, so location features are transductive. Raw AP pilot is separate. No exact neuron-position truth or RTL inference claimed."
+  "limitation": "One session; cluster mean waveforms were computed using the entire recording without labels, so location features are transductive. Occupancy bins now span the selected contact y range instead of the synthetic 0\u2013620 \u00b5m probe. Raw AP pilot is separate. No exact neuron-position truth or RTL inference claimed. Model D is a 16-unit tanh MLP on the edge computer."
 }

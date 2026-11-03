@@ -35,7 +35,7 @@
           ],
           "n_features": 32,
           "model_bytes_float64": 264,
-          "inference_us_per_trial": 0.06526579454657622
+          "inference_us_per_trial": 42.82521874987566
         },
         "B_electrode": {
           "accuracy": 0.84375,
@@ -59,38 +59,62 @@
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.061195351008791476
+          "inference_us_per_trial": 48.60866406231068
         },
         "C_estimated": {
-          "accuracy": 0.83203125,
+          "accuracy": 0.83984375,
           "confusion_matrix": [
             [
-              104,
-              19
+              107,
+              16
             ],
             [
-              24,
-              109
+              25,
+              108
             ]
           ],
           "precision": [
-            0.8125,
-            0.8515625
+            0.8106060606060606,
+            0.8709677419354839
           ],
           "recall": [
-            0.8455284552845529,
-            0.8195488721804511
+            0.8699186991869918,
+            0.8120300751879699
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.07258995537995361
+          "inference_us_per_trial": 47.26237109364817
+        },
+        "D_learned_spatial": {
+          "accuracy": 0.828125,
+          "confusion_matrix": [
+            [
+              105,
+              18
+            ],
+            [
+              26,
+              107
+            ]
+          ],
+          "precision": [
+            0.8015267175572519,
+            0.856
+          ],
+          "recall": [
+            0.8536585365853658,
+            0.8045112781954887
+          ],
+          "n_features": 44,
+          "model_bytes_float64": 5896,
+          "inference_us_per_trial": 180.69135546872062
         }
       },
       "estimate_perturbation_um": {
-        "0": 0.83203125,
-        "20": 0.83203125,
-        "50": 0.8203125,
-        "100": 0.81640625
+        "0": 0.83984375,
+        "20": 0.81640625,
+        "50": 0.83203125,
+        "100": 0.8203125
       }
     },
     {
@@ -122,7 +146,7 @@
           ],
           "n_features": 32,
           "model_bytes_float64": 264,
-          "inference_us_per_trial": 0.13720728020416573
+          "inference_us_per_trial": 42.702054687371316
         },
         "B_electrode": {
           "accuracy": 0.78515625,
@@ -146,38 +170,62 @@
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.10937492334051058
+          "inference_us_per_trial": 47.40946093750864
         },
         "C_estimated": {
-          "accuracy": 0.796875,
+          "accuracy": 0.78125,
           "confusion_matrix": [
             [
-              84,
-              29
+              82,
+              31
             ],
             [
-              23,
-              120
+              25,
+              118
             ]
           ],
           "precision": [
-            0.7850467289719626,
-            0.8053691275167785
+            0.7663551401869159,
+            0.7919463087248322
           ],
           "recall": [
-            0.7433628318584071,
-            0.8391608391608392
+            0.7256637168141593,
+            0.8251748251748252
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.09309769666288048
+          "inference_us_per_trial": 46.39817968765669
+        },
+        "D_learned_spatial": {
+          "accuracy": 0.78125,
+          "confusion_matrix": [
+            [
+              83,
+              30
+            ],
+            [
+              26,
+              117
+            ]
+          ],
+          "precision": [
+            0.7614678899082569,
+            0.7959183673469388
+          ],
+          "recall": [
+            0.7345132743362832,
+            0.8181818181818182
+          ],
+          "n_features": 44,
+          "model_bytes_float64": 5896,
+          "inference_us_per_trial": 169.16153515644794
         }
       },
       "estimate_perturbation_um": {
-        "0": 0.796875,
-        "20": 0.7890625,
-        "50": 0.77734375,
-        "100": 0.79296875
+        "0": 0.78125,
+        "20": 0.78515625,
+        "50": 0.7734375,
+        "100": 0.72265625
       }
     },
     {
@@ -209,7 +257,7 @@
           ],
           "n_features": 32,
           "model_bytes_float64": 264,
-          "inference_us_per_trial": 0.11816428013844416
+          "inference_us_per_trial": 40.20414062466671
         },
         "B_electrode": {
           "accuracy": 0.8125,
@@ -233,38 +281,62 @@
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.0724257915862836
+          "inference_us_per_trial": 46.210851562644706
         },
         "C_estimated": {
-          "accuracy": 0.83203125,
+          "accuracy": 0.828125,
           "confusion_matrix": [
             [
-              112,
-              23
+              110,
+              25
             ],
             [
-              20,
-              101
+              19,
+              102
             ]
           ],
           "precision": [
-            0.8484848484848485,
-            0.8145161290322581
+            0.8527131782945736,
+            0.8031496062992126
           ],
           "recall": [
-            0.8296296296296296,
-            0.8347107438016529
+            0.8148148148148148,
+            0.8429752066115702
           ],
           "n_features": 43,
           "model_bytes_float64": 352,
-          "inference_us_per_trial": 0.09374980436405167
+          "inference_us_per_trial": 46.02735156256088
+        },
+        "D_learned_spatial": {
+          "accuracy": 0.828125,
+          "confusion_matrix": [
+            [
+              110,
+              25
+            ],
+            [
+              19,
+              102
+            ]
+          ],
+          "precision": [
+            0.8527131782945736,
+            0.8031496062992126
+          ],
+          "recall": [
+            0.8148148148148148,
+            0.8429752066115702
+          ],
+          "n_features": 44,
+          "model_bytes_float64": 5896,
+          "inference_us_per_trial": 165.79470312505507
         }
       },
       "estimate_perturbation_um": {
-        "0": 0.83203125,
-        "20": 0.84375,
-        "50": 0.80859375,
-        "100": 0.8203125
+        "0": 0.828125,
+        "20": 0.8359375,
+        "50": 0.80078125,
+        "100": 0.8046875
       }
     }
   ],
@@ -282,10 +354,16 @@
       "std_accuracy": 0.023938510821419574
     },
     "C_estimated": {
-      "mean_accuracy": 0.8203125,
-      "min_accuracy": 0.796875,
-      "max_accuracy": 0.83203125,
-      "std_accuracy": 0.016572815184059706
+      "mean_accuracy": 0.81640625,
+      "min_accuracy": 0.78125,
+      "max_accuracy": 0.83984375,
+      "std_accuracy": 0.025315393353155705
+    },
+    "D_learned_spatial": {
+      "mean_accuracy": 0.8125,
+      "min_accuracy": 0.78125,
+      "max_accuracy": 0.828125,
+      "std_accuracy": 0.02209708691207961
     }
   },
   "rtl_baseline": "existing 32-count RTL decoder is a separately trained task baseline; no RTL inference claimed here"

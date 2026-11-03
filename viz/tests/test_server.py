@@ -12,6 +12,7 @@ class ServerTests(unittest.TestCase):
         from viz.sim.engine import NeuralEventEngine
         engine = NeuralEventEngine()
         self.assertEqual(engine.control({"localization_method": "template"})["localization_method"], "template")
+        self.assertEqual(engine.control({"localization_method": "robust_scan"})["localization_method"], "robust_scan")
         with self.assertRaises(ValueError):
             engine.control({"localization_method": "time_delay_steering"})
 

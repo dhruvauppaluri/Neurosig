@@ -8,8 +8,8 @@ import time
 
 import numpy as np
 
-from edge.decode.features import N_CHANNELS, SPATIAL_DIM, stack_spatial
-from edge.decode.model import predict_labels, train
+from edge.decode.features import N_CHANNELS, SPATIAL_DIM, stack_spatial, stack_spatial_decoder
+from edge.decode.model import predict_labels, predict_mlp, train, train_mlp
 from edge.decode.spatial_task import generate_dataset, split_indices
 from edge.geometry import linear_probe_um
 
@@ -40,17 +40,24 @@ def run(seeds: tuple[int, ...] = (20261103, 20261104, 20261105),
             "A_counts": counts,
             "B_electrode": stack_spatial(counts, _channel_positions(dataset)),
             "C_estimated": stack_spatial(counts, dataset.estimated_xyz),
+            "D_learned_spatial": stack_spatial_decoder(counts, dataset.estimated_xyz),
         }
         train_idx, test_idx = split_indices(examples, int(0.75 * examples))
         y_train, y_test = dataset.labels[train_idx], dataset.labels[test_idx]
         models = {}
         for name, x in inputs.items():
-            weights, bias = train(x[train_idx], y_train.astype(float))
             start = time.perf_counter()
-            pred = predict_labels(x[test_idx], weights, bias)
+            if name == "D_learned_spatial":
+                packed = train_mlp(x[train_idx], y_train.astype(float), seed=seed)
+                pred = predict_mlp(x[test_idx], *packed)
+                model_bytes = int(sum(np.asarray(part).nbytes for part in packed[:3]) + 8)
+            else:
+                weights, bias = train(x[train_idx], y_train.astype(float))
+                pred = predict_labels(x[test_idx], weights, bias)
+                model_bytes = int(weights.nbytes + 8)
             elapsed = time.perf_counter() - start
             models[name] = {**classification(y_test, pred), "n_features": int(x.shape[1]),
-                            "model_bytes_float64": int(weights.nbytes + 8),
+                            "model_bytes_float64": model_bytes,
                             "inference_us_per_trial": elapsed * 1e6 / len(test_idx)}
         # Perturb only estimates, never known source positions. A fixed model
         # makes this a test-time robustness sweep rather than retraining.
@@ -69,7 +76,7 @@ def run(seeds: tuple[int, ...] = (20261103, 20261104, 20261105),
                              "missing_estimate_fallback": dataset.localizer_fallback,
                              "models": models, "estimate_perturbation_um": sensitivity})
     aggregate = {}
-    for name in ("A_counts", "B_electrode", "C_estimated"):
+    for name in ("A_counts", "B_electrode", "C_estimated", "D_learned_spatial"):
         accuracies = [r["models"][name]["accuracy"] for r in seed_reports]
         aggregate[name] = {"mean_accuracy": float(np.mean(accuracies)),
                            "min_accuracy": float(np.min(accuracies)),

@@ -47,7 +47,7 @@ export interface Session {
   selected_region: string | null;
   selected_channel: number | null;
   run_golden_model: boolean;
-  localization_method: "amplitude" | "template" | "beamform" | "weighted_scan";
+  localization_method: "amplitude" | "template" | "beamform" | "weighted_scan" | "robust_scan";
   detector_note: string;
   metrics: {
     simulated_event_count: number;

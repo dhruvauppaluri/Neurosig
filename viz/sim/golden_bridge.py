@@ -175,7 +175,7 @@ def process_window(
         electrode_xyz = tuple(site.xyz_mm for site in array.sites)
         n_pre, n_post = snippet_sample_counts(detector_config.sample_rate_hz)
         comparison_adapters = {name: EdgeLocalizerAdapter(method=name)
-                               for name in ("amplitude", "template", "beamform", "weighted_scan")}
+                               for name in ("amplitude", "template", "beamform", "weighted_scan", "robust_scan")}
         last_estimate = localization
         preferred_estimate = None
         for detected in merged:

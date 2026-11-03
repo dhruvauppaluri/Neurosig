@@ -104,14 +104,9 @@ def _stable_event_id(label: str) -> int:
 
 
 def resolve_edge_localizer(method: str = "amplitude") -> Any:
-    from edge.localize import AmplitudeLocalizer, BeamformLocalizer, TemplateLocalizer
-    from edge.localize.weighted import WeightedScanLocalizer
+    from edge.localize import get_localizer
 
-    engines = {"amplitude": AmplitudeLocalizer, "template": TemplateLocalizer,
-               "beamform": BeamformLocalizer, "weighted_scan": WeightedScanLocalizer}
-    if method not in engines:
-        raise ValueError(f"unknown localization method {method}")
-    return engines[method]()
+    return get_localizer(method)
 
 
 def _result_from_edge(estimate: LocalizationEstimate, request: LocalizationRequest) -> LocalizationResult:

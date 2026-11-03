@@ -81,7 +81,8 @@ class NeuralEventEngine:
         self._detector_cursor = 0.0
         self._localization_honesty = (
             "Simplified 1/r amplitude localization in the stylized viewer; "
-            "not biophysics and not human neuron positions. Estimates stay unverified until a report exists."
+            "not biophysics and not human neuron positions. Estimates stay unverified until a report exists. "
+            "Simulated and recorded activity use different event kinds."
         )
 
     def snapshot(self) -> dict[str, Any]:
@@ -155,7 +156,7 @@ class NeuralEventEngine:
                 self.state.run_golden_model = bool(payload["run_golden_model"])
             if "localization_method" in payload:
                 method = str(payload["localization_method"])
-                if method not in {"amplitude", "template", "beamform", "weighted_scan"}:
+                if method not in {"amplitude", "template", "beamform", "weighted_scan", "robust_scan"}:
                     raise ValueError(f"unknown localization method {method}")
                 self.state.localization_method = method
             if "seek_s" in payload:

@@ -65,12 +65,22 @@ def get_timeline(limit: int = 400) -> dict:
 def get_research() -> dict:
     """Concise offline results; these are never presented as live inference."""
     decoder = REPORTS / "edge-decode-v2.json"
-    localization = REPORTS / "localization-benchmark-v2.json"
+    localization = REPORTS / "localization-benchmark-v3.json"
+    if not localization.exists():
+        localization = REPORTS / "localization-benchmark-v2.json"
     ibl = REPORTS / "ibl-pilot.json"
+    ibl_eval = REPORTS / "ibl-detection-localization.json"
+    ibl_decode = REPORTS / "ibl-decode.json"
+    loc_payload = None
+    if localization.exists():
+        loaded = json.loads(localization.read_text())
+        loc_payload = loaded.get("synthetic", loaded).get("methods", loaded.get("synthetic"))
     return {
         "decoder": json.loads(decoder.read_text())["aggregate"] if decoder.exists() else None,
-        "localization": json.loads(localization.read_text())["synthetic"]["methods"] if localization.exists() else None,
+        "localization": loc_payload,
         "ibl": json.loads(ibl.read_text()) if ibl.exists() else None,
+        "ibl_eval": json.loads(ibl_eval.read_text()) if ibl_eval.exists() else None,
+        "ibl_decode": json.loads(ibl_decode.read_text()).get("aggregate") if ibl_decode.exists() else None,
         "provenance": "offline reproducible reports, not live ASIC output",
     }
 

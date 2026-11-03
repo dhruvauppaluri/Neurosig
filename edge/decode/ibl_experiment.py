@@ -14,10 +14,10 @@ import time
 import numpy as np
 
 from edge.decode.experiment_v2 import classification
-from edge.decode.features import stack_spatial
-from edge.decode.model import predict_labels, train
+from edge.decode.features import stack_spatial, stack_spatial_decoder
+from edge.decode.model import bootstrap_accuracy_delta, mcnemar_pvalue, predict_labels, predict_mlp, train, train_mlp
 from edge.ibl import DEFAULT_PID, SORTING_REVISION, TRIALS_REVISION, probe_geometry
-from edge.localize.amplitude import AmplitudeLocalizer
+from edge.localize import get_localizer
 from edge.types import Snippet
 
 
@@ -44,7 +44,6 @@ def run() -> dict:
         raise ValueError("cluster waveform table does not match channels")
     estimated = []
     geometry = []
-    engine = AmplitudeLocalizer()
     for cluster in selected:
         channel_ids = tuple(int(c) for c in waveform_channels[cluster])
         array = probe_geometry(np.asarray(channel_ids), coords)
@@ -56,6 +55,10 @@ def run() -> dict:
                           sample_rate_hz=30000.0, channel_ids=channel_ids,
                           voltages_uv=waveform_uv, electrode_xyz_um=array.xyz_um(),
                           peak_channel=peak)
+        y_shift = float(np.min(array.xyz_um()[:, 1]))
+        from edge.localize.beamform import default_scan_grid_um
+        scan = default_scan_grid_um(array.n_channels) + np.array([0.0, y_shift, 0.0])
+        engine = get_localizer("robust_scan", array=array, grid_xyz_um=scan, model="line_source")
         estimate = engine.estimate(snippet)
         if not estimate.available or estimate.xyz_um is None:
             raise ValueError("unavailable waveform localization")
@@ -80,11 +83,31 @@ def run() -> dict:
         counts[row] = np.array([np.count_nonzero(values == cluster) for cluster in selected])
     site_xyz = np.asarray(geometry, dtype=float)
     estimated_xyz = np.asarray(estimated, dtype=float)
+    y_min = float(min(np.min(site_xyz[:, 1]), np.min(estimated_xyz[:, 1])) - 20.0)
+    y_max = float(max(np.max(site_xyz[:, 1]), np.max(estimated_xyz[:, 1])) + 20.0)
+
     def spatial(points: np.ndarray) -> np.ndarray:
-        return stack_spatial(counts, [np.repeat(points, counts[i].astype(int), axis=0)
-                                      for i in range(len(counts))])
-    inputs = {"A_counts": counts, "B_electrode": spatial(site_xyz),
-              "C_estimated": spatial(estimated_xyz)}
+        return stack_spatial(
+            counts,
+            [np.repeat(points, counts[i].astype(int), axis=0) for i in range(len(counts))],
+            y_min=y_min,
+            y_max=y_max,
+        )
+
+    def spatial_d(points: np.ndarray) -> np.ndarray:
+        return stack_spatial_decoder(
+            counts,
+            [np.repeat(points, counts[i].astype(int), axis=0) for i in range(len(counts))],
+            y_min=y_min,
+            y_max=y_max,
+        )
+
+    inputs = {
+        "A_counts": counts,
+        "B_electrode": spatial(site_xyz),
+        "C_estimated": spatial(estimated_xyz),
+        "D_learned_spatial": spatial_d(estimated_xyz),
+    }
     reports = []
     for seed in (20261103, 20261104, 20261105):
         rng = np.random.default_rng(seed)
@@ -97,16 +120,27 @@ def run() -> dict:
         test_ids = np.asarray(test_ids, dtype=int)
         models = {}
         c_model = None
+        predictions = {}
         for name, x in inputs.items():
-            weights, bias = train(x[train_ids], labels[train_ids].astype(float))
-            if name == "C_estimated":
-                c_model = (weights, bias)
             start = time.perf_counter()
-            pred = predict_labels(x[test_ids], weights, bias)
+            if name == "D_learned_spatial":
+                packed = train_mlp(x[train_ids], labels[train_ids].astype(float), seed=seed)
+                pred = predict_mlp(x[test_ids], *packed)
+                model_bytes = int(sum(np.asarray(part).nbytes for part in packed[:3]) + 8)
+            else:
+                weights, bias = train(x[train_ids], labels[train_ids].astype(float))
+                if name == "C_estimated":
+                    c_model = (weights, bias)
+                pred = predict_labels(x[test_ids], weights, bias)
+                model_bytes = int(weights.nbytes + 8)
             elapsed = time.perf_counter() - start
-            models[name] = {**classification(labels[test_ids], pred),
-                            "n_features": int(x.shape[1]), "model_bytes_float64": int(weights.nbytes + 8),
-                            "inference_us_per_trial": elapsed * 1e6 / len(test_ids)}
+            predictions[name] = pred
+            models[name] = {
+                **classification(labels[test_ids], pred),
+                "n_features": int(x.shape[1]),
+                "model_bytes_float64": model_bytes,
+                "inference_us_per_trial": elapsed * 1e6 / len(test_ids),
+            }
         assert c_model is not None
         sensitivity = {}
         for sigma in (0.0, 20.0, 50.0, 100.0):
@@ -115,12 +149,28 @@ def run() -> dict:
             x_perturbed = spatial(perturbed)
             sensitivity[str(int(sigma))] = classification(
                 labels[test_ids], predict_labels(x_perturbed[test_ids], *c_model))["accuracy"]
+        pairwise = {
+            "C_vs_A": {
+                **mcnemar_pvalue(labels[test_ids], predictions["A_counts"], predictions["C_estimated"]),
+                **{f"bootstrap_{k}": v for k, v in bootstrap_accuracy_delta(
+                    labels[test_ids], predictions["A_counts"], predictions["C_estimated"], seed=seed
+                ).items()},
+            },
+            "D_vs_A": {
+                **mcnemar_pvalue(labels[test_ids], predictions["A_counts"], predictions["D_learned_spatial"]),
+                **{f"bootstrap_{k}": v for k, v in bootstrap_accuracy_delta(
+                    labels[test_ids], predictions["A_counts"], predictions["D_learned_spatial"], seed=seed
+                ).items()},
+            },
+        }
         reports.append({"seed": seed, "train": len(train_ids), "test": len(test_ids),
                         "majority_test_accuracy": float(max(np.bincount(labels[test_ids])) / len(test_ids)),
-                        "models": models, "estimate_perturbation_um": sensitivity})
+                        "models": models, "estimate_perturbation_um": sensitivity,
+                        "paired_tests": pairwise})
     aggregate = {name: {"mean_accuracy": float(np.mean([r["models"][name]["accuracy"] for r in reports])),
                         "min_accuracy": float(np.min([r["models"][name]["accuracy"] for r in reports])),
-                        "max_accuracy": float(np.max([r["models"][name]["accuracy"] for r in reports]))}
+                        "max_accuracy": float(np.max([r["models"][name]["accuracy"] for r in reports])),
+                        "std_accuracy": float(np.std([r["models"][name]["accuracy"] for r in reports]))}
                  for name in inputs}
     return {"status": "ran", "pid": DEFAULT_PID, "eid": str(eid), "probe": probe,
             "sorting_revision": SORTING_REVISION, "trials_revision": TRIALS_REVISION,
@@ -128,8 +178,10 @@ def run() -> dict:
             "window": "50-250 ms after stimOn_times", "eligible_trials": len(eligible),
             "selected_cluster_ids": selected.tolist(), "feature_source": "sorted spikes and processed average cluster waveforms",
             "ground_truth_source_coordinates_used": False,
+            "occupancy_y_range_um": [y_min, y_max],
+            "localizer": "robust_scan on cluster mean waveforms; not trial-wise raw detections",
             "models": reports, "aggregate": aggregate,
-            "limitation": "One session; cluster mean waveforms were computed using the entire recording without labels, so location features are transductive. Raw AP pilot is separate. No exact neuron-position truth or RTL inference claimed."}
+            "limitation": "One session; cluster mean waveforms were computed using the entire recording without labels, so location features are transductive. Occupancy bins now span the selected contact y range instead of the synthetic 0–620 µm probe. Raw AP pilot is separate. No exact neuron-position truth or RTL inference claimed. Model D is a 16-unit tanh MLP on the edge computer."}
 
 
 def main() -> None:

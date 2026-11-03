@@ -6,7 +6,7 @@ Neurosig is a neural signal processing hardware project inspired by Neuropixels 
 
 The MEArec setup is working on Apple Silicon macOS with Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. The verified smoke test compiles NEURON mechanisms, generates two biophysical templates, and produces a one-second, 32-channel recording at 32 kHz with nine ground-truth spikes (seed 42). It reloads the HDF5 recording and checks its shape, finite nonconstant samples, and spike ground truth. See [the validation summary](reports/setup-validation.json).
 
-The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references are implemented; RTL filter arithmetic and the spike detector are the next milestones.
+The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly; decoder selection is the next project milestone.
 
 A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It imports the golden-model Python APIs and does not modify RTL.
 
@@ -85,7 +85,62 @@ iverilog -g2012 -Wall -s biquad_state_tb -o /tmp/neurosig-biquad-state.vvp rtl/b
 vvp /tmp/neurosig-biquad-state.vvp
 ```
 
-Both RTL exercises are also copied into the user's separate `NeuroSignalProject` VS Code folder. Keep the copies synchronized until the workspace layout is consolidated. The IIR arithmetic and spike detector RTL have not been implemented yet.
+The standalone Q2.30 biquad calculator is in `rtl/biquad_arithmetic.sv`. Its testbench compares against deterministic Python-generated integer vectors, including both actual filter coefficient sets, signed fractional values, saturation boundaries, and randomized samples. Reproduce its check with:
+
+```sh
+.venv/bin/python rtl/tb/generate_biquad_vectors.py --output /tmp/neurosig-biquad-vectors.txt
+iverilog -g2012 -Wall -s biquad_arithmetic_tb -o /tmp/neurosig-biquad-arithmetic.vvp rtl/biquad_arithmetic.sv rtl/tb/biquad_arithmetic_tb.sv
+vvp /tmp/neurosig-biquad-arithmetic.vvp +VECTORS=/tmp/neurosig-biquad-vectors.txt
+```
+
+The RTL source and testbenches are also copied into the user's separate `NeuroSignalProject` VS Code folder. Keep the copies synchronized until the workspace layout is consolidated. `rtl/biquad_controller.sv` joins one biquad's state and arithmetic with ready/valid handshakes; its testbench passes 49 checks. `rtl/spike_band_filter.sv` cascades independent 300 Hz high-pass and 6 kHz low-pass controllers at 32 kHz. Its integration smoke test passes for two channels, handshakes, and output stalls. The Python-to-RTL reference test compares 32,768 consecutive interleaved MEArec ADC samples (1,024 frames × 32 channels) with exact 24-bit results under patterned output stalls:
+
+```sh
+.venv/bin/python rtl/tb/generate_filter_vectors.py --output /tmp/neurosig-filter-vectors.txt
+iverilog -g2012 -Wall -s spike_band_filter_reference_tb -o /tmp/neurosig-filter-reference.vvp rtl/spike_band_filter.sv rtl/biquad_controller.sv rtl/biquad_state.sv rtl/biquad_arithmetic.sv rtl/tb/spike_band_filter_reference_tb.sv
+vvp /tmp/neurosig-filter-reference.vvp +VECTORS=/tmp/neurosig-filter-vectors.txt
+```
+
+All 32,768 comparisons passed on November 2, 2026. This verifies the tested recording segment and flow control pattern; a full-recording comparison remains future work.
+
+The first one-channel detector module, `rtl/spike_detector_channel.sv`, has a directed testbench covering downward crossings, 16-sample peak search, tied minima, the final sample in the window, invalid clock gaps, reset, and a 32-sample refractory boundary. Its 77 sample/idle checks pass:
+
+```sh
+iverilog -g2012 -Wall -s spike_detector_channel_tb -o /tmp/neurosig-spike-detector-channel.vvp rtl/spike_detector_channel.sv rtl/tb/spike_detector_channel_tb.sv
+vvp /tmp/neurosig-spike-detector-channel.vvp
+```
+
+The one-channel Python-to-RTL comparison uses the full 32,000-sample filtered trace and the matching offline threshold for each channel. Run the default channel 21 check with:
+
+```sh
+.venv/bin/python rtl/tb/generate_detector_vectors.py
+iverilog -g2012 -Wall -s spike_detector_channel_reference_tb -o /tmp/neurosig-detector-reference.vvp rtl/spike_detector_channel.sv rtl/tb/spike_detector_channel_reference_tb.sv
+vvp /tmp/neurosig-detector-reference.vvp +TRACE=/tmp/neurosig-detector-trace.txt +EVENTS=/tmp/neurosig-detector-events.txt
+```
+
+On November 2, 2026, the same check passed independently for all 32 channels (`--channel 0` through `--channel 31`): 1,024,000 sample comparisons and all 37 unmerged candidate events matched Python exactly, including event indices and signed codes. The test inserts periodic invalid clock cycles and uses Python-filtered input; the integrated test below covers the hardware filter path.
+
+### Integrated RTL pipeline
+
+`rtl/spike_detector_multichannel.sv` routes each accepted filtered sample to its channel detector and counts sample indices independently per channel. The threshold bus packs 32 signed 24-bit offline-calibrated codes, channel zero in the least significant slice. `rtl/spike_event_merge.sv` groups events within 16 sample frames of the earliest candidate, chooses the largest threshold margin, and waits for a sample-count watermark before releasing a group. Its 64-entry candidate queue exposes a sticky overflow output. `rtl/neurosig_pipeline.sv` connects the input buffer, two-stage filter, detector, and merger. `flush` is for end-of-stream draining and must be asserted after the final filtered sample has passed the detector.
+
+The merge unit's directed test covers out-of-order candidate timestamps, anchored grouping, strength selection, flush, and concurrent append. Run it with:
+
+```sh
+iverilog -g2012 -Wall -s spike_event_merge_tb -o /tmp/neurosig-event-merge.vvp rtl/spike_event_merge.sv rtl/tb/spike_event_merge_tb.sv
+vvp /tmp/neurosig-event-merge.vvp
+```
+
+To repeat the full end-to-end comparison on the one-second, 32-channel recording, generate the Python event vectors, build the timed Verilator simulation, and run it:
+
+```sh
+.venv/bin/python rtl/tb/generate_pipeline_reference.py
+verilator --binary --timing -j 4 -Wno-fatal --top-module neurosig_pipeline_reference_tb --Mdir /tmp/neurosig-verilator-pipeline rtl/tb/neurosig_pipeline_reference_tb.sv rtl/neurosig_pipeline.sv rtl/sample_input.sv rtl/spike_band_filter.sv rtl/biquad_controller.sv rtl/biquad_state.sv rtl/biquad_arithmetic.sv rtl/spike_detector_multichannel.sv rtl/spike_detector_channel.sv rtl/spike_event_merge.sv
+/tmp/neurosig-verilator-pipeline/Vneurosig_pipeline_reference_tb +ADC=data/quantized/adc_codes.hex +THRESHOLDS=/tmp/neurosig-thresholds.txt +EVENTS=/tmp/neurosig-merged-events.txt +OBSERVED=/tmp/neurosig-rtl-events.txt
+.venv/bin/python rtl/tb/evaluate_pipeline_events.py
+```
+
+On November 2, 2026, Verilator 5.050 passed all 1,024,000 signed ADC codes and produced the same nine merged events as Python, matching each sample index, channel ID, and signed output code. Against MEArec ground truth with 1 ms one-to-one matching, the RTL produced 9 true positives, 0 false positives, and 0 false negatives; precision and recall were both 1.0 on this seeded recording. The measured result is in `reports/rtl-pipeline-validation.json`. RTL throughput, synthesized timing, area, and power have not been measured. The event queue depth and end-of-stream flush protocol still need evaluation under denser recordings and a system-level source. The channel detector needs 16 following valid samples to close a peak search; a crossing in the final 16 samples of a finite recording currently requires explicit padding or a separate end-of-stream search rule to match Python's shortened window.
 
 MEArec reference: [installation documentation](https://mearec.readthedocs.io/en/latest/installation.html) and [source repository](https://github.com/SpikeInterface/MEArec).
 

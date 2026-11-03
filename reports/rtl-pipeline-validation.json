@@ -1,0 +1,119 @@
+{
+  "source": "full 32,000-frame by 32-channel RTL pipeline simulation",
+  "simulator": "Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260701",
+  "sample_rate_hz": 32000,
+  "adc_samples": 1024000,
+  "detector_config": {
+    "sample_rate_hz": 32000.0,
+    "threshold_sigma": 6.0,
+    "peak_search_ms": 0.5,
+    "refractory_ms": 1.0,
+    "merge_ms": 0.5,
+    "match_tolerance_ms": 1.0
+  },
+  "events": [
+    {
+      "sample": 4214,
+      "channel": 21,
+      "code": -22436
+    },
+    {
+      "sample": 7136,
+      "channel": 21,
+      "code": -19783
+    },
+    {
+      "sample": 7677,
+      "channel": 21,
+      "code": -21157
+    },
+    {
+      "sample": 8220,
+      "channel": 21,
+      "code": -20907
+    },
+    {
+      "sample": 8412,
+      "channel": 21,
+      "code": -18251
+    },
+    {
+      "sample": 14847,
+      "channel": 20,
+      "code": -19368
+    },
+    {
+      "sample": 17789,
+      "channel": 21,
+      "code": -19126
+    },
+    {
+      "sample": 21729,
+      "channel": 21,
+      "code": -19821
+    },
+    {
+      "sample": 21795,
+      "channel": 21,
+      "code": -22869
+    }
+  ],
+  "ground_truth_matches": [
+    {
+      "detection_index": 0,
+      "truth_index": 0,
+      "timing_error_ms": 0.0
+    },
+    {
+      "detection_index": 1,
+      "truth_index": 1,
+      "timing_error_ms": 0.03125
+    },
+    {
+      "detection_index": 2,
+      "truth_index": 2,
+      "timing_error_ms": -0.03125
+    },
+    {
+      "detection_index": 3,
+      "truth_index": 3,
+      "timing_error_ms": -0.03125
+    },
+    {
+      "detection_index": 4,
+      "truth_index": 4,
+      "timing_error_ms": 0.0
+    },
+    {
+      "detection_index": 5,
+      "truth_index": 5,
+      "timing_error_ms": -0.03125
+    },
+    {
+      "detection_index": 6,
+      "truth_index": 6,
+      "timing_error_ms": 0.0
+    },
+    {
+      "detection_index": 7,
+      "truth_index": 7,
+      "timing_error_ms": 0.0
+    },
+    {
+      "detection_index": 8,
+      "truth_index": 8,
+      "timing_error_ms": -0.03125
+    }
+  ],
+  "ground_truth_metrics": {
+    "true_positives": 9,
+    "false_positives": 0,
+    "false_negatives": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "mean_absolute_timing_error_ms": 0.017361111111111112,
+    "maximum_absolute_timing_error_ms": 0.03125
+  },
+  "limitations": "One seeded one-second MEArec recording; thresholds calibrated offline; no physical timing or power measurement."
+}

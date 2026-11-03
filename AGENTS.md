@@ -14,8 +14,8 @@ The initial recording target is 32 channels. Keep the channel count configurable
 - [x] Document the exact validation command and generated output summary.
 - [x] Establish 32-channel recording parameters and a floating-point software spike detection reference.
 - [x] Interactive 3D visualization smoke: install `viz/requirements.txt`, build `viz/web`, run the server, and run `viz.tests`.
-- [ ] Define the sample stream interface, fixed point representation, and RTL verification vectors.
-- [ ] Implement and verify the SystemVerilog spike detector.
+- [x] Define the sample stream interface, fixed point representation, and RTL filter verification vectors.
+- [x] Implement and verify the SystemVerilog spike detector on the seeded one-second recording.
 - [ ] Select a labeled decoding task and establish a software baseline.
 - [ ] Quantize and implement decoder inference in RTL.
 - [ ] Explore synthesis and SKY130/OpenROAD implementation after functional verification.
@@ -30,7 +30,9 @@ Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURO
 - `scripts/detect_spikes.py` is the floating-point detector reference: per-channel MAD noise, negative six-sigma threshold, local-minimum timestamps, 1 ms refractory time, 0.5 ms cross-channel merge, and 1 ms ground-truth matching tolerance. Its 9/9 result is specific to the seeded one-second single-neuron smoke recording.
 - `scripts/fixed_point_model.py` is the bit-accurate reference: Q2.30 coefficients, 24-bit signed section states at the ADC LSB scale, 64-bit accumulators, and section saturation. Coefficients round half away from zero; section outputs truncate toward zero because nearest rounding caused a 127-code zero-input limit cycle. The runtime detector uses integer threshold registers, comparisons, subtraction, and counters; MAD threshold generation is offline calibration.
 - `scripts/stress_fixed_point.py` runs the reproducible randomized fixed-point stress suite. Preserve its seed, explicit error limits, per-trial report, zero-input decay check, and exact synthetic detector checks when changing arithmetic or event behavior.
-- `rtl/sample_input.sv` and `rtl/biquad_state.sv` have standalone passing testbenches. The latter is one biquad's per-channel history, not the arithmetic filter. Matching copies live in the separate `NeuroSignalProject` VS Code folder; synchronize deliberately when editing either location.
+- `rtl/sample_input.sv`, `rtl/biquad_state.sv`, `rtl/biquad_arithmetic.sv`, and `rtl/biquad_controller.sv` have passing standalone testbenches. `rtl/spike_band_filter.sv` cascades independent per-channel high-pass and low-pass controllers. The Python-to-RTL filter reference test passed 32,768 exact outputs from 1,024 frames of 32-channel MEArec ADC data with patterned output stalls on November 2, 2026. Matching copies live in the separate `NeuroSignalProject` VS Code folder; synchronize deliberately when editing either location.
+- `rtl/spike_detector_channel.sv` has a passing 77-check directed testbench for crossing, peak search, tied minima, idle gaps, reset, and refractory boundary. Independent full-trace Python-to-RTL comparisons passed for all 32 channels: 1,024,000 samples and all 37 unmerged candidate events matched exactly.
+- `rtl/spike_detector_multichannel.sv`, `rtl/spike_event_merge.sv`, and `rtl/neurosig_pipeline.sv` integrate the complete stream. The merge directed test passes. On November 2, 2026, a Verilator 5.050 full-recording test matched all 9 merged Python events exactly and measured 9 TP, 0 FP, 0 FN against MEArec ground truth with 1 ms tolerance. See `reports/rtl-pipeline-validation.json`. This is one seeded recording; event queue depth, throughput, synthesis timing, area, and power remain unverified.
 - Read the README and inspect the current files before extending the project. Keep its status and this checklist consistent with actual results.
 - Use `scripts/setup.sh` for environment setup and `.venv/bin/python` for project commands. Use the dependency files as the source of truth for package versions.
 - Keep local tools, environments, generated datasets, compiled mechanisms, and large simulation outputs out of Git. Commit source, small configurations, and concise result summaries.

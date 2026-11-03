@@ -24,8 +24,15 @@ from scripts.detect_spikes import (  # noqa: E402
 from scripts.filter_iir import IirConfig, design_sos, filter_adc_codes  # noqa: E402
 from scripts.quantize_adc import AdcConfig, quantize_voltages  # noqa: E402
 
+from edge.types import snippet_sample_counts  # noqa: E402
 from viz.sim.events import NeuralEvent
-from viz.sim.localization import ElectrodeArray, LocalizationRequest, NotImplementedLocalizer
+from viz.sim.localization import (
+    EdgeLocalizerAdapter,
+    ElectrodeArray,
+    LocalizationRequest,
+    NotImplementedLocalizer,
+    empty_session_localization,
+)
 from viz.sim.recording_model import RecordingConfig, render_voltages
 
 
@@ -39,10 +46,58 @@ class GoldenRun:
     metrics: dict[str, Any]
     localization: dict[str, Any]
     events: list[NeuralEvent]
+    snippets: dict[str, dict[str, Any]]
 
 
 def _site_xyz(array: ElectrodeArray, channel: int) -> tuple[float, float, float]:
     return array.sites[channel].xyz_mm
+
+
+def _snippet_payload(
+    event_id: str,
+    voltages: np.ndarray,
+    channel_ids: tuple[int, ...],
+    t0_sample: int,
+    t_sample: int,
+    sample_rate_hz: float,
+) -> dict[str, Any]:
+    return {
+        "event_id": event_id,
+        "sample_rate_hz": float(sample_rate_hz),
+        "channel_ids": [int(channel) for channel in channel_ids],
+        "t0_sample": int(t0_sample),
+        "t_sample": int(t_sample),
+        "voltages_uv": np.asarray(voltages, dtype=np.float64).tolist(),
+    }
+
+
+def _extract_window(voltages: np.ndarray, t_sample: int, n_pre: int, n_post: int) -> tuple[np.ndarray, int]:
+    n_samples = int(voltages.shape[0])
+    t0 = max(0, int(t_sample) - int(n_pre))
+    t1 = min(n_samples, int(t_sample) + int(n_post))
+    if t1 <= t0:
+        return np.zeros((0, voltages.shape[1]), dtype=np.float64), t0
+    return np.asarray(voltages[t0:t1], dtype=np.float64), t0
+
+
+def _matching_source(
+    detected: Event,
+    source_events: list[NeuralEvent],
+    window_start_s: float,
+    detector: DetectorConfig,
+) -> NeuralEvent | None:
+    tolerance = detector.samples_for_ms(detector.match_tolerance_ms)
+    best: NeuralEvent | None = None
+    best_delta = tolerance + 1
+    for event in source_events:
+        if event.kind != "synthetic_source":
+            continue
+        sample = int(round((event.t_s - window_start_s) * detector.sample_rate_hz))
+        delta = abs(sample - detected.sample)
+        if delta <= tolerance and delta < best_delta:
+            best = event
+            best_delta = delta
+    return best
 
 
 def process_window(
@@ -61,14 +116,8 @@ def process_window(
     sos = design_sos(IirConfig())
     filtered = filter_adc_codes(codes, adc_config.lsb_uv, sos)
     detector_config = detector or DetectorConfig()
-    localizer = NotImplementedLocalizer()
-    localization = localizer.estimate(
-        LocalizationRequest(
-            channel_ids=tuple(site.channel_id for site in array.sites),
-            electrode_xyz_mm=tuple(site.xyz_mm for site in array.sites),
-            event_ids=tuple(event.event_id for event in source_events),
-        )
-    ).to_dict()
+    localization = empty_session_localization()
+    snippets: dict[str, dict[str, Any]] = {}
 
     emitted: list[NeuralEvent] = []
     detections: list[Event] = []
@@ -121,11 +170,17 @@ def process_window(
         metrics["note"] = "offline golden-model window; not RTL"
         matched_truth = {int(round(t * detector_config.sample_rate_hz)) for t in truth_seconds}
         used_truth: set[int] = set()
+        channel_ids = tuple(site.channel_id for site in array.sites)
+        electrode_xyz = tuple(site.xyz_mm for site in array.sites)
+        n_pre, n_post = snippet_sample_counts(detector_config.sample_rate_hz)
+        adapter = EdgeLocalizerAdapter()
+        last_estimate = localization
         for detected in merged:
             abs_t = window_start_s + detected.sample / detector_config.sample_rate_hz
+            det_id = f"det:{detected.sample}:{detected.channel}"
             emitted.append(
                 NeuralEvent(
-                    event_id=f"det:{detected.sample}:{detected.channel}",
+                    event_id=det_id,
                     t_s=abs_t,
                     xyz_mm=_site_xyz(array, detected.channel),
                     region_id="visual_cortex",
@@ -139,6 +194,55 @@ def process_window(
                     metadata={"normalized_amplitude": detected.normalized_amplitude, "rtl": False},
                 )
             )
+            window, t0_sample = _extract_window(voltages, detected.sample, n_pre, n_post)
+            if window.size:
+                payload = _snippet_payload(
+                    det_id, window, channel_ids, t0_sample, detected.sample, detector_config.sample_rate_hz
+                )
+                snippets[det_id] = payload
+                matched = _matching_source(detected, source_events, window_start_s, detector_config)
+                estimate = adapter.estimate(
+                    LocalizationRequest(
+                        channel_ids=channel_ids,
+                        electrode_xyz_mm=electrode_xyz,
+                        event_ids=(det_id,),
+                        snippets_uv=window,
+                        sample_rate_hz=detector_config.sample_rate_hz,
+                        t_sample=detected.sample,
+                        t0_sample=t0_sample,
+                        peak_channel=detected.channel,
+                        ground_truth_xyz_mm=None if matched is None else matched.xyz_mm,
+                    )
+                )
+                last_estimate = estimate.to_dict()
+                if estimate.available and estimate.xyz_mm is not None:
+                    loc_id = f"loc:{detected.sample}:{detected.channel}"
+                    snippets[loc_id] = {**payload, "event_id": loc_id}
+                    emitted.append(
+                        NeuralEvent(
+                            event_id=loc_id,
+                            t_s=abs_t,
+                            xyz_mm=estimate.xyz_mm,
+                            region_id="visual_cortex",
+                            amplitude=detected.voltage_uv,
+                            source_id="edge_localizer",
+                            kind="localization_estimate",
+                            duration_ms=1.0,
+                            position_quality="simulated" if matched is not None else "unknown",
+                            amplitude_units="uv",
+                            channel_id=detected.channel,
+                            ground_truth_event_id=None if matched is None else matched.event_id,
+                            metadata={
+                                "method": estimate.method,
+                                "error_um": estimate.error_um,
+                                "confidence": estimate.confidence,
+                                "unverified": True,
+                                "reason": estimate.reason,
+                            },
+                        )
+                    )
+        if last_estimate:
+            localization = last_estimate
         probe_xyz = np.array([site.xyz_mm for site in array.sites], dtype=float)
         for event in source_events:
             if event.kind != "synthetic_source":
@@ -168,6 +272,14 @@ def process_window(
             elif close:
                 used_truth.add(sample)
         del matched_truth, used_truth
+    else:
+        localization = NotImplementedLocalizer().estimate(
+            LocalizationRequest(
+                channel_ids=tuple(site.channel_id for site in array.sites),
+                electrode_xyz_mm=tuple(site.xyz_mm for site in array.sites),
+                event_ids=tuple(event.event_id for event in source_events),
+            )
+        ).to_dict()
 
     return GoldenRun(
         voltages_uv=voltages,
@@ -178,6 +290,7 @@ def process_window(
         metrics=metrics,
         localization=localization,
         events=emitted,
+        snippets=snippets,
     )
 
 

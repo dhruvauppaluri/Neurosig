@@ -11,7 +11,8 @@ Interactive research UI with a realistic human brain surface, synthetic spike ge
 - Allen Visual Coding Neuropixels is a **mouse visual-cortex** dataset. Playback is mapped onto the occipital / visual region of that human-looking mesh only. Original CCF coordinates stay in event metadata and are never treated as human MNI.
 - Mode B plays already-sorted spike times. Sorted timestamps are never fed to the ADC.
 - Golden-model detections are offline software windows using the existing float ADC / IIR / detector APIs. They are not RTL results.
-- Localization is a labeled placeholder: **Localization not implemented**.
+- Simulated sources are toy point-current events. Estimated locations come from a simplified 1/r amplitude model on electrode snippets, not a biophysical inverse. Recorded Neuropixels playback is already-sorted mouse spikes mapped onto a stylized human-looking visual region; those CCF coordinates are not exact human neuron positions.
+- Localization estimates remain `unverified` until a scientific report exists. Scientific error is reported in micrometres (`error_um`); viewer markers use stylized millimetres via `edge.coords`. If no edge localizer is present, the pane still shows method/reason with `available: false`.
 
 ## Setup
 
@@ -57,7 +58,7 @@ Optional AllenSDK downloads: `.venv/bin/python -m viz.sim.download_allen` then c
 
 ## Event schema
 
-See [`schema/neural_event.v1.json`](schema/neural_event.v1.json). WebSocket batches: `WS /api/v1/events`. Control: `POST /api/v1/session/control`.
+See [`schema/neural_event.v1.json`](schema/neural_event.v1.json). WebSocket batches: `WS /api/v1/events`. Control: `POST /api/v1/session/control`. Cached detection snippets: `GET /api/v1/snippet/{event_id}`.
 
 ## Anatomy transform
 

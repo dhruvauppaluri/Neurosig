@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { control, eventSocket, fetchSession } from "./api";
 import { BrainScene, type Pulse } from "./BrainScene";
 import { KIND_COLORS, KIND_LABELS, type EventKind, type NeuralEvent, type Session } from "./types";
+import { WaveformPanel } from "./WaveformPanel";
 
 const ALL_KINDS = Object.keys(KIND_LABELS) as EventKind[];
 
@@ -172,7 +173,15 @@ export function App() {
         <div className="stat"><span>Precision</span><strong>{session.metrics.precision == null ? "n/a" : session.metrics.precision.toFixed(2)}</strong></div>
         <div className="stat"><span>Recall</span><strong>{session.metrics.recall == null ? "n/a" : session.metrics.recall.toFixed(2)}</strong></div>
         <div className="stat"><span>Active channels</span><strong>{session.metrics.active_channels}</strong></div>
-        <div className="stat"><span>Localization</span><strong>{session.localization.reason}</strong></div>
+        <div className="stat"><span>Localizations</span><strong>{session.metrics.localization_count ?? 0}</strong></div>
+        <h2>Localization</h2>
+        <div className="stat"><span>Available</span><strong>{session.localization.available ? "yes" : "no"}</strong></div>
+        <div className="stat"><span>Method</span><strong>{session.localization.method}</strong></div>
+        <div className="stat"><span>error_um</span><strong>{session.localization.error_um == null ? "n/a" : session.localization.error_um.toFixed(1)}</strong></div>
+        <div className="stat"><span>confidence</span><strong>{session.localization.confidence == null ? "n/a" : session.localization.confidence.toFixed(2)}</strong></div>
+        <div className="stat"><span>unverified</span><strong>{String(session.localization.unverified)}</strong></div>
+        <p className="inspect">{session.localization.reason}</p>
+        <p className="inspect">{session.honesty.localization}</p>
         <p className="inspect">{session.detector_note}</p>
         <p className="inspect">Neuropixels playback: {session.neuropixels.playback_kind}. Raw voltage: {String(session.neuropixels.has_raw_voltage)}.</p>
         <h2>Inspect</h2>
@@ -187,6 +196,8 @@ export function App() {
             <div>source {inspected.source_id}</div>
             <div>channel {inspected.channel_id ?? "—"}</div>
             <div>duration {inspected.duration_ms} ms</div>
+            {inspected.ground_truth_event_id && <div>GT {inspected.ground_truth_event_id}</div>}
+            <WaveformPanel event={inspected} />
           </div>
         ) : (
           <p className="inspect">Pause to keep an event in view, then inspect the latest pulse.</p>

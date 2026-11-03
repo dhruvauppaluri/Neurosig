@@ -8,7 +8,13 @@ from scripts.detect_spikes import DetectorConfig
 from scripts.quantize_adc import AdcConfig
 from viz.sim.events import NeuralEvent
 from viz.sim.golden_bridge import process_window, refuse_spike_timestamps_as_voltage
-from viz.sim.localization import NotImplementedLocalizer, LocalizationRequest, default_probe_array
+from viz.sim.localization import (
+    EdgeLocalizerAdapter,
+    LocalizationRequest,
+    NotImplementedLocalizer,
+    SESSION_LOCALIZATION_KEYS,
+    default_probe_array,
+)
 from viz.sim.recording_model import RecordingConfig, render_voltages
 
 
@@ -50,7 +56,9 @@ class GoldenBridgeTests(unittest.TestCase):
         self.assertEqual(result.codes.dtype, np.int16)
         self.assertGreaterEqual(result.metrics["true_positives"], 1)
         self.assertTrue(any(event.kind == "detected_spike" for event in result.events))
-        self.assertFalse(result.localization["available"])
+        for key in SESSION_LOCALIZATION_KEYS:
+            self.assertIn(key, result.localization)
+        self.assertTrue(result.snippets)
 
     def test_refuses_sorted_spikes_as_adc(self) -> None:
         with self.assertRaises(ValueError):
@@ -62,6 +70,31 @@ class GoldenBridgeTests(unittest.TestCase):
         )
         self.assertFalse(result.available)
         self.assertEqual(result.reason, "Localization not implemented")
+        adapter = EdgeLocalizerAdapter()
+        without_snippets = adapter.estimate(
+            LocalizationRequest(channel_ids=(0,), electrode_xyz_mm=((0.0, 0.0, 0.0),), event_ids=("x",))
+        )
+        self.assertFalse(without_snippets.available)
+        events = [
+            NeuralEvent("gt0", 0.006, _near_probe(12), "visual_cortex", -220.0, "u0", "synthetic_source"),
+        ]
+        run = process_window(
+            events,
+            0.0,
+            0.03,
+            recording=RecordingConfig(noise_uv=0.4, attenuation_mm=0.35, seed=2),
+            adc=AdcConfig(),
+            detector=DetectorConfig(threshold_sigma=4.0, match_tolerance_ms=1.0),
+        )
+        for key in SESSION_LOCALIZATION_KEYS:
+            self.assertIn(key, run.localization)
+        payload = run.localization
+        if payload["available"]:
+            self.assertTrue(payload["unverified"])
+            self.assertIsNotNone(payload["xyz_mm"])
+            self.assertTrue(any(event.kind == "localization_estimate" for event in run.events))
+        else:
+            self.assertIn(payload["method"], {"not_implemented", "none"})
 
 
 if __name__ == "__main__":

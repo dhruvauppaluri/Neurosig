@@ -8,7 +8,7 @@ The MEArec setup is working on Apple Silicon macOS with Python 3.12.15, MEArec 1
 
 The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly. A 32-feature linear decoder has been trained and verified in RTL on both synthetic spike-count windows and a small processed real Neuropixels session.
 
-A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It imports the golden-model Python APIs and does not modify RTL.
+A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It imports the golden-model Python APIs and does not modify RTL. A Python `edge/` package localizes synthetic sources on a 32-site probe, emulates an NSG1 ASIC-to-edge link, and compares count-only versus spatially augmented decoding. Localization RTL is **not** implemented.
 
 ## Setup and validation
 
@@ -177,6 +177,24 @@ vvp /tmp/neurosig-decoder.vvp +WEIGHTS=data/neuropixels/decoder/weights.txt +VEC
 ```
 
 The downloaded file's SHA-256 was `9c055f1248670cd39c15f6ebba5e1d5dac72cda8a15778221aaf8fc379d6417b`. The task is blank versus full right-side visual contrast, using counts from the first 32 VISp units in a 50–250 ms post-stimulus window. A seed `20261103` stratified split gave 167 train and 73 held-out trials. Float and fixed models both scored 90.4% on the held-out trials versus a 69.9% majority-class baseline; all 73 held-out RTL scores and all 240 eligible-trial RTL scores matched fixed Python exactly. See `reports/neuropixels-decoder.json`. These are sorted, trial-binned spikes, **not raw voltage**: they stress the decoder but cannot validate the ADC, filter, or spike detector. This is visual-stimulus decoding in one mouse session, not intended movement decoding.
+
+### Spatial localization and ASIC-to-edge interface
+
+Python localization, a software NSG1 packet link, and an edge decoder comparison live under [`edge/`](edge/). They do not modify verified DSP arithmetic or RTL. Interfaces are listed in [`docs/edge-interfaces.md`](docs/edge-interfaces.md). A later hardware sketch is [`docs/rtl-acceleration-localization.md`](docs/rtl-acceleration-localization.md).
+
+The forward model is a documented quasi-static monopole with a triphasic kernel (`edge/forward.py`), not LFPy/MEArec morphology. Errors are Euclidean micrometers on a stylized 20 µm-pitch linear probe. Viewer millimetres use `edge.coords`.
+
+```sh
+.venv/bin/python -m unittest discover -s edge/tests
+.venv/bin/python scripts/run_localization_benchmark.py
+.venv/bin/python scripts/run_edge_decode.py
+```
+
+On seed `20261103`, 576 localization estimates were available. Isolated low-noise median errors were 6.75 µm (amplitude), 12.9 µm (template, held-out catalog sites), and 6.51 µm (quasi-static amplitude scan). Sweep medians including 8–60 µV noise and overlapping spikes were 63.6 µm, 42.4 µm, and 54.0 µm. Median latencies were about 1.0 ms, 0.06 ms, and 0.19 ms. MEArec localization was skipped because `data/smoke/recording.h5` was not present. See `reports/localization-benchmark.json`.
+
+The software link encodes little-endian `NSG1` EVENT and SNIPPET frames with CRC32, a 64-deep drop-oldest FIFO, sequence-gap detection, and a control path for thresholds, channel masks, acquisition mode, status, and ping. There is no stimulation driver.
+
+A synthetic two-cluster “which shank neighborhood is more active” task compared 32-channel spike counts with counts plus localization features on the same 3072/1024 split. Held-out accuracy was 83.7% (counts, `scripts.synthetic_decoder.train`) versus 84.1% (spatial, 43 features). The 0.39 percentage-point gain is one seeded run, not a claim that spatial features generally help. Neuropixels spatial decoding was skipped (Steinmetz zip absent); fixture sorted spikes were not used as voltages. Labels are synthetic cluster identities, not perceptions. `rtl/spike_count_decoder.sv` is unchanged. See `reports/edge-decode.json`.
 
 ### Integrated RTL stress and finite-recording behavior
 

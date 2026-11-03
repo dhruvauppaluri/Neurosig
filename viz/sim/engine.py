@@ -9,7 +9,7 @@ from typing import Any, Literal
 
 from viz.sim.events import EventBatch, NeuralEvent
 from viz.sim.golden_bridge import process_window, refuse_spike_timestamps_as_voltage
-from viz.sim.localization import ElectrodeArray, default_probe_array
+from viz.sim.localization import ElectrodeArray, default_probe_array, empty_session_localization
 from viz.sim.neuropixels import DISCLAIMER, NeuropixelsPlayer, NeuropixelsRecording, load_recording
 from viz.sim.regions import region_catalog
 from viz.sim.synthetic import DEFAULT_POPULATIONS, SyntheticGenerator
@@ -26,6 +26,7 @@ class SessionMetrics:
     precision: float | None = None
     recall: float | None = None
     active_channels: int = 32
+    localizations: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -36,6 +37,7 @@ class SessionMetrics:
             "precision": self.precision,
             "recall": self.recall,
             "active_channels": self.active_channels,
+            "localization_count": self.localizations,
         }
 
 
@@ -53,6 +55,7 @@ class SessionState:
         "electrode_activity",
         "detected_spike",
         "missed_spike",
+        "localization_estimate",
     )
     selected_region: str | None = None
     selected_channel: int | None = None
@@ -71,8 +74,14 @@ class NeuralEventEngine:
         self.player.reset()
         self.electrodes: ElectrodeArray = default_probe_array()
         self.timeline: list[NeuralEvent] = []
+        self.snippets: dict[str, dict[str, Any]] = {}
+        self.localization: dict[str, Any] = empty_session_localization()
         self._last_wall = time.monotonic()
         self._detector_cursor = 0.0
+        self._localization_honesty = (
+            "Simplified 1/r amplitude localization in the stylized viewer; "
+            "not biophysics and not human neuron positions. Estimates stay unverified until a report exists."
+        )
 
     def snapshot(self) -> dict[str, Any]:
         with self.lock:
@@ -94,11 +103,7 @@ class NeuralEventEngine:
                 "electrodes": self.electrodes.to_dict(),
                 "neuropixels": self.recording.to_summary(),
                 "disclaimer": DISCLAIMER,
-                "localization": {
-                    "available": False,
-                    "reason": "Localization not implemented",
-                    "unverified": True,
-                },
+                "localization": dict(self.localization),
                 "populations": [
                     {
                         "population_id": pop.population_id,
@@ -112,7 +117,7 @@ class NeuralEventEngine:
                     "synthetic": "Toy stochastic populations with region-dependent rates, bursts, and weak correlation.",
                     "neuropixels": DISCLAIMER,
                     "golden_model": self.state.detector_note,
-                    "localization": "No source-localization algorithm is running.",
+                    "localization": self._localization_honesty,
                 },
             }
 
@@ -168,6 +173,8 @@ class NeuralEventEngine:
         self.synthetic.reset(seed)
         self.player.reset()
         self.timeline.clear()
+        self.snippets.clear()
+        self.localization = empty_session_localization()
         self._last_wall = time.monotonic()
         self._detector_cursor = 0.0
 
@@ -212,6 +219,12 @@ class NeuralEventEngine:
                 try:
                     result = process_window(sources, window_start, window_dur)
                     events.extend(result.events)
+                    self.localization = dict(result.localization)
+                    self.snippets.update(result.snippets)
+                    if len(self.snippets) > 400:
+                        extra = list(self.snippets)[:-200]
+                        for key in extra:
+                            self.snippets.pop(key, None)
                     if result.metrics.get("ground_truth_available"):
                         self.metrics.precision = float(result.metrics.get("precision") or 0.0)
                         self.metrics.recall = float(result.metrics.get("recall") or 0.0)
@@ -240,6 +253,13 @@ class NeuralEventEngine:
                 self.metrics.detections += 1
             elif event.kind == "missed_spike":
                 self.metrics.missed += 1
+            elif event.kind == "localization_estimate":
+                self.metrics.localizations += 1
+
+    def get_snippet(self, event_id: str) -> dict[str, Any] | None:
+        with self.lock:
+            payload = self.snippets.get(event_id)
+            return None if payload is None else dict(payload)
 
     def timeline_points(self, limit: int = 400) -> list[dict[str, Any]]:
         with self.lock:

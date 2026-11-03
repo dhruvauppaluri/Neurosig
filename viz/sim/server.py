@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 from pathlib import Path
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -56,6 +56,14 @@ def post_control(body: ControlBody) -> dict:
 @app.get("/api/v1/timeline")
 def get_timeline(limit: int = 400) -> dict:
     return {"points": engine.timeline_points(limit)}
+
+
+@app.get("/api/v1/snippet/{event_id}")
+def get_snippet(event_id: str) -> dict:
+    payload = engine.get_snippet(event_id)
+    if payload is None:
+        raise HTTPException(status_code=404, detail="snippet not found")
+    return payload
 
 
 @app.websocket("/api/v1/events")

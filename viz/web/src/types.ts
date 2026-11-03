@@ -56,6 +56,7 @@ export interface Session {
     precision: number | null;
     recall: number | null;
     active_channels: number;
+    localization_count?: number;
   };
   regions: RegionVolume[];
   electrodes: {
@@ -75,7 +76,15 @@ export interface Session {
     playback_kind: string;
   };
   disclaimer: string;
-  localization: { available: boolean; reason: string; unverified: boolean };
+  localization: {
+    available: boolean;
+    method: string;
+    xyz_mm: [number, number, number] | null;
+    error_um: number | null;
+    confidence: number | null;
+    unverified: boolean;
+    reason: string;
+  };
   honesty: Record<string, string>;
 }
 
@@ -94,5 +103,5 @@ export const KIND_LABELS: Record<EventKind, string> = {
   electrode_activity: "Electrode activity (probe flash)",
   detected_spike: "NeuroSig detection (mint octahedron)",
   missed_spike: "Missed spike (red octahedron)",
-  localization_estimate: "Localization estimate",
+  localization_estimate: "Localization estimate (white pulse)",
 };

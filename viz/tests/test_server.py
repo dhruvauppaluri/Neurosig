@@ -18,7 +18,10 @@ class ServerTests(unittest.TestCase):
         body = response.json()
         self.assertEqual(body["schema_version"], 1)
         self.assertIn("disclaimer", body)
-        self.assertFalse(body["localization"]["available"])
+        localization = body["localization"]
+        for key in ("available", "method", "error_um", "confidence", "unverified", "reason", "xyz_mm"):
+            self.assertIn(key, localization)
+        self.assertIn(localization["available"], (True, False))
 
     def test_control_pause_stops_timestamp(self) -> None:
         server.engine.control({"running": True})
@@ -27,6 +30,20 @@ class ServerTests(unittest.TestCase):
         t = paused["t_s"]
         server.engine.step_wall(0.2)
         self.assertAlmostEqual(server.engine.snapshot()["t_s"], t)
+
+    def test_snippet_endpoint(self) -> None:
+        missing = self.client.get("/api/v1/snippet/does-not-exist")
+        self.assertEqual(missing.status_code, 404)
+        server.engine.control({"reset": True, "seed": 5, "run_golden_model": True, "mode": "synthetic", "running": True})
+        for _ in range(10):
+            server.engine.step_wall(0.08)
+        if not server.engine.snippets:
+            return
+        event_id = next(iter(server.engine.snippets))
+        body = self.client.get(f"/api/v1/snippet/{event_id}").json()
+        for key in ("event_id", "sample_rate_hz", "channel_ids", "t0_sample", "t_sample", "voltages_uv"):
+            self.assertIn(key, body)
+        self.assertIsInstance(body["voltages_uv"], list)
 
     def test_mode_switch(self) -> None:
         body = self.client.post("/api/v1/session/control", json={"mode": "neuropixels"}).json()

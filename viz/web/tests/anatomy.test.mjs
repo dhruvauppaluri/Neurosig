@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { assetToViewer, probeSpan, viewerToAsset } from "../src/anatomyTransform.ts";
 import { collectAnatomyMeshes } from "../src/anatomyParts.ts";
+import { KIND_COLORS } from "../src/types.ts";
 import { destinationFor, shouldAnimateTravel } from "../src/visualSemantics.ts";
 import * as THREE from "three";
 
@@ -52,6 +53,9 @@ test("recorded spikes stay local; only synthetic sources animate along wiring", 
   assert.equal(shouldAnimateTravel("synthetic_source"), true);
   assert.equal(shouldAnimateTravel("neuropixels_spike"), false);
   assert.equal(shouldAnimateTravel("detected_spike"), false);
+  assert.equal(shouldAnimateTravel("localization_estimate"), false);
+  assert.equal(KIND_COLORS.localization_estimate, "#ffffff");
+  assert.equal(KIND_COLORS.synthetic_source, "#4cc9f0");
   const site = { channel_id: 7, xyz_mm: [4, -76.5, 8] };
   const session = { electrodes: { sites: [site] } };
   const recorded = { kind: "neuropixels_spike", channel_id: 7, region_id: "visual_cortex", xyz_mm: [0, -72, 8] };

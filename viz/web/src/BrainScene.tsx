@@ -16,6 +16,7 @@ interface Pulse {
 const PULSE_LIFE_S = 0.3;
 const SOURCE_KINDS: EventKind[] = ["synthetic_source", "neuropixels_spike"];
 const DETECT_KINDS: EventKind[] = ["detected_spike", "missed_spike"];
+const LOCALIZE_KINDS: EventKind[] = ["localization_estimate"];
 
 function RegionHit({
   region,
@@ -235,10 +236,36 @@ function InstancedPulses({
 function PulseField({ pulses, kinds }: { pulses: Pulse[]; kinds: Set<EventKind> }) {
   const spark = useMemo(() => new THREE.SphereGeometry(1.15, 10, 10), []);
   const detect = useMemo(() => new THREE.OctahedronGeometry(1.35, 0), []);
+  const localize = useMemo(() => new THREE.TetrahedronGeometry(1.55, 0), []);
   return (
     <group>
       <InstancedPulses pulses={pulses} kinds={kinds} filter={SOURCE_KINDS} geometry={spark} scaleMul={1} />
       <InstancedPulses pulses={pulses} kinds={kinds} filter={DETECT_KINDS} geometry={detect} scaleMul={1.15} />
+      <InstancedPulses pulses={pulses} kinds={kinds} filter={LOCALIZE_KINDS} geometry={localize} scaleMul={1.25} />
+    </group>
+  );
+}
+
+function LocalizationLinks({ pulses, kinds }: { pulses: Pulse[]; kinds: Set<EventKind> }) {
+  const lines = useMemo(() => {
+    if (!kinds.has("localization_estimate")) return [];
+    const byId = new Map(pulses.map((pulse) => [pulse.event.event_id, pulse.event]));
+    const out: { id: string; a: [number, number, number]; b: [number, number, number] }[] = [];
+    for (const pulse of pulses) {
+      if (pulse.event.kind !== "localization_estimate") continue;
+      const gtId = pulse.event.ground_truth_event_id;
+      if (!gtId) continue;
+      const gt = byId.get(gtId);
+      if (!gt) continue;
+      out.push({ id: pulse.event.event_id, a: gt.xyz_mm, b: pulse.event.xyz_mm });
+    }
+    return out;
+  }, [pulses, kinds]);
+  return (
+    <group>
+      {lines.map((line) => (
+        <Line key={line.id} points={[line.a, line.b]} color="#ffffff" lineWidth={1.1} transparent opacity={0.55} />
+      ))}
     </group>
   );
 }
@@ -367,6 +394,7 @@ export function BrainScene({
         ))}
         <Probe session={session} pulses={pulses} />
         <PulseField pulses={pulses} kinds={kinds} />
+        <LocalizationLinks pulses={pulses} kinds={kinds} />
         <TravelTraces pulses={pulses} session={session} enabled={showTraces && kinds.has("synthetic_source")} />
       </group>
       <OrbitControls

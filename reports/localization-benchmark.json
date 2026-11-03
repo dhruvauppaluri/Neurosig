@@ -1,0 +1,1110 @@
+{
+  "seed": 20261103,
+  "sample_rate_hz": 32000.0,
+  "n_channels": 32,
+  "snippet_pre_ms": 1.0,
+  "snippet_post_ms": 1.5,
+  "lambda_um": 80.0,
+  "forward_model": "simplified quasi-static monopole (not LFPy/MEArec)",
+  "held_out_locations_um": [
+    [
+      30.0,
+      300.0,
+      0.0
+    ],
+    [
+      22.0,
+      170.0,
+      8.0
+    ],
+    [
+      48.0,
+      450.0,
+      -12.0
+    ],
+    [
+      18.0,
+      90.0,
+      4.0
+    ]
+  ],
+  "training_template_count": 240,
+  "noise_uv": [
+    1.0,
+    8.0,
+    25.0,
+    60.0
+  ],
+  "overlap_offset_samples": [
+    null,
+    0,
+    10
+  ],
+  "amplitude_uv": 12.0,
+  "n_repeats": 4,
+  "n_estimates": 576,
+  "n_available": 576,
+  "methods": {
+    "amplitude": {
+      "median_error_um": 63.56588894305672,
+      "p90_error_um": 124.84318026469063,
+      "median_latency_s": 0.000981293499989988,
+      "n": 192
+    },
+    "template": {
+      "median_error_um": 42.44310332706118,
+      "p90_error_um": 65.18399191637698,
+      "median_latency_s": 6.308950003131031e-05,
+      "n": 192
+    },
+    "beamform": {
+      "median_error_um": 54.04615566357505,
+      "p90_error_um": 84.33575967287169,
+      "median_latency_s": 0.00018753749986899493,
+      "n": 192
+    }
+  },
+  "methods_low_noise_isolated": {
+    "amplitude": {
+      "median_error_um": 6.751917719505311,
+      "p90_error_um": 12.494200547167678,
+      "median_latency_s": 0.0010269979999293355,
+      "n": 16,
+      "selection": "noise_uv<=1 and no overlapping source"
+    },
+    "template": {
+      "median_error_um": 12.8509820326937,
+      "p90_error_um": 16.325495908883077,
+      "median_latency_s": 7.119700001112506e-05,
+      "n": 16,
+      "selection": "noise_uv<=1 and no overlapping source"
+    },
+    "beamform": {
+      "median_error_um": 6.508069850158555,
+      "p90_error_um": 12.266233783383466,
+      "median_latency_s": 0.0001963970000815607,
+      "n": 16,
+      "selection": "noise_uv<=1 and no overlapping source"
+    }
+  },
+  "conditions": [
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 1.037008295609155,
+        "template": 5.602420680905768,
+        "beamform": 0.41381265149109936
+      },
+      "median_latency_s": {
+        "amplitude": 0.0011985125000819608,
+        "template": 7.892849998825113e-05,
+        "beamform": 0.0002329219998955523
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 43.56373779114613,
+        "template": 31.053358248804088,
+        "beamform": 40.660952840306976
+      },
+      "median_latency_s": {
+        "amplitude": 0.0011175054999057465,
+        "template": 6.947849988137023e-05,
+        "beamform": 0.00021128900004896423
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 35.656721296010865,
+        "template": 31.007160029281927,
+        "beamform": 40.07352555371903
+      },
+      "median_latency_s": {
+        "amplitude": 0.0011101659998757896,
+        "template": 7.36104999532472e-05,
+        "beamform": 0.00020929999993768433
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 18.772644342365673,
+        "template": 21.006143417259352,
+        "beamform": 18.207097334631772
+      },
+      "median_latency_s": {
+        "amplitude": 0.001060259500036409,
+        "template": 6.524600007651316e-05,
+        "beamform": 0.00020589849998486898
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 51.67700313400614,
+        "template": 37.70033419690882,
+        "beamform": 54.10083379066968
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009859565000169823,
+        "template": 6.824349998169055e-05,
+        "beamform": 0.00021292549990903353
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 48.1169818154503,
+        "template": 31.187685805400747,
+        "beamform": 49.13405710315446
+      },
+      "median_latency_s": {
+        "amplitude": 0.000986856500048816,
+        "template": 6.320249997315841e-05,
+        "beamform": 0.00019059950000155368
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 90.48592663654617,
+        "template": 35.49668871819482,
+        "beamform": 60.27799643319696
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009512350000022707,
+        "template": 6.363699992562033e-05,
+        "beamform": 0.00019441749998350133
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 78.31641819135203,
+        "template": 49.55958588013995,
+        "beamform": 71.64800662963698
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009977485000263187,
+        "template": 6.352250011332217e-05,
+        "beamform": 0.0001891460001388623
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 95.200160479558,
+        "template": 49.684059786436634,
+        "beamform": 69.11603259361323
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009117769999420489,
+        "template": 6.012450000980607e-05,
+        "beamform": 0.00017963700008749584
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 90.15191510594843,
+        "template": 42.351349021045166,
+        "beamform": 60.27799643319696
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009730090000630298,
+        "template": 7.088949996614247e-05,
+        "beamform": 0.00021699950002584956
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 93.813529695101,
+        "template": 46.09665356635105,
+        "beamform": 64.6505881343947
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009868895000408884,
+        "template": 6.821849990501505e-05,
+        "beamform": 0.00022816700004568702
+      }
+    },
+    {
+      "location_um": [
+        30.0,
+        300.0,
+        0.0
+      ],
+      "location_index": 0,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 91.00970297681455,
+        "template": 42.47744153315476,
+        "beamform": 60.27799643319696
+      },
+      "median_latency_s": {
+        "amplitude": 0.0011133219999237554,
+        "template": 6.548500005010283e-05,
+        "beamform": 0.00020439700006136263
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 8.719898964626669,
+        "template": 12.851077890249911,
+        "beamform": 8.54400374531753
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010798029999250502,
+        "template": 8.184249998066662e-05,
+        "beamform": 0.0002084089999243588
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 47.09596532973454,
+        "template": 44.35520172645818,
+        "beamform": 44.56371752818491
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010881960000688196,
+        "template": 6.676900000002206e-05,
+        "beamform": 0.00020101200004774
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 39.99889411127783,
+        "template": 41.420739636089166,
+        "beamform": 36.11691312971216
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010863835000236577,
+        "template": 6.570000005012844e-05,
+        "beamform": 0.00018840450002244324
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 22.43830605652095,
+        "template": 19.659960353665014,
+        "beamform": 22.45863048970896
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010386234999941735,
+        "template": 6.718500003444206e-05,
+        "beamform": 0.00019203200008632848
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 55.84247611298519,
+        "template": 44.51732814117489,
+        "beamform": 57.28348887213585
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010489425000059782,
+        "template": 7.483150000098249e-05,
+        "beamform": 0.00019666749994939892
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 54.75613533018969,
+        "template": 44.53417025848846,
+        "beamform": 56.33513290688792
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010160835001897794,
+        "template": 7.301400000869762e-05,
+        "beamform": 0.0002081160000670934
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 101.2048362319147,
+        "template": 46.23535549828988,
+        "beamform": 68.6477993791525
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010466279999263861,
+        "template": 6.501350003418338e-05,
+        "beamform": 0.0001836360000879722
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 67.72700195904159,
+        "template": 44.64471895650337,
+        "beamform": 67.62283101540059
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010928845001672016,
+        "template": 6.295299999692361e-05,
+        "beamform": 0.00019487249983285437
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 102.22919798752741,
+        "template": 62.55482168900366,
+        "beamform": 78.81954300552859
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010487535000720527,
+        "template": 6.297549987266393e-05,
+        "beamform": 0.00019150000002809975
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 124.6092816035534,
+        "template": 60.42662080276095,
+        "beamform": 81.57765133920014
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009742884999468515,
+        "template": 6.178449996241397e-05,
+        "beamform": 0.00019577000000481348
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 122.51545405684676,
+        "template": 75.5082034741716,
+        "beamform": 90.62295713339071
+      },
+      "median_latency_s": {
+        "amplitude": 0.0008981280000170955,
+        "template": 5.605349997495068e-05,
+        "beamform": 0.00019550250010524906
+      }
+    },
+    {
+      "location_um": [
+        22.0,
+        170.0,
+        8.0
+      ],
+      "location_index": 1,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 128.32144429101282,
+        "template": 75.63621208215001,
+        "beamform": 87.4793584031312
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009393999999929292,
+        "template": 5.791500007035211e-05,
+        "beamform": 0.00018072600005325512
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 12.494200547167678,
+        "template": 16.325495908883077,
+        "beamform": 12.266233783383466
+      },
+      "median_latency_s": {
+        "amplitude": 0.000993578000020534,
+        "template": 6.563300007655926e-05,
+        "beamform": 0.00019881299999724433
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 44.68720789645794,
+        "template": 32.85938104599016,
+        "beamform": 44.61162633120161
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009822140000323998,
+        "template": 6.496700007119216e-05,
+        "beamform": 0.0001875730000620024
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 34.46444637106656,
+        "template": 32.86519747356428,
+        "beamform": 40.160549085552674
+      },
+      "median_latency_s": {
+        "amplitude": 0.0010936554999716463,
+        "template": 7.753049999337236e-05,
+        "beamform": 0.00022514750003210793
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 31.060586719556937,
+        "template": 16.74275026168923,
+        "beamform": 32.69432582430258
+      },
+      "median_latency_s": {
+        "amplitude": 0.0011700144999622353,
+        "template": 9.441149995836895e-05,
+        "beamform": 0.00025646599999618047
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 59.82050394263136,
+        "template": 32.90389808727787,
+        "beamform": 55.692235637526196
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009453604999407617,
+        "template": 5.911750008635863e-05,
+        "beamform": 0.00017868800011910935
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 53.243736227307664,
+        "template": 26.889709369720656,
+        "beamform": 48.50490474858021
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009452384999804053,
+        "template": 5.965849993572192e-05,
+        "beamform": 0.00016690399991148297
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 79.86587251417376,
+        "template": 29.701055643308422,
+        "beamform": 44.28881310670684
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009298749999970823,
+        "template": 5.6245499990836834e-05,
+        "beamform": 0.0001735170000074504
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 70.85741228063856,
+        "template": 26.81571453885843,
+        "beamform": 50.052593279512955
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009390580000854243,
+        "template": 6.14340000311131e-05,
+        "beamform": 0.000173650000078851
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 74.37952964874437,
+        "template": 21.696954897961863,
+        "beamform": 44.28881310670684
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009751564999760376,
+        "template": 6.253749995721591e-05,
+        "beamform": 0.00018296650000593218
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 114.135362725605,
+        "template": 51.062909146005374,
+        "beamform": 58.83450489636849
+      },
+      "median_latency_s": {
+        "amplitude": 0.0008983689999695343,
+        "template": 6.047949989351764e-05,
+        "beamform": 0.00018566300002476055
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 98.38029467538865,
+        "template": 29.643327586031063,
+        "beamform": 47.55522018034201
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009083839998993426,
+        "template": 5.800499991437391e-05,
+        "beamform": 0.00018454050007221667
+      }
+    },
+    {
+      "location_um": [
+        48.0,
+        450.0,
+        -12.0
+      ],
+      "location_index": 2,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 107.36503813653857,
+        "template": 25.533881995972678,
+        "beamform": 43.71695256906983
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009148509999477028,
+        "template": 5.971500002033281e-05,
+        "beamform": 0.00018148449998989236
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 4.8258343263207895,
+        "template": 10.993605003242966,
+        "beamform": 4.47213595499958
+      },
+      "median_latency_s": {
+        "amplitude": 0.0008916920000956452,
+        "template": 6.689750000532513e-05,
+        "beamform": 0.00016534899998532637
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 46.76540445770958,
+        "template": 43.62899484009502,
+        "beamform": 45.57753021731243
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009252565000679169,
+        "template": 5.81739999461206e-05,
+        "beamform": 0.00016400250001424865
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 1.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 39.72407537063348,
+        "template": 39.41791177271705,
+        "beamform": 38.78598941765696
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009235420000095473,
+        "template": 5.6598000014673744e-05,
+        "beamform": 0.00016133100007209578
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 13.917975658991722,
+        "template": 17.84639067256536,
+        "beamform": 14.348321458350028
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009121474998892154,
+        "template": 5.8512000009613985e-05,
+        "beamform": 0.00016872549997515307
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 54.465890442189696,
+        "template": 46.89928976751443,
+        "beamform": 53.429209247736026
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009223724999856131,
+        "template": 5.9428499866953644e-05,
+        "beamform": 0.00017516049990717875
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 8.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 56.66027671698244,
+        "template": 46.94765628798797,
+        "beamform": 56.53266694614092
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009098210000502149,
+        "template": 5.8671999909165606e-05,
+        "beamform": 0.00017579399991518585
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 109.61905538634502,
+        "template": 49.691303434419595,
+        "beamform": 72.2499973176491
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009246949998669152,
+        "template": 5.802700002277561e-05,
+        "beamform": 0.00017189950006013532
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 87.23535774122453,
+        "template": 56.141734254109465,
+        "beamform": 79.78252210248249
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009196680000513879,
+        "template": 6.045850000191422e-05,
+        "beamform": 0.00017188899994380336
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 25.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 121.98476013733716,
+        "template": 65.13525796607553,
+        "beamform": 81.9759849736513
+      },
+      "median_latency_s": {
+        "amplitude": 0.000992814500023087,
+        "template": 6.145450004169106e-05,
+        "beamform": 0.0001777019999735785
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": null,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 177.223176973554,
+        "template": 87.0256005457156,
+        "beamform": 96.74076655778137
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009028020000414472,
+        "template": 6.108700017648516e-05,
+        "beamform": 0.0001708700000335739
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": 0,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 133.6570301889921,
+        "template": 82.18685277274739,
+        "beamform": 100.35641254143118
+      },
+      "median_latency_s": {
+        "amplitude": 0.0009472794998828249,
+        "template": 6.418100008431793e-05,
+        "beamform": 0.00017047349990662042
+      }
+    },
+    {
+      "location_um": [
+        18.0,
+        90.0,
+        4.0
+      ],
+      "location_index": 3,
+      "noise_uv": 60.0,
+      "overlap_offset_samples": 10,
+      "n_repeats": 4,
+      "median_error_um": {
+        "amplitude": 181.228492947158,
+        "template": 116.46972906262698,
+        "beamform": 118.97109533746118
+      },
+      "median_latency_s": {
+        "amplitude": 0.0008893314999340873,
+        "template": 5.395499999849562e-05,
+        "beamform": 0.000169406499935576
+      }
+    }
+  ],
+  "mearec": {
+    "skipped": true,
+    "path": "data/smoke/recording.h5",
+    "limitation": "MEArec smoke recording is absent. This benchmark uses the simplified quasi-static monopole forward model only and does not measure LFPy/MEArec biophysical localization accuracy."
+  },
+  "units": {
+    "error": "micrometers",
+    "latency": "seconds",
+    "noise": "microvolts"
+  }
+}

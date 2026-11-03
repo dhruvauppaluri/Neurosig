@@ -18,6 +18,27 @@ def l2_normalize(vector: np.ndarray, axis: int = -1) -> np.ndarray:
     return values / safe
 
 
+def softmax_interpolate_xyz(
+    xyz_um: np.ndarray,
+    scores: np.ndarray,
+    top_k: int = 8,
+    temperature: float = 0.05,
+) -> tuple[np.ndarray, float]:
+    """Interpolate nearby scan or template sites. Not a delay-and-sum beam."""
+    values = np.asarray(scores, dtype=np.float64).reshape(-1)
+    sites = np.asarray(xyz_um, dtype=np.float64).reshape(-1, 3)
+    if values.size == 0 or sites.shape[0] != values.size:
+        raise ValueError("scores must align with xyz_um")
+    k = max(1, min(int(top_k), values.size))
+    top = np.argpartition(values, -k)[-k:]
+    top_scores = np.maximum(values[top], 0.0)
+    logits = top_scores / max(float(temperature), 1e-6)
+    logits = logits - np.max(logits)
+    weights = np.exp(logits)
+    weights = weights / max(float(np.sum(weights)), 1e-18)
+    return weights @ sites[top], float(np.max(values))
+
+
 def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
     a_n = l2_normalize(np.asarray(a, dtype=np.float64).reshape(-1))
     b_n = l2_normalize(np.asarray(b, dtype=np.float64).reshape(-1))
@@ -62,8 +83,26 @@ def electrode_com(snippet: Snippet, weights: np.ndarray | None = None) -> tuple[
     return float(com[0]), float(com[1]), float(com[2])
 
 
+def aligned_trough_amplitudes(snippet: Snippet) -> np.ndarray:
+    """Spatial footprint at the strongest trough sample, not independent mins.
+
+    Independent per-channel minima over a multi-millisecond window pick noise
+    on distant contacts. The quasi-static model uses one time sample.
+    """
+    voltages = np.asarray(snippet.voltages_uv, dtype=np.float64)
+    if voltages.size == 0:
+        return np.zeros(0, dtype=np.float64)
+    trough_sample = int(snippet.n_pre)
+    if not 0 <= trough_sample < voltages.shape[0]:
+        trough_sample = int(np.unravel_index(int(np.argmin(voltages)), voltages.shape)[0])
+    amps = np.maximum(-voltages[trough_sample], 0.0)
+    if float(np.max(amps)) <= 0.0:
+        return channel_peak_amplitudes(snippet)
+    return amps
+
+
 def snippet_amplitudes(snippet: Snippet) -> np.ndarray:
-    return channel_peak_amplitudes(snippet)
+    return aligned_trough_amplitudes(snippet)
 
 
 def fold_linear_probe_ambiguity(

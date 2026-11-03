@@ -6,7 +6,13 @@ import time
 import numpy as np
 
 from edge.localize.beamform import BeamformLocalizer
-from edge.localize.common import finish_estimate, fold_linear_probe_ambiguity, l2_normalize, snippet_amplitudes
+from edge.localize.common import (
+    finish_estimate,
+    fold_linear_probe_ambiguity,
+    l2_normalize,
+    snippet_amplitudes,
+    softmax_interpolate_xyz,
+)
 from edge.types import LocalizationEstimate, Snippet
 
 
@@ -36,9 +42,8 @@ class WeightedScanLocalizer(BeamformLocalizer):
         observed = l2_normalize(amplitudes * weights)
         patterns = l2_normalize(self.steering * weights[None, :], axis=1)
         scores = patterns @ observed
-        best = int(np.argmax(scores))
-        xyz = fold_linear_probe_ambiguity(tuple(float(v) for v in self.grid_xyz_um[best]),
-                                          snippet.electrode_xyz_um)
+        xyz_raw, peak = softmax_interpolate_xyz(self.grid_xyz_um, scores, top_k=self.interpolate_top_k)
+        xyz = fold_linear_probe_ambiguity(tuple(float(v) for v in xyz_raw), snippet.electrode_xyz_um)
         return finish_estimate(method=self.method, xyz_um=xyz, snippet=snippet, t_start=t0,
-                               confidence=float(np.clip(scores[best], 0.0, 1.0)),
-                               reason="locally weighted normalized quasi-static amplitude match")
+                               confidence=float(np.clip(peak, 0.0, 1.0)),
+                               reason="locally weighted normalized quasi-static amplitude match with interpolation")

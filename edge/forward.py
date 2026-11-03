@@ -74,21 +74,36 @@ def predicted_amplitude_patterns(
     xyz_um: np.ndarray,
     electrode_xyz_um: np.ndarray,
     lambda_um: float = LAMBDA_UM,
+    model: str = "offset_reciprocal",
 ) -> np.ndarray:
-    """Return [n_src, n_channels] quasi-static amplitude gains."""
+    """Return [n_src, n_channels] quasi-static amplitude gains.
+
+    Models:
+    - ``offset_reciprocal``: 1 / (r_mm + lambda_mm). Historical default.
+    - ``line_source``: 1 / sqrt(r_um^2 + lambda_um^2). A compact line-current
+      approximation in a homogeneous medium. Still not a biophysical neuron.
+    Neither model uses propagation delay or RF phase steering.
+    """
     sources = np.asarray(xyz_um, dtype=np.float64).reshape(-1, 3)
     electrodes = np.asarray(electrode_xyz_um, dtype=np.float64).reshape(-1, 3)
     delta = sources[:, None, :] - electrodes[None, :, :]
     r_um = np.linalg.norm(delta, axis=2)
-    return 1.0 / (r_um / 1000.0 + lambda_um / 1000.0)
+    if model == "offset_reciprocal":
+        return 1.0 / (r_um / 1000.0 + lambda_um / 1000.0)
+    if model == "line_source":
+        return 1.0 / np.sqrt(np.square(r_um) + float(lambda_um) ** 2)
+    raise ValueError(f"unknown amplitude model {model}")
 
 
 def predicted_amplitude_pattern(
     xyz_um: tuple[float, float, float] | np.ndarray,
     electrode_xyz_um: np.ndarray,
     lambda_um: float = LAMBDA_UM,
+    model: str = "offset_reciprocal",
 ) -> np.ndarray:
-    return predicted_amplitude_patterns(np.asarray(xyz_um, dtype=np.float64), electrode_xyz_um, lambda_um)[0]
+    return predicted_amplitude_patterns(
+        np.asarray(xyz_um, dtype=np.float64), electrode_xyz_um, lambda_um, model=model
+    )[0]
 
 
 def kernel_peak_index(n_kernel: int) -> int:

@@ -1,0 +1,807 @@
+{
+  "synthetic": {
+    "seeds": [
+      20261103,
+      20261104,
+      20261105
+    ],
+    "n_events_per_method": 324,
+    "training_test_policy": "template catalog excludes every test xyz; identical voltage for every method",
+    "forward_model": "quasi-static monopole; scans that use offset_reciprocal match this model",
+    "methods": {
+      "amplitude": {
+        "n": 324,
+        "failures": 0,
+        "mean_error_um": 24.254522856299317,
+        "median_error_um": 16.638323704305755,
+        "p90_error_um": 51.42832964901861,
+        "worst_error_um": 96.79018223065026,
+        "std_error_um": 18.791122627556035,
+        "median_runtime_ms": 1.2916924999331059
+      },
+      "template": {
+        "n": 324,
+        "failures": 0,
+        "mean_error_um": 20.729901219686152,
+        "median_error_um": 18.689495838809982,
+        "p90_error_um": 41.52875754188118,
+        "worst_error_um": 69.43196481582514,
+        "std_error_um": 13.346855762806571,
+        "median_runtime_ms": 0.18410200004836952
+      },
+      "beamform": {
+        "n": 324,
+        "failures": 0,
+        "mean_error_um": 21.9150961999745,
+        "median_error_um": 16.44788786409714,
+        "p90_error_um": 43.17982863548625,
+        "worst_error_um": 70.30823664417255,
+        "std_error_um": 13.807102500450585,
+        "median_runtime_ms": 0.41477550001900454
+      },
+      "weighted_scan": {
+        "n": 324,
+        "failures": 0,
+        "mean_error_um": 26.772570441113608,
+        "median_error_um": 16.829014322749337,
+        "p90_error_um": 52.233790418735296,
+        "worst_error_um": 267.15136089980666,
+        "std_error_um": 30.031303824644247,
+        "median_runtime_ms": 1.0364489999687976
+      },
+      "robust_scan": {
+        "n": 324,
+        "failures": 0,
+        "mean_error_um": 29.251113862895306,
+        "median_error_um": 18.490680636457334,
+        "p90_error_um": 59.60326540165598,
+        "worst_error_um": 273.02114918341243,
+        "std_error_um": 32.50443531394932,
+        "median_runtime_ms": 1.8759209999643645
+      }
+    },
+    "seed_variability": {
+      "amplitude": {
+        "median_of_seed_medians_um": 16.517954521496883,
+        "seed_medians_um": [
+          16.87495062706106,
+          16.517954521496883,
+          16.384494513656144
+        ],
+        "seed_median_range_um": 0.49045611340491746
+      },
+      "template": {
+        "median_of_seed_medians_um": 18.683639817421007,
+        "seed_medians_um": [
+          18.683639817421007,
+          18.664691054500523,
+          20.73254069684089
+        ],
+        "seed_median_range_um": 2.0678496423403665
+      },
+      "beamform": {
+        "median_of_seed_medians_um": 16.199945510533983,
+        "seed_medians_um": [
+          17.35983051142856,
+          16.199945510533983,
+          15.71147490560824
+        ],
+        "seed_median_range_um": 1.6483556058203188
+      },
+      "weighted_scan": {
+        "median_of_seed_medians_um": 17.071391615631217,
+        "seed_medians_um": [
+          17.532478828944125,
+          17.071391615631217,
+          16.034465841064737
+        ],
+        "seed_median_range_um": 1.4980129878793882
+      },
+      "robust_scan": {
+        "median_of_seed_medians_um": 18.874190714887728,
+        "seed_medians_um": [
+          20.03761679525832,
+          17.658290675420076,
+          18.874190714887728
+        ],
+        "seed_median_range_um": 2.379326119838243
+      }
+    },
+    "conditions": {
+      "geometry": {
+        "linear": {
+          "amplitude": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 24.24642496795406,
+            "median_error_um": 16.607415852837867,
+            "p90_error_um": 50.9482369221266,
+            "worst_error_um": 96.79018223065026,
+            "std_error_um": 19.13481643903174,
+            "median_runtime_ms": 1.2913949999528995
+          },
+          "template": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 20.879314181967327,
+            "median_error_um": 19.65636608872651,
+            "p90_error_um": 40.45983635431152,
+            "worst_error_um": 69.43196481582514,
+            "std_error_um": 13.314999038929942,
+            "median_runtime_ms": 0.18588500000760177
+          },
+          "beamform": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 21.88692592354879,
+            "median_error_um": 15.751308009731195,
+            "p90_error_um": 43.12711344521581,
+            "worst_error_um": 68.53673835632586,
+            "std_error_um": 13.574516514870213,
+            "median_runtime_ms": 0.416484500021852
+          },
+          "weighted_scan": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 26.580792686164365,
+            "median_error_um": 16.344393860051866,
+            "p90_error_um": 51.532070253728094,
+            "worst_error_um": 267.15136089980666,
+            "std_error_um": 29.786895885385736,
+            "median_runtime_ms": 1.0395779999612387
+          },
+          "robust_scan": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 28.567790698295184,
+            "median_error_um": 19.032866764908174,
+            "p90_error_um": 52.105746950737185,
+            "worst_error_um": 267.14817248345634,
+            "std_error_um": 31.600585993728902,
+            "median_runtime_ms": 1.8849385000407892
+          }
+        },
+        "staggered": {
+          "amplitude": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 24.262620744644575,
+            "median_error_um": 16.719619927034152,
+            "p90_error_um": 51.50857086827316,
+            "worst_error_um": 95.1165698478511,
+            "std_error_um": 18.441020793347263,
+            "median_runtime_ms": 1.2916924999331059
+          },
+          "template": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 20.580488257404973,
+            "median_error_um": 18.62624335494229,
+            "p90_error_um": 42.503648151556085,
+            "worst_error_um": 69.33030324456142,
+            "std_error_um": 13.376967878896377,
+            "median_runtime_ms": 0.18166649999784568
+          },
+          "beamform": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 21.94326647640021,
+            "median_error_um": 16.81175067272992,
+            "p90_error_um": 42.881621779960994,
+            "worst_error_um": 70.30823664417255,
+            "std_error_um": 14.035778324498631,
+            "median_runtime_ms": 0.4119139999829713
+          },
+          "weighted_scan": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 26.96434819606284,
+            "median_error_um": 17.361130000973297,
+            "p90_error_um": 52.4114806543402,
+            "worst_error_um": 264.86069994695697,
+            "std_error_um": 30.2725237618998,
+            "median_runtime_ms": 1.030748499999845
+          },
+          "robust_scan": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 29.93443702749543,
+            "median_error_um": 17.572030422131977,
+            "p90_error_um": 60.97253434600252,
+            "worst_error_um": 273.02114918341243,
+            "std_error_um": 33.36983269235579,
+            "median_runtime_ms": 1.8669150000505397
+          }
+        }
+      },
+      "distance_um": {
+        "20.0": {
+          "amplitude": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 18.744236408696857,
+            "median_error_um": 14.940440071418703,
+            "p90_error_um": 33.64750596390051,
+            "worst_error_um": 80.6268297587778,
+            "std_error_um": 13.708653034080788,
+            "median_runtime_ms": 1.2947315000246817
+          },
+          "template": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 12.613188799505773,
+            "median_error_um": 8.733179966872413,
+            "p90_error_um": 24.640727718514967,
+            "worst_error_um": 54.051197664177714,
+            "std_error_um": 10.786561945580443,
+            "median_runtime_ms": 0.18428750001930894
+          },
+          "beamform": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 17.258993068986882,
+            "median_error_um": 15.658004157042344,
+            "p90_error_um": 24.831910520978553,
+            "worst_error_um": 57.736840980745576,
+            "std_error_um": 8.743856597236714,
+            "median_runtime_ms": 0.41470450003089354
+          },
+          "weighted_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 16.82582068402657,
+            "median_error_um": 15.844184756639805,
+            "p90_error_um": 24.0689608417236,
+            "worst_error_um": 56.50897965855252,
+            "std_error_um": 7.927882008185872,
+            "median_runtime_ms": 1.037177999933192
+          },
+          "robust_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 18.51834985550944,
+            "median_error_um": 15.208715531959971,
+            "p90_error_um": 28.739370296387772,
+            "worst_error_um": 85.20327351194925,
+            "std_error_um": 11.837466683303793,
+            "median_runtime_ms": 1.8727894999983619
+          }
+        },
+        "45.0": {
+          "amplitude": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 24.947799746030395,
+            "median_error_um": 16.512138067560297,
+            "p90_error_um": 51.191255280753246,
+            "worst_error_um": 95.44484956291095,
+            "std_error_um": 18.908430628478925,
+            "median_runtime_ms": 1.2903590000519216
+          },
+          "template": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 19.99485227400257,
+            "median_error_um": 13.245036346835672,
+            "p90_error_um": 33.56231459465648,
+            "worst_error_um": 51.28700335431164,
+            "std_error_um": 10.577263888114244,
+            "median_runtime_ms": 0.1842365000470636
+          },
+          "beamform": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 24.44708089293936,
+            "median_error_um": 19.761996086765457,
+            "p90_error_um": 43.47633964651032,
+            "worst_error_um": 68.89379386512229,
+            "std_error_um": 13.79684951573378,
+            "median_runtime_ms": 0.4165209999769104
+          },
+          "weighted_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 25.89317016379042,
+            "median_error_um": 19.72195815463504,
+            "p90_error_um": 48.32798083073675,
+            "worst_error_um": 68.63388858325395,
+            "std_error_um": 15.633726027275365,
+            "median_runtime_ms": 1.0353750000149375
+          },
+          "robust_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 26.434106506672258,
+            "median_error_um": 18.888902839029754,
+            "p90_error_um": 53.06843033224289,
+            "worst_error_um": 78.61969064976499,
+            "std_error_um": 18.493676933758852,
+            "median_runtime_ms": 1.879062000000431
+          }
+        },
+        "75.0": {
+          "amplitude": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 29.071532414170697,
+            "median_error_um": 19.81368864492505,
+            "p90_error_um": 64.00846236209793,
+            "worst_error_um": 96.79018223065026,
+            "std_error_um": 21.443308543917425,
+            "median_runtime_ms": 1.2896344999830944
+          },
+          "template": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 29.581662585550106,
+            "median_error_um": 24.510534566399286,
+            "p90_error_um": 49.95110194067299,
+            "worst_error_um": 69.43196481582514,
+            "std_error_um": 12.704812062843606,
+            "median_runtime_ms": 0.18397550002191565
+          },
+          "beamform": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 24.039214637997265,
+            "median_error_um": 17.21599996800075,
+            "p90_error_um": 48.49304933683643,
+            "worst_error_um": 70.30823664417255,
+            "std_error_um": 16.507514398917046,
+            "median_runtime_ms": 0.4138549999765928
+          },
+          "weighted_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 37.59872047552382,
+            "median_error_um": 19.865343771997914,
+            "p90_error_um": 71.0819142136068,
+            "worst_error_um": 267.15136089980666,
+            "std_error_um": 46.706061977512356,
+            "median_runtime_ms": 1.0361884999952053
+          },
+          "robust_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 42.80088522650423,
+            "median_error_um": 22.425757289083172,
+            "p90_error_um": 88.71265417391754,
+            "worst_error_um": 273.02114918341243,
+            "std_error_um": 48.792921449102096,
+            "median_runtime_ms": 1.8765819999657651
+          }
+        }
+      },
+      "noise_uv": {
+        "10.0": {
+          "amplitude": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 18.960059779580384,
+            "median_error_um": 16.864117406358012,
+            "p90_error_um": 30.98157692324326,
+            "worst_error_um": 50.63048985577284,
+            "std_error_um": 8.224013688979975,
+            "median_runtime_ms": 1.2994155000001228
+          },
+          "template": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 17.794333763981992,
+            "median_error_um": 17.76197065184005,
+            "p90_error_um": 27.627212212909136,
+            "worst_error_um": 44.4028835899303,
+            "std_error_um": 8.915146029619997,
+            "median_runtime_ms": 0.18325349998349338
+          },
+          "beamform": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 19.82983418430017,
+            "median_error_um": 17.812680300097774,
+            "p90_error_um": 33.807367713529786,
+            "worst_error_um": 56.61242476336198,
+            "std_error_um": 8.953565545203954,
+            "median_runtime_ms": 0.4121690000147282
+          },
+          "weighted_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 22.600734438521524,
+            "median_error_um": 17.913835134783277,
+            "p90_error_um": 42.11266149702729,
+            "worst_error_um": 71.1818235007535,
+            "std_error_um": 13.353191287363668,
+            "median_runtime_ms": 1.036907499951667
+          },
+          "robust_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 23.8809448655938,
+            "median_error_um": 19.146149242118746,
+            "p90_error_um": 41.82098034747106,
+            "worst_error_um": 101.69410767798182,
+            "std_error_um": 15.080780371770103,
+            "median_runtime_ms": 1.879922999989958
+          }
+        },
+        "2.0": {
+          "amplitude": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 11.87054924461802,
+            "median_error_um": 10.577558049958993,
+            "p90_error_um": 16.884010671179656,
+            "worst_error_um": 19.955603519966406,
+            "std_error_um": 3.5774667254929784,
+            "median_runtime_ms": 1.2830464999638025
+          },
+          "template": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 14.672886677220104,
+            "median_error_um": 12.101645653899183,
+            "p90_error_um": 24.47043562457427,
+            "worst_error_um": 24.545722516132933,
+            "std_error_um": 6.5434976496369,
+            "median_runtime_ms": 0.18523200003528473
+          },
+          "beamform": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 12.369564503693592,
+            "median_error_um": 12.772472237409115,
+            "p90_error_um": 16.12508621961163,
+            "worst_error_um": 18.669851272530007,
+            "std_error_um": 3.288225409021618,
+            "median_runtime_ms": 0.4151814999886483
+          },
+          "weighted_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 12.13002814224284,
+            "median_error_um": 11.388586420227915,
+            "p90_error_um": 16.110709609327248,
+            "worst_error_um": 18.18036486123567,
+            "std_error_um": 3.183125744064396,
+            "median_runtime_ms": 1.038042499999392
+          },
+          "robust_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 11.689128379391802,
+            "median_error_um": 11.423050699125493,
+            "p90_error_um": 15.451834762399265,
+            "worst_error_um": 19.691846229514642,
+            "std_error_um": 3.2929922650114936,
+            "median_runtime_ms": 1.8716834999850107
+          }
+        },
+        "25.0": {
+          "amplitude": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 41.93295954469954,
+            "median_error_um": 40.67556167345259,
+            "p90_error_um": 68.14901331578554,
+            "worst_error_um": 96.79018223065026,
+            "std_error_um": 22.021919399808727,
+            "median_runtime_ms": 1.2954989999798272
+          },
+          "template": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 29.72248321785635,
+            "median_error_um": 28.378294711376327,
+            "p90_error_um": 52.55303246305101,
+            "worst_error_um": 69.43196481582514,
+            "std_error_um": 16.909966693958527,
+            "median_runtime_ms": 0.1837805000377557
+          },
+          "beamform": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 33.54588991192974,
+            "median_error_um": 32.69226559355315,
+            "p90_error_um": 55.9835532941248,
+            "worst_error_um": 70.30823664417255,
+            "std_error_um": 15.817351884948135,
+            "median_runtime_ms": 0.4161349999662889
+          },
+          "weighted_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 45.586948742576446,
+            "median_error_um": 35.99967454560993,
+            "p90_error_um": 70.21620249253043,
+            "worst_error_um": 267.15136089980666,
+            "std_error_um": 43.94779322887018,
+            "median_runtime_ms": 1.0342290000266985
+          },
+          "robust_scan": {
+            "n": 108,
+            "failures": 0,
+            "mean_error_um": 52.18326834370032,
+            "median_error_um": 43.99707466924808,
+            "p90_error_um": 86.89786572348841,
+            "worst_error_um": 273.02114918341243,
+            "std_error_um": 45.47741694779161,
+            "median_runtime_ms": 1.8740185000183374
+          }
+        }
+      },
+      "overlap_samples": {
+        "8": {
+          "amplitude": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 23.99793932434418,
+            "median_error_um": 16.85627681845994,
+            "p90_error_um": 48.76427335591494,
+            "worst_error_um": 90.15865697585156,
+            "std_error_um": 16.851864463608376,
+            "median_runtime_ms": 1.3000095000279543
+          },
+          "template": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 20.319984038250936,
+            "median_error_um": 18.62038733355331,
+            "p90_error_um": 38.21329209127504,
+            "worst_error_um": 63.534289858096194,
+            "std_error_um": 12.962930908725442,
+            "median_runtime_ms": 0.18462200000612938
+          },
+          "beamform": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 22.032015723067662,
+            "median_error_um": 16.423879633336774,
+            "p90_error_um": 43.48543888555637,
+            "worst_error_um": 68.53673835632586,
+            "std_error_um": 12.71528521325467,
+            "median_runtime_ms": 0.41362349998053105
+          },
+          "weighted_scan": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 23.136597810564254,
+            "median_error_um": 16.810218007194152,
+            "p90_error_um": 45.28630326667254,
+            "worst_error_um": 83.02196134980271,
+            "std_error_um": 14.850627050300039,
+            "median_runtime_ms": 1.035777999959464
+          },
+          "robust_scan": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 26.109040435698688,
+            "median_error_um": 18.203701757549837,
+            "p90_error_um": 52.33923178979928,
+            "worst_error_um": 97.373926181017,
+            "std_error_um": 19.08103747865484,
+            "median_runtime_ms": 1.8756749999511158
+          }
+        },
+        "None": {
+          "amplitude": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 24.51110638825445,
+            "median_error_um": 16.327334373637022,
+            "p90_error_um": 54.083737703747964,
+            "worst_error_um": 96.79018223065026,
+            "std_error_um": 20.544964665098085,
+            "median_runtime_ms": 1.2862605000236726
+          },
+          "template": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 21.139818401121367,
+            "median_error_um": 19.67012157559387,
+            "p90_error_um": 44.1105877202383,
+            "worst_error_um": 69.43196481582514,
+            "std_error_um": 13.707788865118438,
+            "median_runtime_ms": 0.18396850003910004
+          },
+          "beamform": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 21.798176676881333,
+            "median_error_um": 17.15377478601227,
+            "p90_error_um": 42.881621779960994,
+            "worst_error_um": 70.30823664417255,
+            "std_error_um": 14.817771104714907,
+            "median_runtime_ms": 0.4156054999384651
+          },
+          "weighted_scan": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 30.408543071662955,
+            "median_error_um": 16.829014322749337,
+            "p90_error_um": 60.25549745025526,
+            "worst_error_um": 267.15136089980666,
+            "std_error_um": 39.456009695468104,
+            "median_runtime_ms": 1.0372149999398061
+          },
+          "robust_scan": {
+            "n": 162,
+            "failures": 0,
+            "mean_error_um": 32.39318729009193,
+            "median_error_um": 19.066217057381266,
+            "p90_error_um": 66.66125854671287,
+            "worst_error_um": 273.02114918341243,
+            "std_error_um": 41.58419637376452,
+            "median_runtime_ms": 1.876962000039839
+          }
+        }
+      }
+    },
+    "peak_traced_python_memory_kib": 43626.5185546875,
+    "complexity": {
+      "amplitude": "O(C + C*n_x*n_y)",
+      "template": "O(C*T)",
+      "beamform": "O(C*G) plus interpolation",
+      "weighted_scan": "O(C*G) with spatial weights",
+      "robust_scan": "O(C*G + C*G_local) with noise weights"
+    },
+    "timing_note": "wall-clock Python runtime includes implementation overhead, not ASIC latency"
+  },
+  "electrode_dropout": {
+    "n_trials": 24,
+    "kept_channels": 24,
+    "policy": "zero dropped-channel voltages; engines keep the original 32-site geometry",
+    "methods": {
+      "amplitude": {
+        "n": 24,
+        "failures": 0,
+        "mean_error_um": 47.876576552661106,
+        "median_error_um": 38.1858808145239,
+        "p90_error_um": 91.01122387288156,
+        "worst_error_um": 101.2263499970433,
+        "std_error_um": 24.53274217174678,
+        "median_runtime_ms": 0.9357100000215723
+      },
+      "template": {
+        "n": 24,
+        "failures": 0,
+        "mean_error_um": 37.3966880992921,
+        "median_error_um": 30.908312357772395,
+        "p90_error_um": 63.64374044172902,
+        "worst_error_um": 107.2502979565569,
+        "std_error_um": 21.766893612095263,
+        "median_runtime_ms": 0.05279650002876224
+      },
+      "beamform": {
+        "n": 24,
+        "failures": 0,
+        "mean_error_um": 43.22347083914187,
+        "median_error_um": 37.24326034188093,
+        "p90_error_um": 70.699579165804,
+        "worst_error_um": 108.5471733946859,
+        "std_error_um": 21.757638942667043,
+        "median_runtime_ms": 0.22562549997928727
+      },
+      "weighted_scan": {
+        "n": 24,
+        "failures": 0,
+        "mean_error_um": 46.71696381447236,
+        "median_error_um": 36.39557024975169,
+        "p90_error_um": 75.6634699370664,
+        "worst_error_um": 124.5077039229565,
+        "std_error_um": 25.770204243648116,
+        "median_runtime_ms": 0.8063750000246728
+      },
+      "robust_scan": {
+        "n": 24,
+        "failures": 0,
+        "mean_error_um": 174.89730203194242,
+        "median_error_um": 188.19879642001658,
+        "p90_error_um": 286.7441430270706,
+        "worst_error_um": 334.5638361029428,
+        "std_error_um": 94.87871806033228,
+        "median_runtime_ms": 1.3399114999970152
+      }
+    }
+  },
+  "pitch_16um": {
+    "pitch_um": 16.0,
+    "n_sources": 3,
+    "methods": {
+      "amplitude": {
+        "n": 3,
+        "failures": 0,
+        "mean_error_um": 7.843567758323182,
+        "median_error_um": 7.673078979034239,
+        "p90_error_um": 8.69252480664839,
+        "worst_error_um": 8.947386263551927,
+        "std_error_um": 0.8403543089419117,
+        "median_runtime_ms": 0.9190949999720033
+      },
+      "template": {
+        "n": 3,
+        "failures": 0,
+        "mean_error_um": 13.377142567086457,
+        "median_error_um": 14.546785991522347,
+        "p90_error_um": 14.61296928814133,
+        "worst_error_um": 14.629515112296074,
+        "std_error_um": 1.712956906398875,
+        "median_runtime_ms": 0.05257600003005791
+      },
+      "beamform": {
+        "n": 3,
+        "failures": 0,
+        "mean_error_um": 13.516058938365296,
+        "median_error_um": 13.601301844926423,
+        "p90_error_um": 15.992837964074061,
+        "worst_error_um": 16.59072199386097,
+        "std_error_um": 2.5459657595884972,
+        "median_runtime_ms": 0.21872599995731434
+      },
+      "weighted_scan": {
+        "n": 3,
+        "failures": 0,
+        "mean_error_um": 15.081624483138887,
+        "median_error_um": 15.85087635068017,
+        "p90_error_um": 17.453858171711016,
+        "worst_error_um": 17.854603626968725,
+        "std_error_um": 2.6349296199171546,
+        "median_runtime_ms": 0.798021000036897
+      },
+      "robust_scan": {
+        "n": 3,
+        "failures": 0,
+        "mean_error_um": 8.047287084504125,
+        "median_error_um": 8.44959332558553,
+        "p90_error_um": 8.702917268980679,
+        "worst_error_um": 8.766248254829467,
+        "std_error_um": 0.8033256052044775,
+        "median_runtime_ms": 1.342927999985477
+      }
+    },
+    "limitation": "engines see the 16 \u00b5m geometry at construction; this is not a transfer from a 20 \u00b5m catalog"
+  },
+  "mearec": {
+    "status": "skipped",
+    "reason": "missing data/smoke/recording.h5"
+  },
+  "recommendation": {
+    "edge_computer_recommendation": "template",
+    "ranked_median_error_um": [
+      [
+        "beamform",
+        16.44788786409714,
+        43.17982863548625
+      ],
+      [
+        "amplitude",
+        16.638323704305755,
+        51.42832964901861
+      ],
+      [
+        "weighted_scan",
+        16.829014322749337,
+        52.233790418735296
+      ],
+      [
+        "robust_scan",
+        18.490680636457334,
+        59.60326540165598
+      ],
+      [
+        "template",
+        18.689495838809982,
+        41.52875754188118
+      ]
+    ],
+    "template_median_um": 18.689495838809982,
+    "robust_scan_median_um": 18.490680636457334,
+    "beamform_median_um": 16.44788786409714,
+    "rationale": "Aligned trough amplitudes and top-k interpolation removed most of the old grid-quantization penalty on the quasi-static scan. Interpolated beamform has the lowest median on this matched monopole set, but template matching has the best p90, the lowest runtime, and a training catalog held out from test xyz. Robust scan does not beat those two on overlap tails. Recommend template matching on the edge computer; keep interpolated beamform as a catalog-free alternative. These errors are not real-neuron accuracy."
+  },
+  "scientific_limits": [
+    "Synthetic errors are not real-neuron localization accuracy.",
+    "Unseen sources are held out of the template catalog, not of the scan grids.",
+    "No method uses ground-truth xyz as an inference feature."
+  ]
+}

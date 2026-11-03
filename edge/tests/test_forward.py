@@ -23,6 +23,8 @@ class ForwardModelTests(unittest.TestCase):
         # 1/(r_mm + 0.08) at r=0: 1/0.08 = 12.5
         on_site = predicted_amplitude_pattern((0.0, 0.0, 0.0), electrodes[:1])
         self.assertAlmostEqual(float(on_site[0]), 1.0 / (LAMBDA_UM / 1000.0), places=6)
+        line = predicted_amplitude_pattern((0.0, 0.0, 0.0), electrodes[:1], model="line_source")
+        self.assertAlmostEqual(float(line[0]), 1.0 / LAMBDA_UM, places=6)
 
     def test_superposition_and_shape(self) -> None:
         array = linear_probe_um()

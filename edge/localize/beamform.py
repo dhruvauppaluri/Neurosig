@@ -15,7 +15,14 @@ import numpy as np
 
 from edge.forward import LAMBDA_UM, predicted_amplitude_patterns
 from edge.geometry import linear_probe_um
-from edge.localize.common import electrode_com, finish_estimate, fold_linear_probe_ambiguity, l2_normalize, snippet_amplitudes
+from edge.localize.common import (
+    electrode_com,
+    finish_estimate,
+    fold_linear_probe_ambiguity,
+    l2_normalize,
+    snippet_amplitudes,
+    softmax_interpolate_xyz,
+)
 from edge.types import ElectrodeArray, LocalizationEstimate, Snippet
 
 
@@ -44,9 +51,13 @@ class BeamformLocalizer:
         array: ElectrodeArray | None = None,
         lambda_um: float = LAMBDA_UM,
         grid_xyz_um: np.ndarray | None = None,
+        interpolate_top_k: int = 8,
+        model: str = "offset_reciprocal",
     ) -> None:
         self.array = array or linear_probe_um()
         self.lambda_um = float(lambda_um)
+        self.model = str(model)
+        self.interpolate_top_k = int(interpolate_top_k)
         self.grid_xyz_um = (
             np.asarray(grid_xyz_um, dtype=np.float64)
             if grid_xyz_um is not None
@@ -55,7 +66,7 @@ class BeamformLocalizer:
         if self.grid_xyz_um.ndim != 2 or self.grid_xyz_um.shape[1] != 3:
             raise ValueError("grid_xyz_um must be [n_grid, 3]")
         self.steering = predicted_amplitude_patterns(
-            self.grid_xyz_um, self.array.xyz_um(), lambda_um=self.lambda_um
+            self.grid_xyz_um, self.array.xyz_um(), lambda_um=self.lambda_um, model=self.model
         )
         self.steering_n = l2_normalize(self.steering, axis=1)
 
@@ -84,17 +95,13 @@ class BeamformLocalizer:
         observed_n = l2_normalize(amps)
         # Normalized matched-filter / cosine power. Not RF delay-and-sum.
         scores = self.steering_n @ observed_n
-        best = int(np.argmax(scores))
+        xyz_raw, peak = softmax_interpolate_xyz(
+            self.grid_xyz_um, scores, top_k=self.interpolate_top_k
+        )
         xyz = fold_linear_probe_ambiguity(
-            (
-                float(self.grid_xyz_um[best, 0]),
-                float(self.grid_xyz_um[best, 1]),
-                float(self.grid_xyz_um[best, 2]),
-            ),
+            (float(xyz_raw[0]), float(xyz_raw[1]), float(xyz_raw[2])),
             snippet.electrode_xyz_um,
         )
-        peak = float(scores[best])
-        # Side-lobe contrast: how much the peak stands above the median score.
         contrast = peak - float(np.median(scores))
         confidence = float(np.clip(0.5 * max(0.0, peak) + 0.5 * max(0.0, contrast), 0.0, 1.0))
         return finish_estimate(
@@ -103,5 +110,5 @@ class BeamformLocalizer:
             snippet=snippet,
             t_start=t0,
             confidence=confidence,
-            reason="quasi-static amplitude matched filter (not RF delay-and-sum)",
+            reason="quasi-static amplitude matched filter with top-k interpolation (not RF delay-and-sum)",
         )

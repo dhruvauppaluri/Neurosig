@@ -1,0 +1,292 @@
+{
+  "task": "synthetic spatial-cluster activity",
+  "forward_model": "simplified monopole",
+  "feature_policy": "A counts; B counts plus geometry of observed peak channels; C counts plus waveform-localizer estimates, falling back to peak-channel geometry only on failure",
+  "ground_truth_feature_leakage": false,
+  "n_channels": 32,
+  "spatial_feature_width": 43,
+  "seeds": [
+    {
+      "seed": 20261103,
+      "train": 768,
+      "test": 256,
+      "localizer": "amplitude",
+      "missing_estimate_fallback": "observed_peak_channel_electrode_position",
+      "models": {
+        "A_counts": {
+          "accuracy": 0.84375,
+          "confusion_matrix": [
+            [
+              106,
+              17
+            ],
+            [
+              23,
+              110
+            ]
+          ],
+          "precision": [
+            0.8217054263565892,
+            0.8661417322834646
+          ],
+          "recall": [
+            0.8617886178861789,
+            0.8270676691729323
+          ],
+          "n_features": 32,
+          "model_bytes_float64": 264,
+          "inference_us_per_trial": 0.06526579454657622
+        },
+        "B_electrode": {
+          "accuracy": 0.84375,
+          "confusion_matrix": [
+            [
+              106,
+              17
+            ],
+            [
+              23,
+              110
+            ]
+          ],
+          "precision": [
+            0.8217054263565892,
+            0.8661417322834646
+          ],
+          "recall": [
+            0.8617886178861789,
+            0.8270676691729323
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.061195351008791476
+        },
+        "C_estimated": {
+          "accuracy": 0.83203125,
+          "confusion_matrix": [
+            [
+              104,
+              19
+            ],
+            [
+              24,
+              109
+            ]
+          ],
+          "precision": [
+            0.8125,
+            0.8515625
+          ],
+          "recall": [
+            0.8455284552845529,
+            0.8195488721804511
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.07258995537995361
+        }
+      },
+      "estimate_perturbation_um": {
+        "0": 0.83203125,
+        "20": 0.83203125,
+        "50": 0.8203125,
+        "100": 0.81640625
+      }
+    },
+    {
+      "seed": 20261104,
+      "train": 768,
+      "test": 256,
+      "localizer": "amplitude",
+      "missing_estimate_fallback": "observed_peak_channel_electrode_position",
+      "models": {
+        "A_counts": {
+          "accuracy": 0.78515625,
+          "confusion_matrix": [
+            [
+              83,
+              30
+            ],
+            [
+              25,
+              118
+            ]
+          ],
+          "precision": [
+            0.7685185185185185,
+            0.7972972972972973
+          ],
+          "recall": [
+            0.7345132743362832,
+            0.8251748251748252
+          ],
+          "n_features": 32,
+          "model_bytes_float64": 264,
+          "inference_us_per_trial": 0.13720728020416573
+        },
+        "B_electrode": {
+          "accuracy": 0.78515625,
+          "confusion_matrix": [
+            [
+              83,
+              30
+            ],
+            [
+              25,
+              118
+            ]
+          ],
+          "precision": [
+            0.7685185185185185,
+            0.7972972972972973
+          ],
+          "recall": [
+            0.7345132743362832,
+            0.8251748251748252
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.10937492334051058
+        },
+        "C_estimated": {
+          "accuracy": 0.796875,
+          "confusion_matrix": [
+            [
+              84,
+              29
+            ],
+            [
+              23,
+              120
+            ]
+          ],
+          "precision": [
+            0.7850467289719626,
+            0.8053691275167785
+          ],
+          "recall": [
+            0.7433628318584071,
+            0.8391608391608392
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.09309769666288048
+        }
+      },
+      "estimate_perturbation_um": {
+        "0": 0.796875,
+        "20": 0.7890625,
+        "50": 0.77734375,
+        "100": 0.79296875
+      }
+    },
+    {
+      "seed": 20261105,
+      "train": 768,
+      "test": 256,
+      "localizer": "amplitude",
+      "missing_estimate_fallback": "observed_peak_channel_electrode_position",
+      "models": {
+        "A_counts": {
+          "accuracy": 0.8125,
+          "confusion_matrix": [
+            [
+              108,
+              27
+            ],
+            [
+              21,
+              100
+            ]
+          ],
+          "precision": [
+            0.8372093023255814,
+            0.7874015748031497
+          ],
+          "recall": [
+            0.8,
+            0.8264462809917356
+          ],
+          "n_features": 32,
+          "model_bytes_float64": 264,
+          "inference_us_per_trial": 0.11816428013844416
+        },
+        "B_electrode": {
+          "accuracy": 0.8125,
+          "confusion_matrix": [
+            [
+              109,
+              26
+            ],
+            [
+              22,
+              99
+            ]
+          ],
+          "precision": [
+            0.8320610687022901,
+            0.792
+          ],
+          "recall": [
+            0.8074074074074075,
+            0.8181818181818182
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.0724257915862836
+        },
+        "C_estimated": {
+          "accuracy": 0.83203125,
+          "confusion_matrix": [
+            [
+              112,
+              23
+            ],
+            [
+              20,
+              101
+            ]
+          ],
+          "precision": [
+            0.8484848484848485,
+            0.8145161290322581
+          ],
+          "recall": [
+            0.8296296296296296,
+            0.8347107438016529
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.09374980436405167
+        }
+      },
+      "estimate_perturbation_um": {
+        "0": 0.83203125,
+        "20": 0.84375,
+        "50": 0.80859375,
+        "100": 0.8203125
+      }
+    }
+  ],
+  "aggregate": {
+    "A_counts": {
+      "mean_accuracy": 0.8138020833333334,
+      "min_accuracy": 0.78515625,
+      "max_accuracy": 0.84375,
+      "std_accuracy": 0.023938510821419574
+    },
+    "B_electrode": {
+      "mean_accuracy": 0.8138020833333334,
+      "min_accuracy": 0.78515625,
+      "max_accuracy": 0.84375,
+      "std_accuracy": 0.023938510821419574
+    },
+    "C_estimated": {
+      "mean_accuracy": 0.8203125,
+      "min_accuracy": 0.796875,
+      "max_accuracy": 0.83203125,
+      "std_accuracy": 0.016572815184059706
+    }
+  },
+  "rtl_baseline": "existing 32-count RTL decoder is a separately trained task baseline; no RTL inference claimed here"
+}

@@ -114,3 +114,5 @@ button.active, button:hover { border-color: var(--accent); color: var(--accent);
   .metrics { grid-row: 4; }
   .timeline { grid-row: 5; }
 }
+.score-profile { display: flex; align-items: end; gap: 2px; height: 40px; margin: 6px 0; }
+.score-profile span { flex: 1; min-width: 2px; background: #80ffdb; }

@@ -7,11 +7,65 @@ import numpy as np
 from edge.decode.features import SPATIAL_DIM
 from edge.decode.model import train
 from edge.decode.spatial_task import generate_dataset, jitter_estimates_from_ground_truth, snippets_for_trial
-from edge.pipeline import DecodePrediction, StreamEvent, ingest, run_pipeline
+from edge.pipeline import DecodePrediction, EventAssembler, StreamEvent, ingest, run_pipeline
 from edge.types import LocalizationEstimate
 
 
 class PipelineTests(unittest.TestCase):
+    def test_event_and_snippet_pair_in_either_order(self) -> None:
+        from edge.link.codec import EventPacket, SnippetPacket, encode_packet
+        from edge.link.schema import FLAG_HAS_SNIPPET
+        event = EventPacket(19, 3200, 3, -20, flags=FLAG_HAS_SNIPPET, seq=40)
+        snippet = SnippetPacket(19, 3200, 3198, 32000.0, (2, 3),
+                                np.array([[1, 2], [3, 4], [-5, -20]], dtype=np.int16),
+                                3, 0.1, seq=41)
+        for packets in ((event, snippet), (snippet, event)):
+            assembler = EventAssembler()
+            for packet in packets:
+                assembler.feed(encode_packet(packet))
+            found = assembler.finish()
+            self.assertEqual(len(found), 1)
+            self.assertEqual((found[0].event_id, found[0].t_sample, found[0].channel_id), (19, 3200, 3))
+            self.assertEqual(found[0].snippet.channel_ids, (2, 3))
+            np.testing.assert_allclose(found[0].snippet.voltages_uv,
+                                       snippet.samples.astype(float) * float(np.float32(0.1)))
+            self.assertEqual(assembler.diagnostics.missing_packets, 0)
+
+    def test_missing_duplicate_conflict_and_corrupt_packets(self) -> None:
+        from edge.link.codec import EventPacket, PacketError, encode_packet
+        from edge.link.schema import FLAG_HAS_SNIPPET
+        event = EventPacket(1, 10, 2, -4, flags=FLAG_HAS_SNIPPET, seq=3)
+        assembler = EventAssembler(corrupt="skip")
+        assembler.feed(encode_packet(event))
+        assembler.feed(encode_packet(EventPacket(1, 10, 2, -4, flags=FLAG_HAS_SNIPPET, seq=5)))
+        bad = bytearray(encode_packet(EventPacket(2, 20, 1, -2, seq=6)))
+        bad[-1] ^= 1
+        assembler.feed(bytes(bad))
+        self.assertEqual(len(assembler.finish()), 1)
+        self.assertEqual(assembler.diagnostics.duplicate_packets, 1)
+        self.assertEqual(assembler.diagnostics.missing_packets, 1)
+        self.assertEqual(assembler.diagnostics.missing_snippets, 1)
+        self.assertEqual(assembler.diagnostics.corrupt_packets, 1)
+        with self.assertRaises(PacketError):
+            ingest([bytes(bad)])
+        with self.assertRaises(ValueError):
+            ingest([event, EventPacket(1, 10, 2, -5, seq=4)])
+        with self.assertRaises(ValueError):
+            ingest([event, EventPacket(2, 20, 1, -2, seq=3)])
+
+    def test_bounded_session_and_sequence_wrap(self) -> None:
+        from edge.link.codec import EventPacket
+        assembler = EventAssembler(max_events=1)
+        assembler.feed(EventPacket(1, 10, 2, -4, seq=0))
+        with self.assertRaises(OverflowError):
+            assembler.feed(EventPacket(2, 20, 3, -5, seq=1))
+        wrap = EventAssembler()
+        for seq in (0, 0xFFFFFFFF, 1):
+            wrap.feed(EventPacket(seq, seq, 0, -1, seq=seq))
+        self.assertEqual(wrap.diagnostics.missing_packets, 0)
+        self.assertEqual(len(wrap.finish()), 3)
+        self.assertEqual(wrap.diagnostics.missing_packets, 0)
+
     def test_ingest_snippets_and_returns_predictions(self) -> None:
         dataset = generate_dataset(seed=20261103, examples=8)
         snippets = snippets_for_trial(dataset, trial=0)

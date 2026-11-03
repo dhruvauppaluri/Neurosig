@@ -1,0 +1,4 @@
+# Optional raw IBL pilot. Install after the main locked environment.
+ONE-api==3.4.0
+ibllib==3.4.3
+ibl-neuropixel==1.14.0

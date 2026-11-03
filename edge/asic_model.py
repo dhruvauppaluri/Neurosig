@@ -158,11 +158,10 @@ class AsicModel:
         return packets
 
     def emit(self, event: object, voltages_uv: np.ndarray, **kwargs: object) -> list[bytes]:
-        """Encode packets and optionally push them into the link FIFO."""
+        """Encode packets and return only frames accepted by the optional FIFO."""
         frames = [encode_packet(pkt) for pkt in self.packets_for_event(event, voltages_uv, **kwargs)]  # type: ignore[arg-type]
         if self.fifo is not None:
-            for frame in frames:
-                self.fifo.try_push(frame)
+            return [frame for frame in frames if self.fifo.try_push(frame)]
         return frames
 
     def _take_seq(self) -> int:

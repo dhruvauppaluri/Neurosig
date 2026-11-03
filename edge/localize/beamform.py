@@ -59,6 +59,16 @@ class BeamformLocalizer:
         )
         self.steering_n = l2_normalize(self.steering, axis=1)
 
+    def score_profile(self, snippet: Snippet, n_bins: int = 32) -> tuple[float, ...]:
+        """Maximum normalized spatial score in each probe-depth bin."""
+        observed = l2_normalize(snippet_amplitudes(snippet))
+        scores = self.steering_n @ observed
+        edges = np.linspace(float(np.min(self.grid_xyz_um[:, 1])),
+                            float(np.max(self.grid_xyz_um[:, 1])), n_bins + 1)
+        groups = np.clip(np.digitize(self.grid_xyz_um[:, 1], edges) - 1, 0, n_bins - 1)
+        return tuple(float(np.max(scores[groups == i])) if np.any(groups == i) else 0.0
+                     for i in range(n_bins))
+
     def estimate(self, snippet: Snippet) -> LocalizationEstimate:
         t0 = time.perf_counter()
         amps = snippet_amplitudes(snippet)

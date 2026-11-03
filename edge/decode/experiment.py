@@ -186,7 +186,7 @@ def build_report(seed: int = 20261103, zip_path: Path = NEUROPIXELS_ZIP) -> dict
             "Synthetic labels mark which simulated source cluster was rate-modulated; they are not perceptions.",
             "This experiment is not vision restoration, not intended-movement decoding, and not a claim about humans.",
             FORWARD_MODEL,
-            "Localization uses an importable LocalizationEngine when present; otherwise ground-truth xyz plus Gaussian jitter.",
+            "Localization uses an amplitude engine; failures fall back to observed peak-channel contact geometry, never source truth.",
             "Spatial improvement is reported only if held-out accuracy rose on the same split; it is not assumed.",
             "Neuropixels CCF coordinates are not human neuron coordinates and were not mapped through edge.coords.",
         ],

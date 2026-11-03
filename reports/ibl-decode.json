@@ -1,0 +1,325 @@
+{
+  "status": "ran",
+  "pid": "4836a465-c691-4852-a0b1-dcd2b1ce38a1",
+  "eid": "caa5dddc-9290-4e27-9f5e-575ba3598614",
+  "probe": "probe00",
+  "sorting_revision": "2024-05-06",
+  "trials_revision": "2025-03-03",
+  "task": "left versus right visual stimulus, exactly one side with positive contrast",
+  "window": "50-250 ms after stimOn_times",
+  "eligible_trials": 358,
+  "selected_cluster_ids": [
+    414,
+    416,
+    417,
+    418,
+    419,
+    420,
+    421,
+    422,
+    423,
+    424,
+    425,
+    426,
+    427,
+    428,
+    429,
+    430,
+    431,
+    432,
+    433,
+    434,
+    435,
+    436,
+    437,
+    438,
+    439,
+    440,
+    441,
+    442,
+    443,
+    444,
+    445,
+    446
+  ],
+  "feature_source": "sorted spikes and processed average cluster waveforms",
+  "ground_truth_source_coordinates_used": false,
+  "models": [
+    {
+      "seed": 20261103,
+      "train": 250,
+      "test": 108,
+      "majority_test_accuracy": 0.5740740740740741,
+      "models": {
+        "A_counts": {
+          "accuracy": 0.7129629629629629,
+          "confusion_matrix": [
+            [
+              49,
+              13
+            ],
+            [
+              18,
+              28
+            ]
+          ],
+          "precision": [
+            0.7313432835820896,
+            0.6829268292682927
+          ],
+          "recall": [
+            0.7903225806451613,
+            0.6086956521739131
+          ],
+          "n_features": 32,
+          "model_bytes_float64": 264,
+          "inference_us_per_trial": 0.3645836841315031
+        },
+        "B_electrode": {
+          "accuracy": 0.7037037037037037,
+          "confusion_matrix": [
+            [
+              48,
+              14
+            ],
+            [
+              18,
+              28
+            ]
+          ],
+          "precision": [
+            0.7272727272727273,
+            0.6666666666666666
+          ],
+          "recall": [
+            0.7741935483870968,
+            0.6086956521739131
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.15277786318350722
+        },
+        "C_estimated": {
+          "accuracy": 0.7037037037037037,
+          "confusion_matrix": [
+            [
+              48,
+              14
+            ],
+            [
+              18,
+              28
+            ]
+          ],
+          "precision": [
+            0.7272727272727273,
+            0.6666666666666666
+          ],
+          "recall": [
+            0.7741935483870968,
+            0.6086956521739131
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.16088058516659118
+        }
+      },
+      "estimate_perturbation_um": {
+        "0": 0.7037037037037037,
+        "20": 0.6759259259259259,
+        "50": 0.7037037037037037,
+        "100": 0.5277777777777778
+      }
+    },
+    {
+      "seed": 20261104,
+      "train": 250,
+      "test": 108,
+      "majority_test_accuracy": 0.5740740740740741,
+      "models": {
+        "A_counts": {
+          "accuracy": 0.6851851851851852,
+          "confusion_matrix": [
+            [
+              49,
+              13
+            ],
+            [
+              21,
+              25
+            ]
+          ],
+          "precision": [
+            0.7,
+            0.6578947368421053
+          ],
+          "recall": [
+            0.7903225806451613,
+            0.5434782608695652
+          ],
+          "n_features": 32,
+          "model_bytes_float64": 264,
+          "inference_us_per_trial": 0.17785135208180658
+        },
+        "B_electrode": {
+          "accuracy": 0.7037037037037037,
+          "confusion_matrix": [
+            [
+              50,
+              12
+            ],
+            [
+              20,
+              26
+            ]
+          ],
+          "precision": [
+            0.7142857142857143,
+            0.6842105263157895
+          ],
+          "recall": [
+            0.8064516129032258,
+            0.5652173913043478
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.19328608350069434
+        },
+        "C_estimated": {
+          "accuracy": 0.7037037037037037,
+          "confusion_matrix": [
+            [
+              50,
+              12
+            ],
+            [
+              20,
+              26
+            ]
+          ],
+          "precision": [
+            0.7142857142857143,
+            0.6842105263157895
+          ],
+          "recall": [
+            0.8064516129032258,
+            0.5652173913043478
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.24227753143619607
+        }
+      },
+      "estimate_perturbation_um": {
+        "0": 0.7037037037037037,
+        "20": 0.7037037037037037,
+        "50": 0.6851851851851852,
+        "100": 0.6851851851851852
+      }
+    },
+    {
+      "seed": 20261105,
+      "train": 250,
+      "test": 108,
+      "majority_test_accuracy": 0.5740740740740741,
+      "models": {
+        "A_counts": {
+          "accuracy": 0.7129629629629629,
+          "confusion_matrix": [
+            [
+              52,
+              10
+            ],
+            [
+              21,
+              25
+            ]
+          ],
+          "precision": [
+            0.7123287671232876,
+            0.7142857142857143
+          ],
+          "recall": [
+            0.8387096774193549,
+            0.5434782608695652
+          ],
+          "n_features": 32,
+          "model_bytes_float64": 264,
+          "inference_us_per_trial": 0.16898115131038208
+        },
+        "B_electrode": {
+          "accuracy": 0.7222222222222222,
+          "confusion_matrix": [
+            [
+              52,
+              10
+            ],
+            [
+              20,
+              26
+            ]
+          ],
+          "precision": [
+            0.7222222222222222,
+            0.7222222222222222
+          ],
+          "recall": [
+            0.8387096774193549,
+            0.5652173913043478
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.2596482065402799
+        },
+        "C_estimated": {
+          "accuracy": 0.7222222222222222,
+          "confusion_matrix": [
+            [
+              52,
+              10
+            ],
+            [
+              20,
+              26
+            ]
+          ],
+          "precision": [
+            0.7222222222222222,
+            0.7222222222222222
+          ],
+          "recall": [
+            0.8387096774193549,
+            0.5652173913043478
+          ],
+          "n_features": 43,
+          "model_bytes_float64": 352,
+          "inference_us_per_trial": 0.1871117597652806
+        }
+      },
+      "estimate_perturbation_um": {
+        "0": 0.7222222222222222,
+        "20": 0.6666666666666666,
+        "50": 0.6666666666666666,
+        "100": 0.5833333333333334
+      }
+    }
+  ],
+  "aggregate": {
+    "A_counts": {
+      "mean_accuracy": 0.7037037037037037,
+      "min_accuracy": 0.6851851851851852,
+      "max_accuracy": 0.7129629629629629
+    },
+    "B_electrode": {
+      "mean_accuracy": 0.7098765432098766,
+      "min_accuracy": 0.7037037037037037,
+      "max_accuracy": 0.7222222222222222
+    },
+    "C_estimated": {
+      "mean_accuracy": 0.7098765432098766,
+      "min_accuracy": 0.7037037037037037,
+      "max_accuracy": 0.7222222222222222
+    }
+  },
+  "limitation": "One session; cluster mean waveforms were computed using the entire recording without labels, so location features are transductive. Raw AP pilot is separate. No exact neuron-position truth or RTL inference claimed."
+}

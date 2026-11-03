@@ -60,6 +60,7 @@ class SessionState:
     selected_region: str | None = None
     selected_channel: int | None = None
     run_golden_model: bool = True
+    localization_method: str = "amplitude"
     detector_note: str = "Golden-model detections are offline windowed software results, not RTL."
 
 
@@ -97,6 +98,7 @@ class NeuralEventEngine:
                 "selected_region": self.state.selected_region,
                 "selected_channel": self.state.selected_channel,
                 "run_golden_model": self.state.run_golden_model,
+                "localization_method": self.state.localization_method,
                 "detector_note": self.state.detector_note,
                 "metrics": self.metrics.to_dict(),
                 "regions": region_catalog(),
@@ -151,6 +153,11 @@ class NeuralEventEngine:
                 self.state.selected_channel = payload["selected_channel"]
             if "run_golden_model" in payload:
                 self.state.run_golden_model = bool(payload["run_golden_model"])
+            if "localization_method" in payload:
+                method = str(payload["localization_method"])
+                if method not in {"amplitude", "template", "beamform", "weighted_scan"}:
+                    raise ValueError(f"unknown localization method {method}")
+                self.state.localization_method = method
             if "seek_s" in payload:
                 target = max(0.0, float(payload["seek_s"]))
                 self._reset_locked(self.state.seed)
@@ -217,7 +224,8 @@ class NeuralEventEngine:
                 window_start = self._detector_cursor
                 window_dur = max(t1 - window_start, 0.05)
                 try:
-                    result = process_window(sources, window_start, window_dur)
+                    result = process_window(sources, window_start, window_dur,
+                                            localization_method=self.state.localization_method)
                     events.extend(result.events)
                     self.localization = dict(result.localization)
                     self.snippets.update(result.snippets)

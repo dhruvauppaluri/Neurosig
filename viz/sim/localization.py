@@ -57,6 +57,7 @@ class LocalizationResult:
     method: str = "none"
     error_um: float | None = None
     unverified: bool = True
+    score_profile: tuple[float, ...] | None = None
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -67,6 +68,7 @@ class LocalizationResult:
             "confidence": None if self.confidence is None else float(self.confidence),
             "unverified": True,
             "reason": self.reason,
+            "score_profile": None if self.score_profile is None else list(self.score_profile),
         }
 
 
@@ -101,27 +103,15 @@ def _stable_event_id(label: str) -> int:
     return 0
 
 
-def resolve_edge_localizer() -> Any | None:
-    """Soft-import a real edge engine if a later agent added one."""
-    try:
-        from edge.localize import get_default_localizer  # type: ignore[attr-defined]
+def resolve_edge_localizer(method: str = "amplitude") -> Any:
+    from edge.localize import AmplitudeLocalizer, BeamformLocalizer, TemplateLocalizer
+    from edge.localize.weighted import WeightedScanLocalizer
 
-        engine = get_default_localizer()
-        if engine is not None:
-            return engine
-    except Exception:
-        pass
-    for module_name, class_name in (
-        ("edge.localize", "AmplitudeLocalizer"),
-        ("edge.localize.amplitude", "AmplitudeLocalizer"),
-    ):
-        try:
-            module = __import__(module_name, fromlist=[class_name])
-            cls = getattr(module, class_name)
-            return cls()
-        except Exception:
-            continue
-    return None
+    engines = {"amplitude": AmplitudeLocalizer, "template": TemplateLocalizer,
+               "beamform": BeamformLocalizer, "weighted_scan": WeightedScanLocalizer}
+    if method not in engines:
+        raise ValueError(f"unknown localization method {method}")
+    return engines[method]()
 
 
 def _result_from_edge(estimate: LocalizationEstimate, request: LocalizationRequest) -> LocalizationResult:
@@ -155,8 +145,8 @@ def _result_from_edge(estimate: LocalizationEstimate, request: LocalizationReque
 class EdgeLocalizerAdapter:
     """Convert viz millimetre electrodes and µV snippets into edge.types.Snippet."""
 
-    def __init__(self, engine: Any | None = None) -> None:
-        self._engine = engine if engine is not None else resolve_edge_localizer()
+    def __init__(self, engine: Any | None = None, method: str = "amplitude") -> None:
+        self._engine = engine if engine is not None else resolve_edge_localizer(method)
         self.method = getattr(self._engine, "method", "not_implemented")
 
     def estimate(self, request: LocalizationRequest) -> LocalizationResult:
@@ -207,7 +197,11 @@ class EdgeLocalizerAdapter:
                     error_um=payload.get("error_um"),  # type: ignore[arg-type]
                 )
             if isinstance(estimate, LocalizationEstimate):
-                return _result_from_edge(estimate, request)
+                result = _result_from_edge(estimate, request)
+                if hasattr(self._engine, "score_profile"):
+                    return LocalizationResult(**{**result.__dict__,
+                        "score_profile": self._engine.score_profile(snippet)})
+                return result
             return LocalizationResult(
                 available=False,
                 reason="Edge localizer returned an unsupported estimate type",

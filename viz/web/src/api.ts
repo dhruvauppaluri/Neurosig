@@ -15,6 +15,19 @@ export async function fetchSession(): Promise<Session> {
   return response.json();
 }
 
+export interface ResearchPayload {
+  decoder: Record<string, { mean_accuracy: number; min_accuracy: number; max_accuracy: number }> | null;
+  localization: Record<string, { median_error_um: number | null }> | null;
+  ibl: Record<string, unknown> | null;
+  provenance: string;
+}
+
+export async function fetchResearch(): Promise<ResearchPayload> {
+  const response = await fetch("/api/v1/research");
+  if (!response.ok) throw new Error("research report fetch failed");
+  return response.json() as Promise<ResearchPayload>;
+}
+
 export async function control(body: Record<string, unknown>): Promise<Session> {
   const response = await fetch("/api/v1/session/control", {
     method: "POST",

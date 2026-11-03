@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
@@ -16,6 +17,7 @@ from viz.sim.engine import NeuralEventEngine
 ROOT = Path(__file__).resolve().parents[1]
 WEB_DIST = ROOT / "web" / "dist"
 WEB_INDEX = WEB_DIST / "index.html"
+REPORTS = ROOT.parent / "reports"
 
 engine = NeuralEventEngine()
 app = FastAPI(title="Neurosig visualization", version="1")
@@ -39,6 +41,7 @@ class ControlBody(BaseModel):
     selected_region: str | None = Field(default=None)
     selected_channel: int | None = None
     run_golden_model: bool | None = None
+    localization_method: str | None = None
     seek_s: float | None = None
 
 
@@ -56,6 +59,20 @@ def post_control(body: ControlBody) -> dict:
 @app.get("/api/v1/timeline")
 def get_timeline(limit: int = 400) -> dict:
     return {"points": engine.timeline_points(limit)}
+
+
+@app.get("/api/v1/research")
+def get_research() -> dict:
+    """Concise offline results; these are never presented as live inference."""
+    decoder = REPORTS / "edge-decode-v2.json"
+    localization = REPORTS / "localization-benchmark-v2.json"
+    ibl = REPORTS / "ibl-pilot.json"
+    return {
+        "decoder": json.loads(decoder.read_text())["aggregate"] if decoder.exists() else None,
+        "localization": json.loads(localization.read_text())["synthetic"]["methods"] if localization.exists() else None,
+        "ibl": json.loads(ibl.read_text()) if ibl.exists() else None,
+        "provenance": "offline reproducible reports, not live ASIC output",
+    }
 
 
 @app.get("/api/v1/snippet/{event_id}")

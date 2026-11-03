@@ -8,11 +8,38 @@ from edge.asic_model import AsicModel, default_lsb_uv, quantize_uv
 from edge.link.codec import EventPacket, SnippetPacket, decode_packet
 from edge.link.control import ControlPlane
 from edge.link.schema import ACQ_BOTH, FLAG_HAS_SNIPPET
+from edge.link.buffer import LinkFifo
+from edge.pipeline import EventAssembler
 from scripts.detect_spikes import Event
 from scripts.quantize_adc import AdcConfig
 
 
 class AsicModelTests(unittest.TestCase):
+    def test_backpressure_does_not_report_rejected_frame_as_emitted(self) -> None:
+        fifo = LinkFifo(depth=1, drop_oldest=False)
+        model = AsicModel(n_channels=4, fifo=fifo)
+        event = Event(sample=80, channel=2, voltage_uv=-40.0, normalized_amplitude=7.0)
+        accepted = model.emit(event, np.zeros((200, 4)))
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(fifo.backpressure_count, 1)
+        assembler = EventAssembler()
+        assembler.feed(fifo.pop())
+        self.assertEqual(len(assembler.finish()), 1)
+        self.assertEqual(assembler.diagnostics.missing_snippets, 1)
+
+    def test_drop_oldest_still_yields_one_logical_spike(self) -> None:
+        fifo = LinkFifo(depth=1, drop_oldest=True)
+        model = AsicModel(n_channels=4, fifo=fifo)
+        event = Event(sample=80, channel=2, voltage_uv=-40.0, normalized_amplitude=7.0)
+        model.emit(event, np.zeros((200, 4)))
+        self.assertEqual(fifo.dropped, 1)
+        assembler = EventAssembler()
+        assembler.feed(fifo.pop())
+        logical = assembler.finish()
+        self.assertEqual(len(logical), 1)
+        self.assertIsNotNone(logical[0].snippet)
+        self.assertEqual(assembler.diagnostics.snippet_only, 1)
+
     def test_lsb_matches_adc_config(self) -> None:
         self.assertEqual(default_lsb_uv(), AdcConfig().lsb_uv)
 

@@ -12,7 +12,7 @@ Interactive research UI with a realistic human brain surface, synthetic spike ge
 - Mode B plays already-sorted spike times. Sorted timestamps are never fed to the ADC.
 - Golden-model detections are offline software windows using the existing float ADC / IIR / detector APIs. They are not RTL results.
 - Simulated sources are toy point-current events. Estimated locations come from a simplified 1/r amplitude model on electrode snippets, not a biophysical inverse. Recorded Neuropixels playback is already-sorted mouse spikes mapped onto a stylized human-looking visual region; those CCF coordinates are not exact human neuron positions.
-- Localization estimates remain `unverified` until a scientific report exists. Scientific error is reported in micrometres (`error_um`); viewer markers use stylized millimetres via `edge.coords`. If no edge localizer is present, the pane still shows method/reason with `available: false`.
+- The dashboard offers amplitude, template, spatial scan, and weighted scan on the same synthetic event. Truth and estimates use distinct markers; scores and error are shown only where available. The offline research panel uses saved report aggregates, not live ASIC telemetry. Scientific error is in micrometres (`error_um`); viewer markers use stylized millimetres via `edge.coords`.
 
 ## Setup
 
@@ -59,10 +59,10 @@ Optional AllenSDK downloads: `.venv/bin/python -m viz.sim.download_allen` then c
 
 ## Event schema
 
-See [`schema/neural_event.v1.json`](schema/neural_event.v1.json). WebSocket batches: `WS /api/v1/events`. Control: `POST /api/v1/session/control`. Cached detection snippets: `GET /api/v1/snippet/{event_id}`.
+See [`schema/neural_event.v1.json`](schema/neural_event.v1.json). WebSocket batches: `WS /api/v1/events`. Control: `POST /api/v1/session/control` (including `localization_method`). Cached detection snippets: `GET /api/v1/snippet/{event_id}`. Offline research aggregates: `GET /api/v1/research`. Event metadata includes provenance and recording/sample timestamps where available.
 
 ## Anatomy transform
 
 The source GLB is in metres with +X anatomical left, +Y superior, and +Z anterior. `web/src/anatomyTransform.ts` maps it into the viewer's millimetre coordinates (+X right, +Y anterior, +Z superior): `[-840*x, 840*z + 7, 840*(y - 1.628)]`. The uniform 0.84 display scale aligns the asset visually with existing region and probe coordinates. This is not an anatomical registration; the mouse data remains a visual-region mapping only. The source GLB and a local Draco decoder are served from `web/public/` for offline playback.
 
-Python visualization tests include schema, synthetic, Neuropixels, golden-bridge localization adapter, and snippet API checks (19 tests). Frontend `npm test` covers anatomy assets plus event-kind colors. These checks cover the viewer, not neural detection accuracy or RTL.
+Python visualization tests include schema, synthetic, Neuropixels, same-event localization adapter, research API, and snippet checks. Frontend `npm test` covers anatomy assets and event-kind colors. These checks cover the viewer, not neural detection accuracy or RTL.

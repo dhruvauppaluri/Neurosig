@@ -24,6 +24,18 @@ def _near_probe(channel: int = 10) -> tuple[float, float, float]:
 
 
 class GoldenBridgeTests(unittest.TestCase):
+    def test_algorithm_comparison_uses_same_synthetic_event(self) -> None:
+        from viz.sim.events import NeuralEvent
+        event = NeuralEvent(event_id="source:pilot", t_s=0.05,
+                            xyz_mm=(4.0, -80.0, 8.0), region_id="visual_cortex",
+                            amplitude=100.0, source_id="pilot", kind="synthetic_source")
+        result = process_window([event], 0.0, 0.1, localization_method="template")
+        estimates = [item for item in result.events if item.kind == "localization_estimate"]
+        if estimates:
+            comparison = estimates[0].metadata["algorithm_comparison"]
+            self.assertEqual(set(comparison), {"amplitude", "template", "beamform", "weighted_scan"})
+            self.assertEqual(estimates[0].metadata["method"], "template")
+
     def test_overlapping_templates_are_finite(self) -> None:
         events = [
             NeuralEvent("a", 0.004, _near_probe(8), "visual_cortex", -180.0, "u0", "synthetic_source"),

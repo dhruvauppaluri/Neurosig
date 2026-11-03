@@ -8,6 +8,13 @@ from viz.sim import server
 
 
 class ServerTests(unittest.TestCase):
+    def test_localization_method_control(self) -> None:
+        from viz.sim.engine import NeuralEventEngine
+        engine = NeuralEventEngine()
+        self.assertEqual(engine.control({"localization_method": "template"})["localization_method"], "template")
+        with self.assertRaises(ValueError):
+            engine.control({"localization_method": "time_delay_steering"})
+
     def setUp(self) -> None:
         server.engine.control({"reset": True, "seed": 5, "run_golden_model": False, "mode": "synthetic"})
         self.client = TestClient(server.app)

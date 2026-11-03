@@ -1,0 +1,26 @@
+{
+  "input": "data/unfiltered/recording.h5",
+  "rtl_trace": "/tmp/neurosig-rtl-events.txt",
+  "rtl_python_exact_events": 9,
+  "software_nsg1_packets": 18,
+  "edge_logical_events": 9,
+  "with_waveforms": 9,
+  "with_localization": 9,
+  "count_decoder_scores": [
+    0.765625,
+    0.765625,
+    0.73828125,
+    0.765625,
+    0.765625
+  ],
+  "ingest_diagnostics": {
+    "duplicate_packets": 0,
+    "corrupt_packets": 0,
+    "missing_packets": 0,
+    "missing_snippets": 0,
+    "snippet_only": 0,
+    "ignored_control_packets": 0
+  },
+  "source_note": "RTL event triples from fresh Verilator trace; NSG1 packet bytes produced by Python AsicModel",
+  "accuracy_note": "Count decoder is trained on a different synthetic task; scores here have no accuracy interpretation. MEArec positions are not established neuron-localization truth."
+}

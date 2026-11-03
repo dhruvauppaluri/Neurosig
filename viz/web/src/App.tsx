@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { control, eventSocket, fetchSession } from "./api";
+import { control, eventSocket, fetchResearch, fetchSession, type ResearchPayload } from "./api";
 import { BrainScene, type Pulse } from "./BrainScene";
 import { KIND_COLORS, KIND_LABELS, type EventKind, type NeuralEvent, type Session } from "./types";
 import { WaveformPanel } from "./WaveformPanel";
@@ -12,12 +12,14 @@ export function App() {
   const [pulses, setPulses] = useState<Pulse[]>([]);
   const [inspected, setInspected] = useState<NeuralEvent | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [research, setResearch] = useState<ResearchPayload | null>(null);
   const [showTraces, setShowTraces] = useState(true);
   const [cortexOpacity, setCortexOpacity] = useState(0.25);
   const clockRef = useRef(0);
 
   useEffect(() => {
     fetchSession().then(setSession).catch((err: Error) => setError(err.message));
+    fetchResearch().then(setResearch).catch(() => setResearch(null));
   }, []);
 
   useEffect(() => {
@@ -123,6 +125,13 @@ export function App() {
           />
           Golden-model detections
         </div>
+        <label>Localization algorithm</label>
+        <select value={session.localization_method} onChange={(event) => void send({ localization_method: event.target.value })}>
+          <option value="amplitude">Amplitude centroid</option>
+          <option value="template">Template matching</option>
+          <option value="beamform">Normalized spatial scan</option>
+          <option value="weighted_scan">Weighted spatial scan</option>
+        </select>
         <div className="toggle">
           <input type="checkbox" checked={showTraces} onChange={(event) => setShowTraces(event.target.checked)} />
           Illustrative wiring and travel paths
@@ -184,11 +193,18 @@ export function App() {
         <p className="inspect">{session.honesty.localization}</p>
         <p className="inspect">{session.detector_note}</p>
         <p className="inspect">Neuropixels playback: {session.neuropixels.playback_kind}. Raw voltage: {String(session.neuropixels.has_raw_voltage)}.</p>
+        <h2>Edge AI study</h2>
+        <p className="inspect">{research?.provenance ?? "No offline study report loaded."}</p>
+        {research?.decoder && Object.entries(research.decoder).map(([model, result]) => (
+          <div className="stat" key={model}><span>{model}</span><strong>{(result.mean_accuracy * 100).toFixed(1)}%</strong></div>
+        ))}
+        <p className="inspect">Synthetic held-out accuracy across three seeds. These values are not live decoding of this view.</p>
         <h2>Inspect</h2>
         {inspected ? (
           <div className="inspect">
             <div><code>{inspected.event_id}</code></div>
             <div>t = {inspected.t_s.toFixed(4)} s · {KIND_LABELS[inspected.kind]}</div>
+            <div>sample {typeof inspected.metadata?.sample_index === "number" ? inspected.metadata.sample_index : "—"}</div>
             <div>region {inspected.region_id}</div>
             <div>xyz_mm [{inspected.xyz_mm.map((v) => v.toFixed(1)).join(", ")}]</div>
             <div>quality {inspected.position_quality}</div>
@@ -197,6 +213,22 @@ export function App() {
             <div>channel {inspected.channel_id ?? "—"}</div>
             <div>duration {inspected.duration_ms} ms</div>
             {inspected.ground_truth_event_id && <div>GT {inspected.ground_truth_event_id}</div>}
+            {typeof inspected.metadata?.provenance === "string" && <div>{inspected.metadata.provenance}</div>}
+            {inspected.kind === "localization_estimate" && Boolean(inspected.metadata?.algorithm_comparison) && (
+              <div>
+                <strong>Same-event comparison</strong>
+                {Object.entries(inspected.metadata?.algorithm_comparison as Record<string, { error_um: number | null }>).map(([name, result]) => (
+                  <div key={name}>{name}: {result.error_um == null ? "no known truth" : `${result.error_um.toFixed(1)} µm`}</div>
+                ))}
+              </div>
+            )}
+            {Array.isArray(inspected.metadata?.score_profile) && (
+              <div><strong>Spatial score by probe depth</strong>
+                <div className="score-profile">{(inspected.metadata.score_profile as number[]).map((score, index) => (
+                  <span key={index} title={`depth bin ${index}: ${score.toFixed(3)}`} style={{ height: `${Math.max(3, score * 36)}px` }} />
+                ))}</div>
+              </div>
+            )}
             <WaveformPanel event={inspected} />
           </div>
         ) : (

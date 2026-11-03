@@ -6,7 +6,7 @@ then rendered with ``edge.forward.render_recording`` (quasi-static monopole
 stub, not LFPy/MEArec).
 
 Localization features prefer an importable ``LocalizationEngine``. If that
-path is unavailable, estimates are ground-truth xyz plus Gaussian jitter.
+path is unavailable, features use the observed peak-channel contact position.
 """
 
 from __future__ import annotations
@@ -48,7 +48,7 @@ FORWARD_MODEL = (
     "edge.forward.render_recording: quasi-static point-monopole voltages with a "
     "triphasic kernel (not LFPy/MEArec morphology)"
 )
-LOCALIZER_FALLBACK = "ground_truth_xyz_plus_gaussian_jitter_um"
+LOCALIZER_FALLBACK = "observed_peak_channel_electrode_position"
 
 
 @dataclass(frozen=True)
@@ -114,6 +114,7 @@ def generate_dataset(
     localizer: LocalizationEngine | None = None,
 ) -> SpatialDataset:
     rng = np.random.default_rng(seed)
+    del jitter_sigma_um  # legacy API parameter; no ground-truth jitter in benchmarks
     sources = make_sources(rng)
     array = linear_probe_um(n_channels=N_CHANNELS)
     n_samples = int(round(WINDOW_S * SAMPLE_RATE_HZ))
@@ -176,10 +177,10 @@ def generate_dataset(
                 if estimate.available and estimate.xyz_um is not None:
                     est_points.append(estimate.xyz_um)
                     continue
-            noise = rng.normal(0.0, jitter_sigma_um, size=3)
-            est_points.append(
-                (float(xyz[0] + noise[0]), float(xyz[1] + noise[1]), float(xyz[2] + noise[2]))
-            )
+            # Missing estimates fall back only to measured channel geometry.
+            # Ground-truth source coordinates never enter model features.
+            site = array.sites[int(peak)]
+            est_points.append(site.xyz_um)
         if channels:
             ch_idx, ch_counts = np.unique(np.asarray(channels, dtype=np.int64), return_counts=True)
             row = np.zeros(N_CHANNELS, dtype=np.int64)

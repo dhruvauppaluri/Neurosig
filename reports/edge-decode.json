@@ -23,7 +23,7 @@
       "source_id": 1,
       "cluster": 0,
       "xyz_um": [
-        -3.158303787983712,
+        -3.1583037879837113,
         200.0,
         11.241729516789022
       ]
@@ -43,7 +43,7 @@
       "xyz_um": [
         11.102166063574764,
         240.0,
-        4.145260167467207
+        4.145260167467205
       ]
     },
     {
@@ -61,7 +61,7 @@
       "xyz_um": [
         -6.181117180344417,
         320.0,
-        -1.401541003441075
+        -1.401541003441074
       ]
     },
     {
@@ -70,7 +70,7 @@
       "xyz_um": [
         -2.3016106364358997,
         340.0,
-        -2.5734405267966274
+        -2.5734405267966283
       ]
     },
     {
@@ -79,25 +79,25 @@
       "xyz_um": [
         -11.698011921309135,
         360.0,
-        -1.3768174259055783
+        -1.3768174259055774
       ]
     },
     {
       "source_id": 8,
       "cluster": -1,
       "xyz_um": [
-        5.2124152042397185,
+        5.212415204239717,
         40.0,
-        6.642226197816413
+        6.642226197816412
       ]
     },
     {
       "source_id": 9,
       "cluster": -1,
       "xyz_um": [
-        4.169501394587542,
+        4.16950139458754,
         117.14285714285714,
-        5.602894370816816
+        5.6028943708168155
       ]
     },
     {
@@ -115,7 +115,7 @@
       "xyz_um": [
         11.505901692379172,
         271.42857142857144,
-        6.243813499260341
+        6.243813499260343
       ]
     },
     {
@@ -124,14 +124,14 @@
       "xyz_um": [
         -9.218447427887556,
         348.57142857142856,
-        0.5783145024930683
+        0.5783145024930674
       ]
     },
     {
       "source_id": 13,
       "cluster": -1,
       "xyz_um": [
-        -1.0981338229473927,
+        -1.0981338229473918,
         425.71428571428567,
         -8.003685525979867
       ]
@@ -158,7 +158,7 @@
   "forward_model": "edge.forward.render_recording: quasi-static point-monopole voltages with a triphasic kernel (not LFPy/MEArec morphology)",
   "used_stub_forward": true,
   "localizer_method": "amplitude",
-  "localization_fallback": "ground_truth_xyz_plus_gaussian_jitter_um",
+  "localization_fallback": "observed_peak_channel_electrode_position",
   "jitter_sigma_um": 25.0,
   "window_s": 0.1,
   "n_y_bins": 8,
@@ -179,17 +179,25 @@
   "accuracy_delta_spatial_minus_baseline": 0.00390625,
   "same_split": true,
   "neuropixels": {
-    "status": "skipped",
+    "status": "ran_count_only",
     "spatial_features": "off",
-    "zip_path": "data/neuropixels/steinmetz_session11.zip",
-    "limitation": "Steinmetz session-11 zip is not present. Neuropixels path skipped. Fixture sorted-spike playback is not voltage and was not used as ADC input."
+    "source": "https://programminginneuroscience.com/wp-content/uploads/2026/09/steinmetz_session11.zip",
+    "source_sha256": "9c055f1248670cd39c15f6ebba5e1d5dac72cda8a15778221aaf8fc379d6417b",
+    "task": "blank (0) versus full (1) right-side visual contrast",
+    "neural_features": "first 32 VISp units, counts from 50-250 ms after stimulus onset",
+    "split_seed": 20261103,
+    "train_trials": 167,
+    "test_trials": 73,
+    "float_test_accuracy": 0.9041095890410958,
+    "trainer": "scripts.synthetic_decoder.train",
+    "limitation": "Processed spike counts, not raw probe voltage. Spatial localization features are off because this extract has no per-spike xyz in probe_um. Visual stimulus labels are not perceptions or intended movement. Fixture sorted spikes were not treated as voltages."
   },
   "rtl_count_baseline": "rtl/spike_count_decoder.sv remains the 32-count RTL baseline and was not modified",
   "limitations": [
     "Synthetic labels mark which simulated source cluster was rate-modulated; they are not perceptions.",
     "This experiment is not vision restoration, not intended-movement decoding, and not a claim about humans.",
     "edge.forward.render_recording: quasi-static point-monopole voltages with a triphasic kernel (not LFPy/MEArec morphology)",
-    "Localization uses an importable LocalizationEngine when present; otherwise ground-truth xyz plus Gaussian jitter.",
+    "Localization uses an amplitude engine; failures fall back to observed peak-channel contact geometry, never source truth.",
     "Spatial improvement is reported only if held-out accuracy rose on the same split; it is not assumed.",
     "Neuropixels CCF coordinates are not human neuron coordinates and were not mapped through edge.coords."
   ],

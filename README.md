@@ -8,7 +8,7 @@ The MEArec setup is working on Apple Silicon macOS with Python 3.12.15, MEArec 1
 
 The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly. A 32-feature linear decoder has been trained and verified in RTL on both synthetic spike-count windows and a small processed real Neuropixels session.
 
-A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It imports the golden-model Python APIs and does not modify RTL. A Python `edge/` package localizes synthetic sources on a 32-site probe, emulates an NSG1 ASIC-to-edge link, and compares count-only versus spatially augmented decoding. Localization RTL is **not** implemented.
+A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It compares four localization methods on the same event and shows offline benchmark provenance. A Python `edge/` package localizes synthetic, MEArec, and IBL sorter-triggered waveforms; emulates an NSG1 ASIC-to-edge link; and compares count, geometry, and estimated-location decoding. Localization RTL is **not** implemented. The [Phase 2 validation record](reports/phase2-validation.md) separates measured results from limits.
 
 ## Setup and validation
 
@@ -178,23 +178,33 @@ vvp /tmp/neurosig-decoder.vvp +WEIGHTS=data/neuropixels/decoder/weights.txt +VEC
 
 The downloaded file's SHA-256 was `9c055f1248670cd39c15f6ebba5e1d5dac72cda8a15778221aaf8fc379d6417b`. The task is blank versus full right-side visual contrast, using counts from the first 32 VISp units in a 50–250 ms post-stimulus window. A seed `20261103` stratified split gave 167 train and 73 held-out trials. Float and fixed models both scored 90.4% on the held-out trials versus a 69.9% majority-class baseline; all 73 held-out RTL scores and all 240 eligible-trial RTL scores matched fixed Python exactly. See `reports/neuropixels-decoder.json`. These are sorted, trial-binned spikes, **not raw voltage**: they stress the decoder but cannot validate the ADC, filter, or spike detector. This is visual-stimulus decoding in one mouse session, not intended movement decoding.
 
-### Spatial localization and ASIC-to-edge interface
+### Edge integration, localization, and raw-data pilot
 
 Python localization, a software NSG1 packet link, and an edge decoder comparison live under [`edge/`](edge/). They do not modify verified DSP arithmetic or RTL. Interfaces are listed in [`docs/edge-interfaces.md`](docs/edge-interfaces.md). A later hardware sketch is [`docs/rtl-acceleration-localization.md`](docs/rtl-acceleration-localization.md).
 
-The forward model is a documented quasi-static monopole with a triphasic kernel (`edge/forward.py`), not LFPy/MEArec morphology. Errors are Euclidean micrometers on a stylized 20 µm-pitch linear probe. Viewer millimetres use `edge.coords`.
+The synthetic forward model is a documented quasi-static monopole with a triphasic kernel (`edge/forward.py`). The newer benchmark also uses the seeded MEArec biophysical recording. Errors are Euclidean micrometers. Viewer millimetres use `edge.coords`.
 
 ```sh
 .venv/bin/python -m unittest discover -s edge/tests
 .venv/bin/python scripts/run_localization_benchmark.py
 .venv/bin/python scripts/run_edge_decode.py
+.venv/bin/python -m edge.benchmark_v2
+.venv/bin/python -m edge.decode.experiment_v2
+.venv/bin/python scripts/run_edge_integration.py
+./scripts/setup_ibl.sh
+data/ibl-venv/bin/python -m edge.ibl
+data/ibl-venv/bin/python -m edge.decode.ibl_experiment
 ```
 
-On seed `20261103`, 576 localization estimates were available. Isolated low-noise median errors were 6.75 µm (amplitude), 12.9 µm (template, held-out catalog sites), and 6.51 µm (quasi-static amplitude scan). Sweep medians including 8–60 µV noise and overlapping spikes were 63.6 µm, 42.4 µm, and 54.0 µm. Median latencies were about 1.0 ms, 0.06 ms, and 0.19 ms. MEArec localization was skipped because `data/smoke/recording.h5` was not present. See `reports/localization-benchmark.json`.
+The multi-seed benchmark uses 324 shared held-out events across linear and staggered probes, source distance, noise, and overlap. Median/p90 errors were 41.3/97.6 µm (amplitude), 24.2/45.8 µm (template), 43.2/69.1 µm (spatial scan), and 35.0/58.3 µm (weighted scan). No method failed. On nine MEArec spikes from one known source, median errors were 42.2, 32.7, 41.9, and 41.9 µm respectively. The fixed template grid is matched to the synthetic forward model, so its synthetic lead does not establish real-world superiority. Runtime and condition detail are in `reports/localization-benchmark-v2.json`; the older single-seed report remains historical.
 
-The software link encodes little-endian `NSG1` EVENT and SNIPPET frames with CRC32, a 64-deep drop-oldest FIFO, sequence-gap detection, and a control path for thresholds, channel masks, acquisition mode, status, and ping. There is no stimulation driver.
+The software link encodes little-endian `NSG1` EVENT and SNIPPET frames with CRC32, a 64-deep drop-oldest FIFO, sequence-gap detection, and a control path for thresholds, channel masks, acquisition mode, status, and ping. `EventAssembler` joins EVENT and SNIPPET in either order by session-scoped event ID and emits once at end of stream. It bounds event state, reports missing partners, and rejects conflicting duplicates. `scripts/run_edge_integration.py` compared nine actual RTL event triples with Python, then used a **software NSG1 packet emulator** and MEArec snippets for edge localization and decoder scoring; the RTL does not output NSG1 frames. See `reports/edge-integration.json`.
 
-A synthetic two-cluster “which shank neighborhood is more active” task compared 32-channel spike counts with counts plus localization features on the same 3072/1024 split. Held-out accuracy was 83.7% (counts, `scripts.synthetic_decoder.train`) versus 84.1% (spatial, 43 features). The 0.39 percentage-point gain is one seeded run, not a claim that spatial features generally help. Neuropixels spatial decoding was skipped (Steinmetz zip absent); fixture sorted spikes were not used as voltages. Labels are synthetic cluster identities, not perceptions. `rtl/spike_count_decoder.sv` is unchanged. See `reports/edge-decode.json`.
+The no-leakage synthetic A/B/C task uses counts, counts plus electrode geometry, and counts plus **estimated** positions on identical splits (seeds 20261103–05). Mean held-out accuracy was 81.38%, 81.38%, and 82.03%. Ground-truth positions are not decoder inputs. The old `reports/edge-decode.json` is retained as a historical single-seed result; use `reports/edge-decode-v2.json` for the A/B/C comparison. The Q8.8 RTL count decoder is a separately labeled baseline.
+
+The IBL pilot uses public insertion `4836a465-c691-4852-a0b1-dcd2b1ce38a1` (`caa5dddc-9290-4e27-9f5e-575ba3598614`, probe00), one second from t=100 s, native 30 kHz AP voltage, 32 VISp contacts, sorting revision `2024-05-06`, and trial revision `2025-03-03`. It extracts multichannel waveforms and compares axial estimates with sorter peak-channel depth, an imperfect reference. The 358-trial left-versus-right visual-stimulus decoder uses sorted counts and processed waveform-derived location features. Across three splits, A/B/C mean accuracy was 70.37%/70.99%/70.99% versus 57.41% majority baseline; spatial features did not improve over geometry. These trials are distinct from the one-second raw chunk, so this is not a raw-voltage-to-decoder accuracy result. See `reports/ibl-pilot.json` and `reports/ibl-decode.json`. Large IBL downloads remain ignored under `data/`.
+
+The existing 6σ floating-point detector, run directly on the native 30 kHz AP voltage after a 300–6000 Hz filter, found one event and matched none of 294 sorting spikes assigned to those contacts within 1 ms. This negative result means the current detector calibration and 32-contact selection do not transfer to this raw session. It is neither an RTL test nor a validated detection accuracy estimate, since sorting is an imperfect reference. The raw waveform localization comparisons use sorter-triggered snippets.
 
 ### Integrated RTL stress and finite-recording behavior
 

@@ -109,6 +109,7 @@ def process_window(
     adc: AdcConfig | None = None,
     detector: DetectorConfig | None = None,
     run_detector: bool = True,
+    localization_method: str = "amplitude",
 ) -> GoldenRun:
     voltages, array = render_voltages(source_events, window_start_s, window_duration_s, config=recording)
     adc_config = adc or AdcConfig()
@@ -173,7 +174,8 @@ def process_window(
         channel_ids = tuple(site.channel_id for site in array.sites)
         electrode_xyz = tuple(site.xyz_mm for site in array.sites)
         n_pre, n_post = snippet_sample_counts(detector_config.sample_rate_hz)
-        adapter = EdgeLocalizerAdapter()
+        comparison_adapters = {name: EdgeLocalizerAdapter(method=name)
+                               for name in ("amplitude", "template", "beamform", "weighted_scan")}
         last_estimate = localization
         preferred_estimate = None
         for detected in merged:
@@ -202,8 +204,7 @@ def process_window(
                 )
                 snippets[det_id] = payload
                 matched = _matching_source(detected, source_events, window_start_s, detector_config)
-                estimate = adapter.estimate(
-                    LocalizationRequest(
+                request = LocalizationRequest(
                         channel_ids=channel_ids,
                         electrode_xyz_mm=electrode_xyz,
                         event_ids=(det_id,),
@@ -214,7 +215,10 @@ def process_window(
                         peak_channel=detected.channel,
                         ground_truth_xyz_mm=None if matched is None else matched.xyz_mm,
                     )
-                )
+                comparison_results = {name: candidate.estimate(request)
+                                      for name, candidate in comparison_adapters.items()}
+                comparison = {name: result.to_dict() for name, result in comparison_results.items()}
+                estimate = comparison_results[localization_method]
                 last_estimate = estimate.to_dict()
                 if last_estimate.get("available") and last_estimate.get("error_um") is not None:
                     preferred_estimate = last_estimate
@@ -241,6 +245,12 @@ def process_window(
                                 "confidence": estimate.confidence,
                                 "unverified": True,
                                 "reason": estimate.reason,
+                                "algorithm_comparison": {name: {
+                                    "xyz_mm": row["xyz_mm"], "error_um": row["error_um"],
+                                    "confidence": row["confidence"]} for name, row in comparison.items()},
+                                "score_profile": estimate.score_profile,
+                                "sample_index": detected.sample,
+                                "provenance": "synthetic voltage, software golden detector, edge Python localizer",
                             },
                         )
                     )

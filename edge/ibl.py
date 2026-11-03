@@ -26,6 +26,8 @@ from scripts.real_detector import RealDetectorConfig, detect_real, evaluate_agai
 DEFAULT_PID = "4836a465-c691-4852-a0b1-dcd2b1ce38a1"
 DEFAULT_EID = "caa5dddc-9290-4e27-9f5e-575ba3598614"
 DEFAULT_PROBE = "probe00"
+# Second public insertion: NYU-45 2021-07-19 probe00 (VISa, not the same mouse).
+SECOND_PID = "1a60a6e1-da99-4d4e-a734-39b1d4544fad"
 SORTING_REVISION = "2024-05-06"
 TRIALS_REVISION = "2025-03-03"
 
@@ -33,7 +35,9 @@ TRIALS_REVISION = "2025-03-03"
 def select_visp_channels(acronyms: np.ndarray, n_channels: int = 32) -> np.ndarray:
     selected = np.flatnonzero(np.char.startswith(np.asarray(acronyms).astype(str), "VISp"))
     if len(selected) < n_channels:
-        raise ValueError(f"only {len(selected)} VISp channels, need {n_channels}")
+        selected = np.flatnonzero(np.char.startswith(np.asarray(acronyms).astype(str), "VIS"))
+    if len(selected) < n_channels:
+        raise ValueError(f"only {len(selected)} visual channels, need {n_channels}")
     return selected[:n_channels]
 
 

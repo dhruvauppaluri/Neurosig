@@ -280,3 +280,30 @@ LEGACY_SIX_SIGMA = RealDetectorConfig(
     artifact_channel_fraction=1.0,
     mad_iterations=0,
 )
+
+FROZEN_REAL_DETECTOR_NAME = "car_4sigma_300_6000_negative"
+FROZEN_REAL_DETECTOR_RATIONALE = (
+    "Across three disjoint 1 s windows on IBL insertion 4836a465, median-CAR plus "
+    "a 300–6000 Hz cascade and 4σ negative threshold had the most stable 1 ms F1 "
+    "versus sorting without the false-positive inflation of dual polarity. A 9 kHz "
+    "low-pass was statistically similar; the 6 kHz cut is frozen because it matches "
+    "the existing hardware IIR band. Six-sigma after CAR remains too conservative "
+    "on the harder windows. RTL does not follow: the frozen path requires median "
+    "CAR before the threshold comparison, and that stage is not in the current "
+    "SystemVerilog pipeline. Offline 4σ registers could be loaded only after CAR."
+)
+
+
+def frozen_real_detector(sample_rate_hz: float) -> RealDetectorConfig:
+    """Frozen Python preprocessor/detector for real AP voltages."""
+    return RealDetectorConfig(
+        sample_rate_hz=float(sample_rate_hz),
+        highpass_hz=300.0,
+        lowpass_hz=6_000.0,
+        use_car=True,
+        car_method="median",
+        threshold_sigma=4.0,
+        polarity="negative",
+        artifact_channel_fraction=0.5,
+        mad_iterations=3,
+    )

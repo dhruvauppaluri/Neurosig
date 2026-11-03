@@ -4,11 +4,13 @@ import numpy as np
 
 from scripts.detect_spikes import DetectorConfig, detect_candidates, estimate_noise, merge_channel_events
 from scripts.real_detector import (
+    FROZEN_REAL_DETECTOR_NAME,
     LEGACY_SIX_SIGMA,
     RealDetectorConfig,
     common_average_reference,
     detect_real,
     estimate_noise_robust,
+    frozen_real_detector,
     reject_spatial_artifacts,
     sorter_aligned_snr,
 )
@@ -105,6 +107,16 @@ class RealDetectorTests(unittest.TestCase):
         traces[2, 0] = -9.0
         referenced = common_average_reference(traces, "median")
         self.assertLess(referenced[2, 0], referenced[2, 1])
+
+    def test_frozen_contract_is_car_four_sigma_hardware_band(self) -> None:
+        cfg = frozen_real_detector(30_000.0)
+        self.assertEqual(FROZEN_REAL_DETECTOR_NAME, "car_4sigma_300_6000_negative")
+        self.assertTrue(cfg.use_car)
+        self.assertEqual(cfg.threshold_sigma, 4.0)
+        self.assertEqual(cfg.highpass_hz, 300.0)
+        self.assertEqual(cfg.lowpass_hz, 6_000.0)
+        self.assertEqual(cfg.polarity, "negative")
+        self.assertNotEqual(cfg.threshold_sigma, LEGACY_SIX_SIGMA.threshold_sigma)
 
 
 if __name__ == "__main__":

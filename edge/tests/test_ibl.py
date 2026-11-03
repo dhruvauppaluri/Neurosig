@@ -16,6 +16,10 @@ class IblLoaderTests(unittest.TestCase):
         self.assertEqual(array.channel_ids(), (0, 2))
         self.assertEqual(array.xyz_um().tolist(), [[10.0, 100.0, 0.0], [30.0, 140.0, 0.0]])
 
+    def test_falls_back_to_vis_when_visp_is_short(self) -> None:
+        ids = select_visp_channels(np.array(["VISa", "MOs", "VISl", "CA1"]), 2)
+        self.assertEqual(ids.tolist(), [0, 2])
+
     def test_rejects_too_few_visual_contacts(self) -> None:
         with self.assertRaises(ValueError):
             select_visp_channels(np.array(["VISp", "MOs"]), 2)

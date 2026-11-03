@@ -17,7 +17,7 @@
         "p90_error_um": 51.42832964901861,
         "worst_error_um": 96.79018223065026,
         "std_error_um": 18.791122627556035,
-        "median_runtime_ms": 1.2916924999331059
+        "median_runtime_ms": 1.470596499984822
       },
       "template": {
         "n": 324,
@@ -27,7 +27,7 @@
         "p90_error_um": 41.52875754188118,
         "worst_error_um": 69.43196481582514,
         "std_error_um": 13.346855762806571,
-        "median_runtime_ms": 0.18410200004836952
+        "median_runtime_ms": 0.21019099983732303
       },
       "beamform": {
         "n": 324,
@@ -37,7 +37,7 @@
         "p90_error_um": 43.17982863548625,
         "worst_error_um": 70.30823664417255,
         "std_error_um": 13.807102500450585,
-        "median_runtime_ms": 0.41477550001900454
+        "median_runtime_ms": 0.45760450007037434
       },
       "weighted_scan": {
         "n": 324,
@@ -47,17 +47,17 @@
         "p90_error_um": 52.233790418735296,
         "worst_error_um": 267.15136089980666,
         "std_error_um": 30.031303824644247,
-        "median_runtime_ms": 1.0364489999687976
+        "median_runtime_ms": 1.1259729999437695
       },
       "robust_scan": {
         "n": 324,
-        "failures": 0,
-        "mean_error_um": 29.251113862895306,
-        "median_error_um": 18.490680636457334,
-        "p90_error_um": 59.60326540165598,
-        "worst_error_um": 273.02114918341243,
-        "std_error_um": 32.50443531394932,
-        "median_runtime_ms": 1.8759209999643645
+        "failures": 42,
+        "mean_error_um": 23.25674986958584,
+        "median_error_um": 16.28123251187447,
+        "p90_error_um": 47.64928619712425,
+        "worst_error_um": 101.69410767798182,
+        "std_error_um": 17.060077976323008,
+        "median_runtime_ms": 2.377751000040007
       }
     },
     "seed_variability": {
@@ -98,13 +98,13 @@
         "seed_median_range_um": 1.4980129878793882
       },
       "robust_scan": {
-        "median_of_seed_medians_um": 18.874190714887728,
+        "median_of_seed_medians_um": 16.27881713135283,
         "seed_medians_um": [
-          20.03761679525832,
-          17.658290675420076,
-          18.874190714887728
+          17.025574933140735,
+          16.27881713135283,
+          15.791665216254472
         ],
-        "seed_median_range_um": 2.379326119838243
+        "seed_median_range_um": 1.233909716886263
       }
     },
     "conditions": {
@@ -118,7 +118,7 @@
             "p90_error_um": 50.9482369221266,
             "worst_error_um": 96.79018223065026,
             "std_error_um": 19.13481643903174,
-            "median_runtime_ms": 1.2913949999528995
+            "median_runtime_ms": 1.4712610000060522
           },
           "template": {
             "n": 162,
@@ -128,7 +128,7 @@
             "p90_error_um": 40.45983635431152,
             "worst_error_um": 69.43196481582514,
             "std_error_um": 13.314999038929942,
-            "median_runtime_ms": 0.18588500000760177
+            "median_runtime_ms": 0.21056850005152228
           },
           "beamform": {
             "n": 162,
@@ -138,7 +138,7 @@
             "p90_error_um": 43.12711344521581,
             "worst_error_um": 68.53673835632586,
             "std_error_um": 13.574516514870213,
-            "median_runtime_ms": 0.416484500021852
+            "median_runtime_ms": 0.45592799995120004
           },
           "weighted_scan": {
             "n": 162,
@@ -148,17 +148,17 @@
             "p90_error_um": 51.532070253728094,
             "worst_error_um": 267.15136089980666,
             "std_error_um": 29.786895885385736,
-            "median_runtime_ms": 1.0395779999612387
+            "median_runtime_ms": 1.1163420000457336
           },
           "robust_scan": {
             "n": 162,
-            "failures": 0,
-            "mean_error_um": 28.567790698295184,
-            "median_error_um": 19.032866764908174,
-            "p90_error_um": 52.105746950737185,
-            "worst_error_um": 267.14817248345634,
-            "std_error_um": 31.600585993728902,
-            "median_runtime_ms": 1.8849385000407892
+            "failures": 21,
+            "mean_error_um": 23.168506580077313,
+            "median_error_um": 18.045969295497553,
+            "p90_error_um": 47.55480745331161,
+            "worst_error_um": 101.69410767798182,
+            "std_error_um": 16.509495313288546,
+            "median_runtime_ms": 2.328679999891392
           }
         },
         "staggered": {
@@ -170,7 +170,7 @@
             "p90_error_um": 51.50857086827316,
             "worst_error_um": 95.1165698478511,
             "std_error_um": 18.441020793347263,
-            "median_runtime_ms": 1.2916924999331059
+            "median_runtime_ms": 1.4660705001006136
           },
           "template": {
             "n": 162,
@@ -180,7 +180,7 @@
             "p90_error_um": 42.503648151556085,
             "worst_error_um": 69.33030324456142,
             "std_error_um": 13.376967878896377,
-            "median_runtime_ms": 0.18166649999784568
+            "median_runtime_ms": 0.20949400004610652
           },
           "beamform": {
             "n": 162,
@@ -190,7 +190,7 @@
             "p90_error_um": 42.881621779960994,
             "worst_error_um": 70.30823664417255,
             "std_error_um": 14.035778324498631,
-            "median_runtime_ms": 0.4119139999829713
+            "median_runtime_ms": 0.46024250002574263
           },
           "weighted_scan": {
             "n": 162,
@@ -200,17 +200,17 @@
             "p90_error_um": 52.4114806543402,
             "worst_error_um": 264.86069994695697,
             "std_error_um": 30.2725237618998,
-            "median_runtime_ms": 1.030748499999845
+            "median_runtime_ms": 1.1452104999989388
           },
           "robust_scan": {
             "n": 162,
-            "failures": 0,
-            "mean_error_um": 29.93443702749543,
-            "median_error_um": 17.572030422131977,
-            "p90_error_um": 60.97253434600252,
-            "worst_error_um": 273.02114918341243,
-            "std_error_um": 33.36983269235579,
-            "median_runtime_ms": 1.8669150000505397
+            "failures": 21,
+            "mean_error_um": 23.34499315909437,
+            "median_error_um": 15.919761011324702,
+            "p90_error_um": 51.96271322458486,
+            "worst_error_um": 83.69199505191784,
+            "std_error_um": 17.59299610244542,
+            "median_runtime_ms": 2.442381499918156
           }
         }
       },
@@ -224,7 +224,7 @@
             "p90_error_um": 33.64750596390051,
             "worst_error_um": 80.6268297587778,
             "std_error_um": 13.708653034080788,
-            "median_runtime_ms": 1.2947315000246817
+            "median_runtime_ms": 1.4628019999918251
           },
           "template": {
             "n": 108,
@@ -234,7 +234,7 @@
             "p90_error_um": 24.640727718514967,
             "worst_error_um": 54.051197664177714,
             "std_error_um": 10.786561945580443,
-            "median_runtime_ms": 0.18428750001930894
+            "median_runtime_ms": 0.21275550011523592
           },
           "beamform": {
             "n": 108,
@@ -244,7 +244,7 @@
             "p90_error_um": 24.831910520978553,
             "worst_error_um": 57.736840980745576,
             "std_error_um": 8.743856597236714,
-            "median_runtime_ms": 0.41470450003089354
+            "median_runtime_ms": 0.46623499997622275
           },
           "weighted_scan": {
             "n": 108,
@@ -254,17 +254,17 @@
             "p90_error_um": 24.0689608417236,
             "worst_error_um": 56.50897965855252,
             "std_error_um": 7.927882008185872,
-            "median_runtime_ms": 1.037177999933192
+            "median_runtime_ms": 1.1385485000801054
           },
           "robust_scan": {
             "n": 108,
-            "failures": 0,
-            "mean_error_um": 18.51834985550944,
-            "median_error_um": 15.208715531959971,
-            "p90_error_um": 28.739370296387772,
-            "worst_error_um": 85.20327351194925,
-            "std_error_um": 11.837466683303793,
-            "median_runtime_ms": 1.8727894999983619
+            "failures": 4,
+            "mean_error_um": 16.81592805047788,
+            "median_error_um": 14.766406413570536,
+            "p90_error_um": 25.64069353562131,
+            "worst_error_um": 40.94538309064138,
+            "std_error_um": 7.2703902535888405,
+            "median_runtime_ms": 2.402265000000625
           }
         },
         "45.0": {
@@ -276,7 +276,7 @@
             "p90_error_um": 51.191255280753246,
             "worst_error_um": 95.44484956291095,
             "std_error_um": 18.908430628478925,
-            "median_runtime_ms": 1.2903590000519216
+            "median_runtime_ms": 1.472743000022092
           },
           "template": {
             "n": 108,
@@ -286,7 +286,7 @@
             "p90_error_um": 33.56231459465648,
             "worst_error_um": 51.28700335431164,
             "std_error_um": 10.577263888114244,
-            "median_runtime_ms": 0.1842365000470636
+            "median_runtime_ms": 0.2071024999850124
           },
           "beamform": {
             "n": 108,
@@ -296,7 +296,7 @@
             "p90_error_um": 43.47633964651032,
             "worst_error_um": 68.89379386512229,
             "std_error_um": 13.79684951573378,
-            "median_runtime_ms": 0.4165209999769104
+            "median_runtime_ms": 0.4565720000755391
           },
           "weighted_scan": {
             "n": 108,
@@ -306,17 +306,17 @@
             "p90_error_um": 48.32798083073675,
             "worst_error_um": 68.63388858325395,
             "std_error_um": 15.633726027275365,
-            "median_runtime_ms": 1.0353750000149375
+            "median_runtime_ms": 1.1238175000016781
           },
           "robust_scan": {
             "n": 108,
-            "failures": 0,
-            "mean_error_um": 26.434106506672258,
+            "failures": 6,
+            "mean_error_um": 25.953309027307967,
             "median_error_um": 18.888902839029754,
-            "p90_error_um": 53.06843033224289,
+            "p90_error_um": 52.33923178979928,
             "worst_error_um": 78.61969064976499,
-            "std_error_um": 18.493676933758852,
-            "median_runtime_ms": 1.879062000000431
+            "std_error_um": 17.810305913471318,
+            "median_runtime_ms": 2.3751470000661357
           }
         },
         "75.0": {
@@ -328,7 +328,7 @@
             "p90_error_um": 64.00846236209793,
             "worst_error_um": 96.79018223065026,
             "std_error_um": 21.443308543917425,
-            "median_runtime_ms": 1.2896344999830944
+            "median_runtime_ms": 1.4670014999182968
           },
           "template": {
             "n": 108,
@@ -338,7 +338,7 @@
             "p90_error_um": 49.95110194067299,
             "worst_error_um": 69.43196481582514,
             "std_error_um": 12.704812062843606,
-            "median_runtime_ms": 0.18397550002191565
+            "median_runtime_ms": 0.2123794999988604
           },
           "beamform": {
             "n": 108,
@@ -348,7 +348,7 @@
             "p90_error_um": 48.49304933683643,
             "worst_error_um": 70.30823664417255,
             "std_error_um": 16.507514398917046,
-            "median_runtime_ms": 0.4138549999765928
+            "median_runtime_ms": 0.4566420000173821
           },
           "weighted_scan": {
             "n": 108,
@@ -358,17 +358,17 @@
             "p90_error_um": 71.0819142136068,
             "worst_error_um": 267.15136089980666,
             "std_error_um": 46.706061977512356,
-            "median_runtime_ms": 1.0361884999952053
+            "median_runtime_ms": 1.117636499998298
           },
           "robust_scan": {
             "n": 108,
-            "failures": 0,
-            "mean_error_um": 42.80088522650423,
-            "median_error_um": 22.425757289083172,
-            "p90_error_um": 88.71265417391754,
-            "worst_error_um": 273.02114918341243,
-            "std_error_um": 48.792921449102096,
-            "median_runtime_ms": 1.8765819999657651
+            "failures": 32,
+            "mean_error_um": 28.451439805106517,
+            "median_error_um": 19.160431125017045,
+            "p90_error_um": 62.38681059020148,
+            "worst_error_um": 101.69410767798182,
+            "std_error_um": 22.09898595436474,
+            "median_runtime_ms": 2.327949499999704
           }
         }
       },
@@ -382,7 +382,7 @@
             "p90_error_um": 30.98157692324326,
             "worst_error_um": 50.63048985577284,
             "std_error_um": 8.224013688979975,
-            "median_runtime_ms": 1.2994155000001228
+            "median_runtime_ms": 1.4760894999881202
           },
           "template": {
             "n": 108,
@@ -392,7 +392,7 @@
             "p90_error_um": 27.627212212909136,
             "worst_error_um": 44.4028835899303,
             "std_error_um": 8.915146029619997,
-            "median_runtime_ms": 0.18325349998349338
+            "median_runtime_ms": 0.21156649995646148
           },
           "beamform": {
             "n": 108,
@@ -402,7 +402,7 @@
             "p90_error_um": 33.807367713529786,
             "worst_error_um": 56.61242476336198,
             "std_error_um": 8.953565545203954,
-            "median_runtime_ms": 0.4121690000147282
+            "median_runtime_ms": 0.4597754999622339
           },
           "weighted_scan": {
             "n": 108,
@@ -412,17 +412,17 @@
             "p90_error_um": 42.11266149702729,
             "worst_error_um": 71.1818235007535,
             "std_error_um": 13.353191287363668,
-            "median_runtime_ms": 1.036907499951667
+            "median_runtime_ms": 1.124546500022916
           },
           "robust_scan": {
             "n": 108,
-            "failures": 0,
-            "mean_error_um": 23.8809448655938,
+            "failures": 12,
+            "mean_error_um": 23.957034378303447,
             "median_error_um": 19.146149242118746,
-            "p90_error_um": 41.82098034747106,
+            "p90_error_um": 41.93703976305761,
             "worst_error_um": 101.69410767798182,
-            "std_error_um": 15.080780371770103,
-            "median_runtime_ms": 1.879922999989958
+            "std_error_um": 15.471613148792214,
+            "median_runtime_ms": 2.3704904999704013
           }
         },
         "2.0": {
@@ -434,7 +434,7 @@
             "p90_error_um": 16.884010671179656,
             "worst_error_um": 19.955603519966406,
             "std_error_um": 3.5774667254929784,
-            "median_runtime_ms": 1.2830464999638025
+            "median_runtime_ms": 1.4670014999182968
           },
           "template": {
             "n": 108,
@@ -444,7 +444,7 @@
             "p90_error_um": 24.47043562457427,
             "worst_error_um": 24.545722516132933,
             "std_error_um": 6.5434976496369,
-            "median_runtime_ms": 0.18523200003528473
+            "median_runtime_ms": 0.2109985000515735
           },
           "beamform": {
             "n": 108,
@@ -454,7 +454,7 @@
             "p90_error_um": 16.12508621961163,
             "worst_error_um": 18.669851272530007,
             "std_error_um": 3.288225409021618,
-            "median_runtime_ms": 0.4151814999886483
+            "median_runtime_ms": 0.4592634999198708
           },
           "weighted_scan": {
             "n": 108,
@@ -464,7 +464,7 @@
             "p90_error_um": 16.110709609327248,
             "worst_error_um": 18.18036486123567,
             "std_error_um": 3.183125744064396,
-            "median_runtime_ms": 1.038042499999392
+            "median_runtime_ms": 1.1248284999965108
           },
           "robust_scan": {
             "n": 108,
@@ -474,7 +474,7 @@
             "p90_error_um": 15.451834762399265,
             "worst_error_um": 19.691846229514642,
             "std_error_um": 3.2929922650114936,
-            "median_runtime_ms": 1.8716834999850107
+            "median_runtime_ms": 2.414634500041757
           }
         },
         "25.0": {
@@ -486,7 +486,7 @@
             "p90_error_um": 68.14901331578554,
             "worst_error_um": 96.79018223065026,
             "std_error_um": 22.021919399808727,
-            "median_runtime_ms": 1.2954989999798272
+            "median_runtime_ms": 1.4663325000583427
           },
           "template": {
             "n": 108,
@@ -496,7 +496,7 @@
             "p90_error_um": 52.55303246305101,
             "worst_error_um": 69.43196481582514,
             "std_error_um": 16.909966693958527,
-            "median_runtime_ms": 0.1837805000377557
+            "median_runtime_ms": 0.20781049988727318
           },
           "beamform": {
             "n": 108,
@@ -506,7 +506,7 @@
             "p90_error_um": 55.9835532941248,
             "worst_error_um": 70.30823664417255,
             "std_error_um": 15.817351884948135,
-            "median_runtime_ms": 0.4161349999662889
+            "median_runtime_ms": 0.45608249990891636
           },
           "weighted_scan": {
             "n": 108,
@@ -516,17 +516,17 @@
             "p90_error_um": 70.21620249253043,
             "worst_error_um": 267.15136089980666,
             "std_error_um": 43.94779322887018,
-            "median_runtime_ms": 1.0342290000266985
+            "median_runtime_ms": 1.1405900000909241
           },
           "robust_scan": {
             "n": 108,
-            "failures": 0,
-            "mean_error_um": 52.18326834370032,
-            "median_error_um": 43.99707466924808,
-            "p90_error_um": 86.89786572348841,
-            "worst_error_um": 273.02114918341243,
-            "std_error_um": 45.47741694779161,
-            "median_runtime_ms": 1.8740185000183374
+            "failures": 30,
+            "mean_error_um": 38.411567922202074,
+            "median_error_um": 35.22742164130179,
+            "p90_error_um": 61.2482073157214,
+            "worst_error_um": 81.75597449836415,
+            "std_error_um": 18.085136809563874,
+            "median_runtime_ms": 2.3358299999927112
           }
         }
       },
@@ -540,7 +540,7 @@
             "p90_error_um": 48.76427335591494,
             "worst_error_um": 90.15865697585156,
             "std_error_um": 16.851864463608376,
-            "median_runtime_ms": 1.3000095000279543
+            "median_runtime_ms": 1.4700790000006236
           },
           "template": {
             "n": 162,
@@ -550,7 +550,7 @@
             "p90_error_um": 38.21329209127504,
             "worst_error_um": 63.534289858096194,
             "std_error_um": 12.962930908725442,
-            "median_runtime_ms": 0.18462200000612938
+            "median_runtime_ms": 0.2104229998849405
           },
           "beamform": {
             "n": 162,
@@ -560,7 +560,7 @@
             "p90_error_um": 43.48543888555637,
             "worst_error_um": 68.53673835632586,
             "std_error_um": 12.71528521325467,
-            "median_runtime_ms": 0.41362349998053105
+            "median_runtime_ms": 0.4595364999886442
           },
           "weighted_scan": {
             "n": 162,
@@ -570,17 +570,17 @@
             "p90_error_um": 45.28630326667254,
             "worst_error_um": 83.02196134980271,
             "std_error_um": 14.850627050300039,
-            "median_runtime_ms": 1.035777999959464
+            "median_runtime_ms": 1.1256924999543116
           },
           "robust_scan": {
             "n": 162,
-            "failures": 0,
-            "mean_error_um": 26.109040435698688,
-            "median_error_um": 18.203701757549837,
-            "p90_error_um": 52.33923178979928,
-            "worst_error_um": 97.373926181017,
-            "std_error_um": 19.08103747865484,
-            "median_runtime_ms": 1.8756749999511158
+            "failures": 22,
+            "mean_error_um": 22.799521827808544,
+            "median_error_um": 16.705792973066167,
+            "p90_error_um": 47.55625340789937,
+            "worst_error_um": 75.36063958114816,
+            "std_error_um": 14.04685546151454,
+            "median_runtime_ms": 2.3794410000164135
           }
         },
         "None": {
@@ -592,7 +592,7 @@
             "p90_error_um": 54.083737703747964,
             "worst_error_um": 96.79018223065026,
             "std_error_um": 20.544964665098085,
-            "median_runtime_ms": 1.2862605000236726
+            "median_runtime_ms": 1.4712610000060522
           },
           "template": {
             "n": 162,
@@ -602,7 +602,7 @@
             "p90_error_um": 44.1105877202383,
             "worst_error_um": 69.43196481582514,
             "std_error_um": 13.707788865118438,
-            "median_runtime_ms": 0.18396850003910004
+            "median_runtime_ms": 0.21004350003295258
           },
           "beamform": {
             "n": 162,
@@ -612,7 +612,7 @@
             "p90_error_um": 42.881621779960994,
             "worst_error_um": 70.30823664417255,
             "std_error_um": 14.817771104714907,
-            "median_runtime_ms": 0.4156054999384651
+            "median_runtime_ms": 0.4567040000438283
           },
           "weighted_scan": {
             "n": 162,
@@ -622,22 +622,22 @@
             "p90_error_um": 60.25549745025526,
             "worst_error_um": 267.15136089980666,
             "std_error_um": 39.456009695468104,
-            "median_runtime_ms": 1.0372149999398061
+            "median_runtime_ms": 1.1261125000601169
           },
           "robust_scan": {
             "n": 162,
-            "failures": 0,
-            "mean_error_um": 32.39318729009193,
-            "median_error_um": 19.066217057381266,
-            "p90_error_um": 66.66125854671287,
-            "worst_error_um": 273.02114918341243,
-            "std_error_um": 41.58419637376452,
-            "median_runtime_ms": 1.876962000039839
+            "failures": 20,
+            "mean_error_um": 23.7075380797888,
+            "median_error_um": 15.679567095714527,
+            "p90_error_um": 48.18128620053784,
+            "worst_error_um": 101.69410767798182,
+            "std_error_um": 19.571634554740402,
+            "median_runtime_ms": 2.377751000040007
           }
         }
       }
     },
-    "peak_traced_python_memory_kib": 43626.5185546875,
+    "peak_traced_python_memory_kib": 42990.86328125,
     "complexity": {
       "amplitude": "O(C + C*n_x*n_y)",
       "template": "O(C*T)",
@@ -660,7 +660,7 @@
         "p90_error_um": 91.01122387288156,
         "worst_error_um": 101.2263499970433,
         "std_error_um": 24.53274217174678,
-        "median_runtime_ms": 0.9357100000215723
+        "median_runtime_ms": 1.0247364999713682
       },
       "template": {
         "n": 24,
@@ -670,7 +670,7 @@
         "p90_error_um": 63.64374044172902,
         "worst_error_um": 107.2502979565569,
         "std_error_um": 21.766893612095263,
-        "median_runtime_ms": 0.05279650002876224
+        "median_runtime_ms": 0.06391250008164207
       },
       "beamform": {
         "n": 24,
@@ -680,7 +680,7 @@
         "p90_error_um": 70.699579165804,
         "worst_error_um": 108.5471733946859,
         "std_error_um": 21.757638942667043,
-        "median_runtime_ms": 0.22562549997928727
+        "median_runtime_ms": 0.24731600001359766
       },
       "weighted_scan": {
         "n": 24,
@@ -690,17 +690,17 @@
         "p90_error_um": 75.6634699370664,
         "worst_error_um": 124.5077039229565,
         "std_error_um": 25.770204243648116,
-        "median_runtime_ms": 0.8063750000246728
+        "median_runtime_ms": 0.8159845001500798
       },
       "robust_scan": {
         "n": 24,
-        "failures": 0,
-        "mean_error_um": 174.89730203194242,
-        "median_error_um": 188.19879642001658,
-        "p90_error_um": 286.7441430270706,
+        "failures": 11,
+        "mean_error_um": 150.53263400697057,
+        "median_error_um": 86.34016318151465,
+        "p90_error_um": 282.9732405925688,
         "worst_error_um": 334.5638361029428,
-        "std_error_um": 94.87871806033228,
-        "median_runtime_ms": 1.3399114999970152
+        "std_error_um": 108.62704972270869,
+        "median_runtime_ms": 1.4532834999272382
       }
     }
   },
@@ -716,7 +716,7 @@
         "p90_error_um": 8.69252480664839,
         "worst_error_um": 8.947386263551927,
         "std_error_um": 0.8403543089419117,
-        "median_runtime_ms": 0.9190949999720033
+        "median_runtime_ms": 1.0052049999558221
       },
       "template": {
         "n": 3,
@@ -726,7 +726,7 @@
         "p90_error_um": 14.61296928814133,
         "worst_error_um": 14.629515112296074,
         "std_error_um": 1.712956906398875,
-        "median_runtime_ms": 0.05257600003005791
+        "median_runtime_ms": 0.057088999938059715
       },
       "beamform": {
         "n": 3,
@@ -736,7 +736,7 @@
         "p90_error_um": 15.992837964074061,
         "worst_error_um": 16.59072199386097,
         "std_error_um": 2.5459657595884972,
-        "median_runtime_ms": 0.21872599995731434
+        "median_runtime_ms": 0.22832600006950088
       },
       "weighted_scan": {
         "n": 3,
@@ -746,7 +746,7 @@
         "p90_error_um": 17.453858171711016,
         "worst_error_um": 17.854603626968725,
         "std_error_um": 2.6349296199171546,
-        "median_runtime_ms": 0.798021000036897
+        "median_runtime_ms": 0.8431240000845719
       },
       "robust_scan": {
         "n": 3,
@@ -756,18 +756,82 @@
         "p90_error_um": 8.702917268980679,
         "worst_error_um": 8.766248254829467,
         "std_error_um": 0.8033256052044775,
-        "median_runtime_ms": 1.342927999985477
+        "median_runtime_ms": 1.5708609998910106
       }
     },
     "limitation": "engines see the 16 \u00b5m geometry at construction; this is not a transfer from a 20 \u00b5m catalog"
   },
   "mearec": {
-    "status": "skipped",
-    "reason": "missing data/smoke/recording.h5"
+    "status": "ran",
+    "dataset": "data/smoke/recording.h5",
+    "n_spikes": 9,
+    "known_simulated_source_xyz_um": [
+      36.217808319315374,
+      267.79927565851267,
+      -20.87155516725423
+    ],
+    "methods": {
+      "amplitude": {
+        "n": 9,
+        "failures": 0,
+        "mean_error_um": 42.34804787905513,
+        "median_error_um": 42.24933663771639,
+        "p90_error_um": 42.66055004469946,
+        "worst_error_um": 43.252352484736825,
+        "std_error_um": 0.3603531049343091,
+        "median_runtime_ms": 1.0108209999089013
+      },
+      "template": {
+        "n": 9,
+        "failures": 0,
+        "mean_error_um": 29.31833724340235,
+        "median_error_um": 29.469416771645175,
+        "p90_error_um": 32.34097943839106,
+        "worst_error_um": 32.616409853741274,
+        "std_error_um": 2.2193532823194317,
+        "median_runtime_ms": 0.054537999858439434
+      },
+      "beamform": {
+        "n": 9,
+        "failures": 0,
+        "mean_error_um": 38.41682239426066,
+        "median_error_um": 38.53000940742071,
+        "p90_error_um": 38.59634186833281,
+        "worst_error_um": 38.804222782764704,
+        "std_error_um": 0.2699724605435636,
+        "median_runtime_ms": 0.21965799987810897
+      },
+      "weighted_scan": {
+        "n": 9,
+        "failures": 0,
+        "mean_error_um": 38.032048924109205,
+        "median_error_um": 38.040021900434766,
+        "p90_error_um": 38.37598485266825,
+        "worst_error_um": 38.69285439822882,
+        "std_error_um": 0.32664818808420415,
+        "median_runtime_ms": 0.8558860001812718
+      },
+      "robust_scan": {
+        "n": 9,
+        "failures": 0,
+        "mean_error_um": 40.799148762865336,
+        "median_error_um": 41.32862182274329,
+        "p90_error_um": 41.83444813413772,
+        "worst_error_um": 42.085782541182496,
+        "std_error_um": 1.2163979667168991,
+        "median_runtime_ms": 1.5801090000877593
+      }
+    },
+    "limitation": "one simulated neuron and nine spikes; monopole scans are misspecified relative to MEArec morphology"
   },
   "recommendation": {
     "edge_computer_recommendation": "template",
     "ranked_median_error_um": [
+      [
+        "robust_scan",
+        16.28123251187447,
+        47.64928619712425
+      ],
       [
         "beamform",
         16.44788786409714,
@@ -784,18 +848,13 @@
         52.233790418735296
       ],
       [
-        "robust_scan",
-        18.490680636457334,
-        59.60326540165598
-      ],
-      [
         "template",
         18.689495838809982,
         41.52875754188118
       ]
     ],
     "template_median_um": 18.689495838809982,
-    "robust_scan_median_um": 18.490680636457334,
+    "robust_scan_median_um": 16.28123251187447,
     "beamform_median_um": 16.44788786409714,
     "rationale": "Aligned trough amplitudes and top-k interpolation removed most of the old grid-quantization penalty on the quasi-static scan. Interpolated beamform has the lowest median on this matched monopole set, but template matching has the best p90, the lowest runtime, and a training catalog held out from test xyz. Robust scan does not beat those two on overlap tails. Recommend template matching on the edge computer; keep interpolated beamform as a catalog-free alternative. These errors are not real-neuron accuracy."
   },

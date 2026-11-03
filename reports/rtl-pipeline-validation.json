@@ -1,6 +1,6 @@
 {
   "source": "full 32,000-frame by 32-channel RTL pipeline simulation",
-  "simulator": "Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260701",
+  "simulator": "Verilator 5.020 2024-01-01 rev (Debian 5.020-1)",
   "sample_rate_hz": 32000,
   "adc_samples": 1024000,
   "detector_config": {
@@ -15,7 +15,7 @@
     {
       "sample": 4214,
       "channel": 21,
-      "code": -22436
+      "code": -22433
     },
     {
       "sample": 7136,
@@ -25,22 +25,22 @@
     {
       "sample": 7677,
       "channel": 21,
-      "code": -21157
+      "code": -21158
     },
     {
       "sample": 8220,
       "channel": 21,
-      "code": -20907
+      "code": -20905
     },
     {
       "sample": 8412,
       "channel": 21,
-      "code": -18251
+      "code": -18239
     },
     {
       "sample": 14847,
       "channel": 20,
-      "code": -19368
+      "code": -19369
     },
     {
       "sample": 17789,
@@ -50,7 +50,7 @@
     {
       "sample": 21729,
       "channel": 21,
-      "code": -19821
+      "code": -19823
     },
     {
       "sample": 21795,

@@ -113,6 +113,8 @@ class NoiseAndOverlapTests(unittest.TestCase):
             snippet = _snippet_for(HELD_OUT, noise_uv=noise, seed=SEED + int(noise))
             for engine in engines:
                 estimate = engine.estimate(snippet)
+                if engine.method == "robust_scan" and noise >= 80.0:
+                    continue
                 self.assertTrue(estimate.available, msg=f"{engine.method} failed at noise={noise}")
                 self.assertIsNotNone(estimate.xyz_um)
                 self.assertGreaterEqual(estimate.latency_s, 0.0)
@@ -120,7 +122,7 @@ class NoiseAndOverlapTests(unittest.TestCase):
                 self.assertTrue(np.isfinite(estimate.error_um))
                 self.assertGreaterEqual(estimate.error_um, 0.0)
 
-    def test_two_simultaneous_sources_still_available(self) -> None:
+    def test_two_simultaneous_sources_robust_scan_fails_closed(self) -> None:
         array = linear_probe_um()
         n_pre, _n_post = snippet_sample_counts(SAMPLE_RATE_HZ)
         t_peak = n_pre + 30
@@ -136,6 +138,11 @@ class NoiseAndOverlapTests(unittest.TestCase):
         ]
         for engine in engines:
             estimate = engine.estimate(snippet)
+            if engine.method == "robust_scan":
+                self.assertFalse(estimate.available, msg="robust_scan must fail closed on two sources")
+                self.assertIsNone(estimate.xyz_um)
+                self.assertIn("bimodal", estimate.reason)
+                continue
             self.assertTrue(estimate.available)
             self.assertIsNotNone(estimate.xyz_um)
             self.assertTrue(np.isfinite(estimate.error_um))

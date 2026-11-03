@@ -22,11 +22,13 @@ from edge.geometry import linear_probe_um
 from edge.localize.common import (
     electrode_com,
     finish_estimate,
+    finish_unavailable,
     fold_linear_probe_ambiguity,
     l2_normalize,
     snippet_amplitudes,
     softmax_interpolate_xyz,
 )
+from edge.localize.overlap import spatial_overlap_conflict
 from edge.types import ElectrodeArray, LocalizationEstimate, Snippet
 
 
@@ -57,12 +59,14 @@ class RobustScanLocalizer:
         model: str = "offset_reciprocal",
         spatial_radius_um: float = 80.0,
         interpolate_top_k: int = 8,
+        fail_closed_on_overlap: bool = True,
     ) -> None:
         self.array = array or linear_probe_um()
         self.lambda_um = float(lambda_um)
         self.model = str(model)
         self.spatial_radius_um = float(spatial_radius_um)
         self.interpolate_top_k = int(interpolate_top_k)
+        self.fail_closed_on_overlap = bool(fail_closed_on_overlap)
         from edge.localize.beamform import default_scan_grid_um
 
         self.grid_xyz_um = (
@@ -96,6 +100,10 @@ class RobustScanLocalizer:
 
     def estimate(self, snippet: Snippet) -> LocalizationEstimate:
         t0 = time.perf_counter()
+        if self.fail_closed_on_overlap:
+            conflict, reason = spatial_overlap_conflict(snippet)
+            if conflict:
+                return finish_unavailable(method=self.method, snippet=snippet, t_start=t0, reason=reason)
         amps = snippet_amplitudes(snippet)
         if float(np.max(amps)) <= 0.0:
             return finish_estimate(

@@ -1,0 +1,24 @@
+{
+  "name": "car_4sigma_300_6000_negative",
+  "config": {
+    "sample_rate_hz": 30000.0,
+    "highpass_hz": 300.0,
+    "lowpass_hz": 6000.0,
+    "use_car": true,
+    "car_method": "median",
+    "threshold_sigma": 4.0,
+    "polarity": "negative",
+    "artifact_channel_fraction": 0.5,
+    "peak_search_ms": 0.5,
+    "refractory_ms": 1.0,
+    "merge_ms": 0.5,
+    "match_tolerance_ms": 1.0,
+    "mad_clip_sigma": 6.0,
+    "mad_iterations": 3
+  },
+  "rationale": "Across three disjoint 1 s windows on IBL insertion 4836a465, median-CAR plus a 300\u20136000 Hz cascade and 4\u03c3 negative threshold had the most stable 1 ms F1 versus sorting without the false-positive inflation of dual polarity. A 9 kHz low-pass was statistically similar; the 6 kHz cut is frozen because it matches the existing hardware IIR band. Six-sigma after CAR remains too conservative on the harder windows. RTL does not follow: the frozen path requires median CAR before the threshold comparison, and that stage is not in the current SystemVerilog pipeline. Offline 4\u03c3 registers could be loaded only after CAR.",
+  "selection_evidence": "reports/ibl-detection-localization.json detector_variants at 1 ms vs sorting",
+  "rtl_follows": false,
+  "rtl_reason": "Median CAR is required before the frozen 4\u03c3 comparison and is not present in rtl/neurosig_pipeline.sv. Changing only the offline threshold registers without CAR would not reproduce this Python detector.",
+  "hardware_note": "A later RTL revision could add a median-CAR stage, then load 4\u03c3 MAD registers."
+}

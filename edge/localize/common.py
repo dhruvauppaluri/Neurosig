@@ -71,6 +71,27 @@ def finish_estimate(
     )
 
 
+def finish_unavailable(
+    *,
+    method: str,
+    snippet: Snippet,
+    t_start: float,
+    reason: str,
+) -> LocalizationEstimate:
+    return LocalizationEstimate(
+        available=False,
+        method=method,
+        xyz_um=None,
+        ground_truth_xyz_um=snippet.ground_truth_xyz_um,
+        error_um=None,
+        latency_s=time.perf_counter() - t_start,
+        confidence=0.0,
+        reason=reason,
+        event_id=snippet.event_id,
+        unverified=True,
+    )
+
+
 def electrode_com(snippet: Snippet, weights: np.ndarray | None = None) -> tuple[float, float, float]:
     xyz = np.asarray(snippet.electrode_xyz_um, dtype=np.float64)
     if weights is None:

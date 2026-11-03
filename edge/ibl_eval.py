@@ -2,20 +2,28 @@
 
 from __future__ import annotations
 
+import argparse
 from collections import defaultdict
 import json
 from pathlib import Path
 
 import numpy as np
 
-from edge.ibl import DEFAULT_PID, SORTING_REVISION, load_raw_chunk
+from edge.ibl import DEFAULT_PID, SECOND_PID, SORTING_REVISION, load_raw_chunk
 from edge.localize import LOCALIZATION_METHODS, get_localizer
 from edge.localize.beamform import default_scan_grid_um
 from edge.localize.template import default_training_xyz_um
 from edge.snippets import extract_snippet
 from scripts.detect_spikes import DetectorConfig, detect_candidates, estimate_noise, match_events, merge_channel_events
 from scripts.filter_iir import IirConfig, design_sos
-from scripts.real_detector import RealDetectorConfig, detect_real, evaluate_against_reference, sorter_aligned_snr
+from scripts.real_detector import (
+    FROZEN_REAL_DETECTOR_NAME,
+    RealDetectorConfig,
+    detect_real,
+    evaluate_against_reference,
+    frozen_real_detector,
+    sorter_aligned_snr,
+)
 from scipy import signal
 
 
@@ -56,7 +64,7 @@ def evaluate_window(t0_s: float, duration_s: float = 1.0, pid: str = DEFAULT_PID
             artifact_channel_fraction=1.0, mad_iterations=0,
         ),
         "car_6sigma": RealDetectorConfig(sample_rate_hz=fs, use_car=True, threshold_sigma=6.0),
-        "car_4sigma": RealDetectorConfig(sample_rate_hz=fs, use_car=True, threshold_sigma=4.0),
+        "car_4sigma": frozen_real_detector(fs),
         "car_4sigma_hp_only": RealDetectorConfig(
             sample_rate_hz=fs, use_car=True, threshold_sigma=4.0, lowpass_hz=None,
         ),
@@ -80,6 +88,9 @@ def evaluate_window(t0_s: float, duration_s: float = 1.0, pid: str = DEFAULT_PID
         }
         if name == "car_4sigma":
             chosen = result
+            variant_reports[name]["frozen"] = True
+            variant_reports[name]["frozen_name"] = FROZEN_REAL_DETECTOR_NAME
+            variant_reports[name]["rtl_follows"] = False
     assert chosen is not None
     snr_legacy = sorter_aligned_snr(legacy_filtered, legacy_base, legacy_sigma, truth, fs)
     snr_improved = sorter_aligned_snr(chosen["filtered_uv"], chosen["baseline"], chosen["noise_sigma"], truth, fs)
@@ -180,36 +191,91 @@ def evaluate_window(t0_s: float, duration_s: float = 1.0, pid: str = DEFAULT_PID
     }
 
 
-def run(windows: tuple[float, ...] = (50.0, 100.0, 200.0), duration_s: float = 1.0) -> dict:
-    reports = [evaluate_window(t0, duration_s) for t0 in windows]
-    # Cross-window: compare 4σ CAR recall without retuning thresholds per window.
+def _session_summary(pid: str, reports: list[dict], windows: tuple[float, ...], duration_s: float) -> dict:
     recalls = [r["detector_variants"]["car_4sigma"]["vs_sorting"]["1.0"]["recall"] for r in reports]
     legacy_recalls = [r["legacy_vs_sorting_1ms"]["recall"] for r in reports]
     return {
         "status": "ran",
-        "pid": DEFAULT_PID,
+        "pid": pid,
+        "eid": reports[0]["eid"] if reports else None,
         "windows_s": list(windows),
         "duration_s": duration_s,
         "legacy_recall_mean": float(np.mean(legacy_recalls)),
         "improved_car_4sigma_recall_mean": float(np.mean(recalls)),
         "improved_car_4sigma_recall_range": [float(np.min(recalls)), float(np.max(recalls))],
         "per_window": reports,
+    }
+
+
+def run(windows: tuple[float, ...] = (50.0, 100.0, 200.0), duration_s: float = 1.0,
+        secondary_pid: str = SECOND_PID, secondary_windows: tuple[float, ...] = (50.0, 90.0)) -> dict:
+    reports = [evaluate_window(t0, duration_s) for t0 in windows]
+    primary = _session_summary(DEFAULT_PID, reports, windows, duration_s)
+    try:
+        secondary_reports = [evaluate_window(t0, duration_s, pid=secondary_pid) for t0 in secondary_windows]
+        secondary = _session_summary(secondary_pid, secondary_reports, secondary_windows, duration_s)
+        secondary["note"] = (
+            "Independent public insertion (NYU-45, VISa). Channel selection prefers VISp "
+            "and falls back to VIS*. Sorting remains an imperfect comparison."
+        )
+    except Exception as exc:
+        secondary = {"status": "failed", "pid": secondary_pid, "error": f"{type(exc).__name__}: {exc}"}
+    return {
+        "status": "ran",
+        "frozen_detector": FROZEN_REAL_DETECTOR_NAME,
+        "rtl_follows": False,
+        "pid": DEFAULT_PID,
+        "windows_s": list(windows),
+        "duration_s": duration_s,
+        "legacy_recall_mean": primary["legacy_recall_mean"],
+        "improved_car_4sigma_recall_mean": primary["improved_car_4sigma_recall_mean"],
+        "improved_car_4sigma_recall_range": primary["improved_car_4sigma_recall_range"],
+        "per_window": reports,
         "calibration_policy": "each window estimates MAD on itself; no labels used for thresholds",
-        "cross_recording": "same insertion, disjoint 1 s AP windows; not an independent animal",
-        "rtl": "not modified; comparison is Python-only",
+        "cross_window": "same insertion, disjoint 1 s AP windows",
+        "second_session": secondary,
+        "rtl": "Python-only freeze; median CAR is not in rtl/neurosig_pipeline.sv",
     }
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--skip-primary", action="store_true",
+                        help="Reuse existing primary windows and only evaluate the second insertion")
+    args = parser.parse_args()
     target = Path("reports/ibl-detection-localization.json")
     try:
-        report = run()
+        if args.skip_primary and target.exists():
+            report = json.loads(target.read_text())
+            secondary_reports = [evaluate_window(t0, 1.0, pid=SECOND_PID) for t0 in (50.0, 90.0)]
+            secondary = _session_summary(SECOND_PID, secondary_reports, (50.0, 90.0), 1.0)
+            secondary["note"] = (
+                "Independent public insertion (NYU-45, VISa). Channel selection prefers VISp "
+                "and falls back to VIS*. Sorting remains an imperfect comparison."
+            )
+            report["frozen_detector"] = FROZEN_REAL_DETECTOR_NAME
+            report["rtl_follows"] = False
+            report["cross_window"] = "same insertion, disjoint 1 s AP windows"
+            report["second_session"] = secondary
+            report["rtl"] = "Python-only freeze; median CAR is not in rtl/neurosig_pipeline.sv"
+        else:
+            report = run()
     except Exception as exc:
         report = {"status": "failed", "pid": DEFAULT_PID, "error": f"{type(exc).__name__}: {exc}"}
     target.write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({key: report.get(key) for key in
-                      ("status", "legacy_recall_mean", "improved_car_4sigma_recall_mean", "error")},
-                     indent=2))
+    second = report.get("second_session")
+    second_summary = None
+    if isinstance(second, dict):
+        second_summary = {key: second.get(key) for key in
+                          ("status", "pid", "eid", "legacy_recall_mean",
+                           "improved_car_4sigma_recall_mean", "error", "note")}
+    print(json.dumps({
+        "status": report.get("status"),
+        "legacy_recall_mean": report.get("legacy_recall_mean"),
+        "improved_car_4sigma_recall_mean": report.get("improved_car_4sigma_recall_mean"),
+        "second_session": second_summary,
+        "error": report.get("error"),
+    }, indent=2, default=str))
 
 
 if __name__ == "__main__":

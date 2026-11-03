@@ -37,6 +37,7 @@ cd viz/web && npm run dev
 
 ```sh
 .venv/bin/python -m unittest viz.tests.test_schema viz.tests.test_synthetic viz.tests.test_neuropixels viz.tests.test_golden_bridge viz.tests.test_server
+.venv/bin/python -m unittest discover -s edge/tests
 cd viz/web && npm test && npm run build && cd ../..
 ```
 
@@ -64,4 +65,4 @@ See [`schema/neural_event.v1.json`](schema/neural_event.v1.json). WebSocket batc
 
 The source GLB is in metres with +X anatomical left, +Y superior, and +Z anterior. `web/src/anatomyTransform.ts` maps it into the viewer's millimetre coordinates (+X right, +Y anterior, +Z superior): `[-840*x, 840*z + 7, 840*(y - 1.628)]`. The uniform 0.84 display scale aligns the asset visually with existing region and probe coordinates. This is not an anatomical registration; the mouse data remains a visual-region mapping only. The source GLB and a local Draco decoder are served from `web/public/` for offline playback.
 
-On November 2, 2026, `npm test` passed four asset/transform/event checks, `npm run build` passed, and the 18 visualization Python tests passed. The built viewer was served locally on port 8766 and inspected at desktop and narrow widths in synthetic and recorded-spike modes. These checks cover the viewer, not neural detection accuracy or RTL.
+Python visualization tests include schema, synthetic, Neuropixels, golden-bridge localization adapter, and snippet API checks (19 tests). Frontend `npm test` covers anatomy assets plus event-kind colors. These checks cover the viewer, not neural detection accuracy or RTL.

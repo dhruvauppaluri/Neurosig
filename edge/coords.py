@@ -49,3 +49,17 @@ def euclidean_um(
     b: tuple[float, float, float] | np.ndarray,
 ) -> float:
     return float(np.linalg.norm(np.asarray(a, dtype=np.float64) - np.asarray(b, dtype=np.float64)))
+
+
+def in_probe_volume_um(
+    xyz_um: tuple[float, float, float] | np.ndarray,
+    *,
+    n_channels: int = 32,
+    pitch_um: float = SCIENTIFIC_PITCH_UM,
+    radial_um: float = 150.0,
+    y_pad_um: float = 40.0,
+) -> bool:
+    """True when a point is near the scientific linear probe, not a whole-brain display coordinate."""
+    x_um, y_um, z_um = (float(axis) for axis in np.asarray(xyz_um, dtype=np.float64).reshape(3))
+    y_max = (n_channels - 1) * pitch_um
+    return abs(x_um) <= radial_um and abs(z_um) <= radial_um and -y_pad_um <= y_um <= y_max + y_pad_um

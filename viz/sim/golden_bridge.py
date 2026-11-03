@@ -175,6 +175,7 @@ def process_window(
         n_pre, n_post = snippet_sample_counts(detector_config.sample_rate_hz)
         adapter = EdgeLocalizerAdapter()
         last_estimate = localization
+        preferred_estimate = None
         for detected in merged:
             abs_t = window_start_s + detected.sample / detector_config.sample_rate_hz
             det_id = f"det:{detected.sample}:{detected.channel}"
@@ -215,6 +216,8 @@ def process_window(
                     )
                 )
                 last_estimate = estimate.to_dict()
+                if last_estimate.get("available") and last_estimate.get("error_um") is not None:
+                    preferred_estimate = last_estimate
                 if estimate.available and estimate.xyz_mm is not None:
                     loc_id = f"loc:{detected.sample}:{detected.channel}"
                     snippets[loc_id] = {**payload, "event_id": loc_id}
@@ -241,7 +244,9 @@ def process_window(
                             },
                         )
                     )
-        if last_estimate:
+        if preferred_estimate:
+            localization = preferred_estimate
+        elif last_estimate:
             localization = last_estimate
         probe_xyz = np.array([site.xyz_mm for site in array.sites], dtype=float)
         for event in source_events:

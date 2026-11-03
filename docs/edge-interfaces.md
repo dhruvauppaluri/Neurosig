@@ -1,5 +1,19 @@
 # Edge stack interface freeze
 
+```mermaid
+flowchart LR
+  sources[KnownSourcePositions]
+  rec[edgeForwardMonopole]
+  dsp[ExistingGoldenDetector]
+  pkt[NSG1SoftwareLink]
+  loc[edgeLocalize]
+  dec[edgeDecode]
+  viz[viz3DViewer]
+  sources --> rec --> dsp --> pkt --> loc --> dec
+  loc --> viz
+  sources --> viz
+```
+
 Shared assumptions for localization, the software ASIC link, decoding, and visualization.
 
 - Seed `20261103`, sample rate 32 kHz, 32 channels.

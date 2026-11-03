@@ -18,6 +18,8 @@ The initial recording target is 32 channels. Keep the channel count configurable
 - [x] Implement and verify the SystemVerilog spike detector on the seeded one-second recording.
 - [x] Select synthetic latent-state and real Neuropixels visual-contrast tasks and establish held-out software baselines.
 - [x] Quantize and implement 32-feature decoder inference in RTL; compare exact scores and predictions.
+- [x] Python spatial localization (amplitude, template, quasi-static amplitude scan) with a seeded synthetic benchmark.
+- [x] Software-emulated NSG1 ASIC-to-edge packets, buffering, and control (no localization RTL).
 - [ ] Explore synthesis and SKY130/OpenROAD implementation after functional verification.
 
 Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. On October 19, 2026, `.venv/bin/python scripts/smoke_mearec.py` passed on Apple Silicon macOS: two templates, 32,000 samples × 32 channels, one second at 32 kHz, and nine ground-truth spikes. `reports/setup-validation.json` records the result. Hardware results remain future work.
@@ -45,7 +47,9 @@ Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURO
 - Define signedness, scaling, saturation or overflow behavior, ordering, handshake behavior, and reset behavior before implementing RTL interfaces. Compare RTL against a deterministic software reference.
 - Report measured accuracy, latency, throughput, area, and power separately from targets or estimates. Document tool versions and constraints for physical design results.
 - Keep the first implementation small enough to validate end to end. Expand channel count or model complexity after the existing pipeline is reproducible.
-- Visualization code lives under `viz/` only. Do not edit golden-model arithmetic or RTL to support the UI. Neuropixels playback is sorted spikes, not ADC samples. Localization remains unimplemented until a validated algorithm exists.
+- Visualization code lives under `viz/` only. Do not edit golden-model arithmetic or RTL to support the UI. Neuropixels playback is sorted spikes, not ADC samples.
+- Spatial localization and the ASIC-to-edge codec live under `edge/`. Do not fold those algorithms into `scripts/` DSP golden models. `viz/sim/localization.py` is a display adapter. Do not implement localization RTL until a bit-accurate Python reference and packet freeze exist; see `docs/rtl-acceleration-localization.md`.
+- Simulated source positions, electrode sites, and estimated locations must stay visually distinct. Neuropixels CCF is not a human neuron coordinate. Localization is not a stimulation targeting spec.
 
 ## Parallel work
 

@@ -4,7 +4,7 @@ import unittest
 
 from viz.sim.localization import default_probe_array
 
-from edge.coords import display_mm_to_probe_um, euclidean_um, probe_um_to_display_mm
+from edge.coords import display_mm_to_probe_um, euclidean_um, in_probe_volume_um, probe_um_to_display_mm
 from edge.geometry import linear_probe_um
 
 
@@ -24,6 +24,11 @@ class CoordTests(unittest.TestCase):
             self.assertAlmostEqual(mapped[0], viz_site.xyz_mm[0], places=6)
             self.assertAlmostEqual(mapped[1], viz_site.xyz_mm[1], places=6)
             self.assertAlmostEqual(mapped[2], viz_site.xyz_mm[2], places=6)
+
+    def test_brain_display_points_are_outside_scientific_probe_volume(self) -> None:
+        self.assertTrue(in_probe_volume_um((30.0, 300.0, 0.0)))
+        far = display_mm_to_probe_um((0.0, -72.0, 8.0))
+        self.assertFalse(in_probe_volume_um(far))
 
 
 if __name__ == "__main__":

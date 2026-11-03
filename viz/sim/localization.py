@@ -7,7 +7,7 @@ from typing import Any, Protocol
 
 import numpy as np
 
-from edge.coords import display_mm_to_probe_um, euclidean_um, probe_um_to_display_mm
+from edge.coords import display_mm_to_probe_um, euclidean_um, in_probe_volume_um, probe_um_to_display_mm
 from edge.types import LocalizationEstimate, Snippet
 
 SESSION_LOCALIZATION_KEYS = (
@@ -127,12 +127,16 @@ def resolve_edge_localizer() -> Any | None:
 def _result_from_edge(estimate: LocalizationEstimate, request: LocalizationRequest) -> LocalizationResult:
     xyz_mm: tuple[float, float, float] | None = None
     error_um = estimate.error_um
+    gt_um = estimate.ground_truth_xyz_um
+    if gt_um is None and request.ground_truth_xyz_mm is not None:
+        gt_um = display_mm_to_probe_um(request.ground_truth_xyz_mm)
     if estimate.xyz_um is not None:
         xyz_mm = probe_um_to_display_mm(estimate.xyz_um)
-        if error_um is None and estimate.ground_truth_xyz_um is not None:
-            error_um = euclidean_um(estimate.xyz_um, estimate.ground_truth_xyz_um)
-        elif error_um is None and request.ground_truth_xyz_mm is not None:
-            error_um = euclidean_um(estimate.xyz_um, display_mm_to_probe_um(request.ground_truth_xyz_mm))
+        if gt_um is not None and in_probe_volume_um(gt_um):
+            error_um = euclidean_um(estimate.xyz_um, gt_um)
+        else:
+            # Stylized whole-region sources are not scientific probe_um ground truth.
+            error_um = None
     available = bool(estimate.available and xyz_mm is not None)
     reason = estimate.reason
     if available and not reason:

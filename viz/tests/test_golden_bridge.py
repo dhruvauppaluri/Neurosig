@@ -92,7 +92,16 @@ class GoldenBridgeTests(unittest.TestCase):
         if payload["available"]:
             self.assertTrue(payload["unverified"])
             self.assertIsNotNone(payload["xyz_mm"])
+            if payload["error_um"] is not None:
+                self.assertLess(float(payload["error_um"]), 200.0)
             self.assertTrue(any(event.kind == "localization_estimate" for event in run.events))
+            matched_loc = [
+                event
+                for event in run.events
+                if event.kind == "localization_estimate" and event.ground_truth_event_id == "gt0"
+            ]
+            if matched_loc and matched_loc[0].metadata and matched_loc[0].metadata.get("error_um") is not None:
+                self.assertLess(float(matched_loc[0].metadata["error_um"]), 200.0)
         else:
             self.assertIn(payload["method"], {"not_implemented", "none"})
 

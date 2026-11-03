@@ -221,6 +221,10 @@ class NeuralEventEngine:
                     events.extend(result.events)
                     self.localization = dict(result.localization)
                     self.snippets.update(result.snippets)
+                    if len(self.snippets) > 400:
+                        extra = list(self.snippets)[:-200]
+                        for key in extra:
+                            self.snippets.pop(key, None)
                     if result.metrics.get("ground_truth_available"):
                         self.metrics.precision = float(result.metrics.get("precision") or 0.0)
                         self.metrics.recall = float(result.metrics.get("recall") or 0.0)

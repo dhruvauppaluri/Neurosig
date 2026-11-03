@@ -79,7 +79,7 @@ def run_synthetic_comparison(
         "split": "contiguous first-N train after seeded generation; same indices for both models",
         "sources": source_table(dataset.sources),
         "forward_model": FORWARD_MODEL,
-        "used_stub_forward": True,
+        "used_stub_forward": True,  # simplified monopole, not a missing renderer
         "localizer_method": dataset.localizer_method,
         "localization_fallback": LOCALIZER_FALLBACK,
         "jitter_sigma_um": JITTER_SIGMA_UM,

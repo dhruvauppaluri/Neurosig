@@ -35,7 +35,7 @@ The initial recording target is 32 channels. Keep the channel count configurable
 - [x] Formally verify the Q8.8 spike-count decoder and the biquad controller handshake with SVA k-induction. The controller proof uses an unconstrained arithmetic result.
 - [ ] Explore synthesis and SKY130/OpenROAD implementation after functional verification.
 
-Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. On October 19, 2026, `.venv/bin/python scripts/smoke_mearec.py` passed on Apple Silicon macOS: two templates, 32,000 samples × 32 channels, one second at 32 kHz, and nine ground-truth spikes. `reports/setup-validation.json` records the result. Hardware results remain future work.
+Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. On October 19, 2026, `.venv/bin/python scripts/smoke_mearec.py` passed on Apple Silicon macOS: two templates, 32,000 samples × 32 channels, one second at 32 kHz, and nine ground-truth spikes. `reports/setup-validation.json` records the result. On November 1, 2026, the same command passed on Ubuntu 24.04 x86_64 with those versions and the same recording shape and spike count. Hardware results remain future work.
 
 ## Working rules
 
@@ -68,6 +68,15 @@ Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURO
 - Visualization code lives under `viz/` only. Do not edit golden-model arithmetic or RTL to support the UI. Neuropixels playback is sorted spikes, not ADC samples.
 - Spatial localization and the ASIC-to-edge codec live under `edge/`. Do not fold those algorithms into `scripts/` DSP golden models. `viz/sim/localization.py` is a display adapter. Do not implement localization RTL until a bit-accurate Python reference and packet freeze exist; see `docs/rtl-acceleration-localization.md`.
 - Simulated source positions, electrode sites, and estimated locations must stay visually distinct. Neuropixels CCF is not a human neuron coordinate. Localization is not a stimulation targeting spec.
+
+## Cursor Cloud specific instructions
+
+There is no long-running service. `scripts/setup.sh` creates `.tools/` and `.venv/`; run project commands with `.venv/bin/python`.
+
+- NEURON mechanism compilation invokes `c++`. On the Cloud Agent image that command is Clang and selects the newest GCC installation (GCC 14). Install `libstdc++-14-dev` so `libstdc++.so` is on the link path before `scripts/smoke_mearec.py`. `scripts/setup.sh` does not install that package.
+- RTL testbenches need the `iverilog` apt package (`iverilog` and `vvp`). The README lists the two commands.
+- Unit tests: `.venv/bin/python -m unittest discover -s tests`.
+- End-to-end check: `.venv/bin/python scripts/smoke_mearec.py`. Output stays under gitignored `data/smoke/`. Matplotlib scripts select the Agg backend, so no display is required.
 
 ## Parallel work
 

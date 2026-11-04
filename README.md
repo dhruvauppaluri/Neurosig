@@ -6,7 +6,7 @@ Neurosig is a neural signal processing hardware project inspired by Neuropixels 
 
 The MEArec setup is working on Apple Silicon macOS with Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. The verified smoke test compiles NEURON mechanisms, generates two biophysical templates, and produces a one-second, 32-channel recording at 32 kHz with nine ground-truth spikes (seed 42). It reloads the HDF5 recording and checks its shape, finite nonconstant samples, and spike ground truth. See [the validation summary](reports/setup-validation.json).
 
-The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly. A 32-feature linear decoder has been trained and verified in RTL on both synthetic spike-count windows and a small processed real Neuropixels session.
+The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly. A 32-feature linear decoder has been trained and verified in RTL on both synthetic spike-count windows and a small processed real Neuropixels session. SVA k-induction in [`formal/`](formal/README.md) proves the decoder score and the biquad controller handshake.
 
 A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It compares five localization methods on the same event and shows offline benchmark provenance. A Python `edge/` package localizes synthetic, MEArec, and IBL sorter-triggered waveforms; emulates an NSG1 ASIC-to-edge link; and compares count, geometry, estimated-location, and tiny-MLP decoding. Localization RTL is **not** implemented. The [Phase 2](reports/phase2-validation.md) and [Phase 3](reports/phase3-validation.md) validation records separate measured results from limits.
 
@@ -177,6 +177,16 @@ vvp /tmp/neurosig-decoder.vvp +WEIGHTS=data/neuropixels/decoder/weights.txt +VEC
 ```
 
 The downloaded file's SHA-256 was `9c055f1248670cd39c15f6ebba5e1d5dac72cda8a15778221aaf8fc379d6417b`. The task is blank versus full right-side visual contrast, using counts from the first 32 VISp units in a 50–250 ms post-stimulus window. A seed `20261103` stratified split gave 167 train and 73 held-out trials. Float and fixed models both scored 90.4% on the held-out trials versus a 69.9% majority-class baseline; all 73 held-out RTL scores and all 240 eligible-trial RTL scores matched fixed Python exactly. See `reports/neuropixels-decoder.json`. These are sorted, trial-binned spikes, **not raw voltage**: they stress the decoder but cannot validate the ADC, filter, or spike detector. This is visual-stimulus decoding in one mouse session, not intended movement decoding.
+
+### Formal verification
+
+SVA contracts for the two RTL blocks live in [`formal/`](formal/README.md). `formal/spike_count_decoder_formal.sv` checks that the 32-channel Q8.8 score matches a 64-bit dot product wrapped to 32 bits, and that `prediction` is the non-negative class, including a zero score. `formal/biquad_controller_formal.sv` checks the IDLE → COMPUTE → OUTPUT handshake, two-cycle latency, backpressure, reset, illegal-state recovery, and per-channel delay-line isolation. The controller proof replaces `biquad_arithmetic` with an unconstrained `new_y`, so the Q2.30 multiply-accumulate stays with `rtl/tb/biquad_arithmetic_tb.sv`.
+
+```sh
+OSS_CAD_SUITE=/path/to/oss-cad-suite bash formal/run_formal.sh
+```
+
+On November 4, 2026, SymbiYosys 0.70 with Yosys 0.70+329 (`b8d84f823`), the slang frontend, and Bitwuzla 0.9.1 proved both tasks by k-induction and reached every cover. The record is `reports/formal-verification.json`. This is a proof of those contracts. It is not a timing, area, or power result, and it does not prove the full filter-plus-detector pipeline.
 
 ### Edge integration, localization, and raw-data pilot
 

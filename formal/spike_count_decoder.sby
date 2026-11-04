@@ -1,0 +1,22 @@
+[tasks]
+prove
+cover
+
+[options]
+prove: mode prove
+prove: depth 1
+cover: mode cover
+cover: depth 2
+timeout 900
+
+[engines]
+smtbmc bitwuzla
+
+[script]
+plugin -i slang
+read_slang --std 1800-2017 --single-unit spike_count_decoder.sv spike_count_decoder_formal.sv
+prep -top spike_count_decoder_formal
+
+[files]
+rtl/spike_count_decoder.sv
+formal/spike_count_decoder_formal.sv

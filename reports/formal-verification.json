@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-04",
+  "command": "OSS_CAD_SUITE=/tmp/oss-cad/oss-cad-suite bash formal/run_formal.sh",
+  "tools": {
+    "symbiyosys": "0.70-9-g79fc9ed",
+    "yosys": "0.70+329 (git sha1 b8d84f823)",
+    "frontend": "read_slang --std 1800-2017 --single-unit",
+    "solver": "bitwuzla 0.9.1",
+    "engine": "smtbmc"
+  },
+  "spike_count_decoder": {
+    "dut": "rtl/spike_count_decoder.sv",
+    "contract": "formal/spike_count_decoder_formal.sv",
+    "prove": "pass",
+    "prove_method": "k-induction",
+    "prove_depth": 1,
+    "cover": "pass",
+    "cover_depth": 2,
+    "covers": [
+      "c_tie_at_zero",
+      "c_class_zero",
+      "c_class_one",
+      "c_count_moves_score"
+    ],
+    "scope": "32-channel Q8.8 dot product wrapped to 32 bits, and prediction == (score >= 0), including a zero score"
+  },
+  "biquad_controller": {
+    "dut": "rtl/biquad_controller.sv",
+    "state": "rtl/biquad_state.sv",
+    "arithmetic": "formal/biquad_arithmetic_blackbox.sv (unconstrained new_y)",
+    "contract": "formal/biquad_controller_formal.sv",
+    "channels": 32,
+    "prove": "pass",
+    "prove_method": "k-induction",
+    "prove_depth": 5,
+    "cover": "pass",
+    "cover_depth": 16,
+    "covers": [
+      {"name": "c_ready_high_during_reset", "step": 1},
+      {"name": "c_accept_channel", "step": 4},
+      {"name": "c_nonzero_sample", "step": 4},
+      {"name": "c_backpressure", "step": 6},
+      {"name": "c_channel_switch", "step": 7}
+    ],
+    "scope": "IDLE/COMPUTE/OUTPUT handshake, two-cycle latency, backpressure hold, reset clear, illegal encoding recovery, and per-channel delay-line isolation. new_y is free, so this is not a Q2.30 arithmetic proof."
+  },
+  "not_proved": [
+    "Q2.30 biquad multiply-accumulate",
+    "full spike-band filter and detector pipeline",
+    "clock frequency, timing, area, or power"
+  ]
+}

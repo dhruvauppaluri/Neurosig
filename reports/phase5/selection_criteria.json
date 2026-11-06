@@ -1,0 +1,10 @@
+{
+  "written_before_running_selection": true,
+  "primary_metric": "channel-consistent F1 at 1.0 ms, counts pooled over the selection windows",
+  "channel_consistent_match": "one-to-one, |dt| <= tolerance AND detection-channel within 60 um of the sorter peak channel",
+  "reported_alongside": ["unconstrained F1 (comparable to earlier phases)", "shifted-reference chance level (41 ms and 73 ms circular shifts)", "tolerances 0.5/1/2 ms", "false detections/s", "runtime"],
+  "adopt_rule": "a single modification is adopted if ALL hold vs the frozen baseline on the selection windows: (1) paired window-cluster bootstrap 95% CI of delta primary F1 excludes 0 on the positive side, (2) delta F1 >= 0.01, (3) no session's pooled F1 falls by more than 0.02, (4) false detections/s rises by no more than 25% relative, (5) runtime <= 3x baseline",
+  "combination": "greedy forward combination of adopted modifications in order of delta F1; a combination step is kept only if it passes the same rule against the current best",
+  "heldout_policy": "held-out windows are evaluated once for the frozen baseline and the chosen detector, after the choice is written to reports/phase5/detector-v2.json",
+  "timing_bias_policy": "delay compensation, if used, is a single constant in samples computed from CALIBRATION matched channel-consistent dt (median), then tested on selection like any other variant"
+}

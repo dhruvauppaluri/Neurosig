@@ -1,5 +1,10 @@
 # Neurosig
 
+**C5G FPGA deployment:** See [fpga/README.md](fpga/README.md) for the
+Cyclone V GX JTAG playback project, build steps, and validation contract.
+Current simulation and physical status is in
+[reports/c5g-fpga-validation.md](reports/c5g-fpga-validation.md).
+
 Neurosig is a neural signal processing hardware project inspired by Neuropixels recordings. The plan is to generate synthetic extracellular recordings, implement spike detection in SystemVerilog, train a small neural decoder, and implement its inference in RTL. A later milestone is to evaluate the digital design using SKY130 and an open source physical design flow.
 
 ## Current status
@@ -7,6 +12,15 @@ Neurosig is a neural signal processing hardware project inspired by Neuropixels 
 The MEArec setup is working on Apple Silicon macOS with Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. The verified smoke test compiles NEURON mechanisms, generates two biophysical templates, and produces a one-second, 32-channel recording at 32 kHz with nine ground-truth spikes (seed 42). It reloads the HDF5 recording and checks its shape, finite nonconstant samples, and spike ground truth. See [the validation summary](reports/setup-validation.json).
 
 The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly. A 32-feature linear decoder has been trained and verified in RTL on both synthetic spike-count windows and a small processed real Neuropixels session. SVA k-induction in [`formal/`](formal/README.md) proves the decoder score and the biquad controller handshake.
+
+The C5G FPGA variant has been fitted, timed, programmed, and run on a physical
+board. Its 1,024,000-sample seeded playback matched all nine Python and
+Verilator event triples without transfer or overflow errors. The measured
+JTAG playback rate is much slower than real time; see the
+[C5G validation report](reports/c5g-fpga-validation.md) for separate timing,
+utilization, power-estimate, and host-rate results. A public one-second IBL
+AP window also matched its one-event no-CAR Python reference after 30 to
+32 kHz adaptation; this is separate from the frozen median-CAR real detector.
 
 A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It compares five localization methods on the same event and shows offline benchmark provenance. A Python `edge/` package localizes synthetic, MEArec, and IBL sorter-triggered waveforms; emulates an NSG1 ASIC-to-edge link; and compares count, geometry, estimated-location, and tiny-MLP decoding. Localization RTL is **not** implemented. The [Phase 2](reports/phase2-validation.md) and [Phase 3](reports/phase3-validation.md) validation records separate measured results from limits.
 
@@ -160,7 +174,7 @@ To repeat the full end-to-end comparison on the one-second, 32-channel recording
 
 ```sh
 .venv/bin/python rtl/tb/generate_pipeline_reference.py
-verilator --binary --timing -j 4 -Wno-fatal --top-module neurosig_pipeline_reference_tb --Mdir /tmp/neurosig-verilator-pipeline rtl/tb/neurosig_pipeline_reference_tb.sv rtl/neurosig_pipeline.sv rtl/sample_input.sv rtl/spike_band_filter.sv rtl/biquad_controller.sv rtl/biquad_state.sv rtl/biquad_arithmetic.sv rtl/spike_detector_multichannel.sv rtl/spike_detector_channel.sv rtl/spike_event_merge.sv
+verilator --binary --timing -j 4 -Wno-fatal --top-module neurosig_pipeline_reference_tb --Mdir /tmp/neurosig-verilator-pipeline rtl/tb/neurosig_pipeline_reference_tb.sv rtl/neurosig_pipeline.sv rtl/sample_input.sv rtl/spike_band_filter.sv rtl/biquad_controller.sv rtl/biquad_controller_pipelined.sv rtl/biquad_state.sv rtl/biquad_arithmetic.sv rtl/spike_detector_multichannel.sv rtl/spike_detector_channel.sv rtl/spike_event_merge.sv rtl/spike_event_merge_serial.sv
 /tmp/neurosig-verilator-pipeline/Vneurosig_pipeline_reference_tb +ADC=data/quantized/adc_codes.hex +THRESHOLDS=/tmp/neurosig-thresholds.txt +EVENTS=/tmp/neurosig-merged-events.txt +OBSERVED=/tmp/neurosig-rtl-events.txt
 .venv/bin/python rtl/tb/evaluate_pipeline_events.py
 ```

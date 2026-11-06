@@ -4,7 +4,8 @@
 // signed 24-bit codes, packed with channel 0 in the least significant slice.
 module spike_detector_multichannel #(
     parameter int CHANNELS = 32,
-    parameter int CHANNEL_BITS = (CHANNELS > 1 ? $clog2(CHANNELS) : 1)
+    parameter int CHANNEL_BITS = (CHANNELS > 1 ? $clog2(CHANNELS) : 1),
+    parameter bit FRAME_ORDERED = 0
 ) (
     input  logic clk,
     input  logic rst_n,
@@ -33,7 +34,8 @@ module spike_detector_multichannel #(
     assign invalid_channel = int'(in_channel) >= CHANNELS;
     assign in_ready = rst_n && !invalid_channel;
 
-    for (genvar c = 0; c < CHANNELS; c++) begin : channels
+    genvar c;
+    generate for (c = 0; c < CHANNELS; c = c + 1) begin : channels
         assign threshold[c] = $signed(threshold_codes[c*24 +: 24]);
         assign accepted[c] = in_valid && in_ready && (in_channel == CHANNEL_BITS'(c));
         spike_detector_channel detector (
@@ -51,7 +53,7 @@ module spike_detector_multichannel #(
             if (!rst_n) sample_count[c] <= '0;
             else if (accepted[c]) sample_count[c] <= sample_count[c] + 32'd1;
         end
-    end
+    end endgenerate
 
     // Only one channel receives a sample per cycle, so at most one detector
     // can finish its 16-sample search on that edge.
@@ -73,11 +75,18 @@ module spike_detector_multichannel #(
         end
     end
 
-    // Complete frames are the minimum accepted sample count across channels.
-    always_comb begin
-        completed_frames = sample_count[0];
-        for (int c = 1; c < CHANNELS; c++)
-            if (sample_count[c] < completed_frames)
-                completed_frames = sample_count[c];
-    end
+    // The C5G mailbox validates strict frame-major order before feeding the
+    // pipeline. In that mode the final channel count is the completed-frame
+    // count, avoiding a long 32-channel minimum path. The generic interface
+    // keeps the minimum for arbitrary channel order.
+    generate if (FRAME_ORDERED) begin : ordered_frames
+        assign completed_frames = sample_count[CHANNELS-1];
+    end else begin : arbitrary_order
+        always_comb begin
+            completed_frames = sample_count[0];
+            for (int c = 1; c < CHANNELS; c++)
+                if (sample_count[c] < completed_frames)
+                    completed_frames = sample_count[c];
+        end
+    end endgenerate
 endmodule

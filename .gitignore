@@ -5,6 +5,15 @@ __pycache__/
 *.pyc
 .DS_Store
 data/
+fpga/neurosig_jtag/
+fpga/*.sopcinfo
+fpga/db/
+fpga/incremental_db/
+fpga/output_files/
+fpga/*.rpt
+fpga/*.summary
+fpga/*.smsg
+fpga/*.qws
 viz/web/node_modules/
 viz/web/dist/
 viz/web/tsconfig.tsbuildinfo

@@ -28,35 +28,65 @@ module spike_event_merge #(
     logic [31:0] indices [0:DEPTH-1];
     logic [CHANNEL_BITS-1:0] channels [0:DEPTH-1];
     logic signed [24:0] margins [0:DEPTH-1];
+    logic [31:0] arrival [0:DEPTH-1];
+    logic [31:0] next_arrival;
+    logic [DEPTH-1:0] occupied;
     logic [DEPTH-1:0] in_group;
     logic [31:0] anchor;
-    integer selected, remaining;
-    integer append_at;
+    integer selected, removed;
+    integer free_slot;
     logic emit;
+    logic signed [24:0] best_margin;
+    logic [31:0] best_index;
+    logic [31:0] best_arrival;
+    logic signed [23:0] selected_code;
+    logic [31:0] selected_index;
+    logic [CHANNEL_BITS-1:0] selected_channel;
 
     always_comb begin
         anchor = 32'hffffffff;
         selected = -1;
-        remaining = 0;
+        best_margin = '0;
+        best_index = '0;
+        best_arrival = '0;
+        selected_code = '0;
+        selected_index = '0;
+        selected_channel = '0;
+        removed = 0;
+        free_slot = -1;
         in_group = '0;
         for (int i = 0; i < DEPTH; i++)
-            if (i < count && indices[i] < anchor) anchor = indices[i];
+            if (occupied[i] && indices[i] < anchor) anchor = indices[i];
         for (int i = 0; i < DEPTH; i++) begin
-            if (i < count && indices[i] <= anchor + 32'd16) begin
+            if (occupied[i] && indices[i] <= anchor + 32'd16) begin
                 in_group[i] = 1'b1;
-                if (selected < 0 || margins[i] > margins[selected] ||
-                    (margins[i] == margins[selected] && indices[i] < indices[selected]))
+                removed++;
+                if (selected < 0 || margins[i] > best_margin ||
+                    (margins[i] == best_margin &&
+                     (indices[i] < best_index ||
+                      (indices[i] == best_index && arrival[i] < best_arrival)))) begin
                     selected = i;
-            end else if (i < count) remaining++;
+                    best_margin = margins[i];
+                    best_index = indices[i];
+                    best_arrival = arrival[i];
+                    selected_code = codes[i];
+                    selected_index = indices[i];
+                    selected_channel = channels[i];
+                end
+            end
         end
         emit = (count != 0) &&
                (flush || (completed_frames > anchor + 32'd32));
-        append_at = emit ? remaining : int'(count);
+        for (int i = 0; i < DEPTH; i++)
+            if (free_slot < 0 && (!occupied[i] || (emit && in_group[i])))
+                free_slot = i;
     end
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             count <= '0;
+            occupied <= '0;
+            next_arrival <= 0;
             event_valid <= 1'b0;
             event_code <= '0;
             event_index <= '0;
@@ -65,34 +95,25 @@ module spike_event_merge #(
         end else begin
             event_valid <= emit;
             if (emit) begin
-                event_code <= codes[selected];
-                event_index <= indices[selected];
-                event_channel <= channels[selected];
-                // Preserve arrival order among candidates outside this group.
-                begin : compact
-                    integer dest;
-                    dest = 0;
-                    for (int i = 0; i < DEPTH; i++) begin
-                        if (i < count && !in_group[i]) begin
-                            codes[dest] <= codes[i];
-                            indices[dest] <= indices[i];
-                            channels[dest] <= channels[i];
-                            margins[dest] <= margins[i];
-                            dest++;
-                        end
-                    end
-                end
+                event_code <= selected_code;
+                event_index <= selected_index;
+                event_channel <= selected_channel;
+                for (int i = 0; i < DEPTH; i++)
+                    if (in_group[i]) occupied[i] <= 1'b0;
             end
             if (candidate_valid) begin
-                if (append_at < DEPTH) begin
-                    codes[append_at] <= candidate_code;
-                    indices[append_at] <= candidate_index;
-                    channels[append_at] <= candidate_channel;
-                    margins[append_at] <= candidate_margin;
+                if (free_slot >= 0) begin
+                    codes[free_slot] <= candidate_code;
+                    indices[free_slot] <= candidate_index;
+                    channels[free_slot] <= candidate_channel;
+                    margins[free_slot] <= candidate_margin;
+                    arrival[free_slot] <= next_arrival;
+                    occupied[free_slot] <= 1'b1;
+                    next_arrival <= next_arrival + 1'b1;
                 end else overflow <= 1'b1;
             end
-            count <= COUNT_BITS'(append_at +
-                    ((candidate_valid && append_at < DEPTH) ? 1 : 0));
+            count <= COUNT_BITS'(int'(count) - (emit ? removed : 0) +
+                    ((candidate_valid && free_slot >= 0) ? 1 : 0));
         end
     end
 endmodule

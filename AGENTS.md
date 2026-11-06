@@ -33,6 +33,7 @@ The initial recording target is 32 channels. Keep the channel count configurable
 - [x] Second public IBL insertion detection (NYU-45 VISa) and detector-event vs sorted-count decode on a trial-dense AP block.
 - [x] Restore the seeded MEArec recording and rerun golden-model plus Verilator 9/9 pipeline comparison.
 - [x] Formally verify the Q8.8 spike-count decoder and the biquad controller handshake with SVA k-induction. The controller proof uses an unconstrained arithmetic result.
+- [x] Phase 5: probe-clock-synced real-signal benchmark (4 IBL insertions, seeded calibration/selection/held-out split), chance-corrected channel-consistent metrics, detector-v2.0 (200–4500 Hz, held-out ΔF1 +0.017), and a bit-specified integer reference `fixed-v1` with RTL-readiness spec. See `reports/phase5/phase5-validation.md`. No RTL changed; earlier Phase 3–4 IBL reports still carry the uncorrected sorter-clock offset.
 - [ ] Explore synthesis and SKY130/OpenROAD implementation after functional verification.
 
 Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. On October 19, 2026, `.venv/bin/python scripts/smoke_mearec.py` passed on Apple Silicon macOS: two templates, 32,000 samples × 32 channels, one second at 32 kHz, and nine ground-truth spikes. `reports/setup-validation.json` records the result. Hardware results remain future work.
@@ -72,3 +73,5 @@ Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURO
 ## Parallel work
 
 When tasks run in parallel, assign ownership of files, share interface assumptions early, and avoid modifying the same files concurrently. Integrate completed work with a validation command and a concise record of the outcome. Do not claim another task's pending check has passed.
+
+- Phase 5 (`scripts/phase5/`, `docs/phase5-*.md`, `reports/phase5/`): IBL sorter times must be mapped session clock → probe samples via `_spikeglx_*.timestamps.npy` (`scripts/phase5/data.py`); report channel-consistent F1 with the shifted-reference chance level, not unconstrained recall alone. `scripts/phase5/fixed_detector.py` is the integer reference (10 guard bits; two implementations must stay bit-identical; `tests/golden/phase5_fixed_golden.json` pins behaviour). Held-out windows are evaluated only via a frozen `--configs` file.

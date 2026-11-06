@@ -246,3 +246,44 @@ def test_randomized_streaming_equivalence_with_gaps_and_disabled(seed):
     valid[:2] = True
     r = run_fixed(codes, active=active, valid=valid)
     assert stream_events(codes, r, active=active, valid=valid) == r["candidates"]
+
+
+# ------------------------------------------------- golden vectors / stability
+def test_regression_golden_vectors_bit_exact():
+    import hashlib, json
+    from pathlib import Path
+    from scripts.phase5.compare_float_fixed import spec_from_float
+    from scripts.phase5.detectors import P5Config
+    gold = json.loads((Path(__file__).parent / "golden" / "phase5_fixed_golden.json").read_text())
+    v2 = P5Config(highpass_hz=200.0, lowpass_hz=4500.0)
+    specs = {"fixed_v1_default": FixedSpec(), "v2_200_4500_median": spec_from_float(v2),
+             "v2_200_4500_mean": spec_from_float(v2.replace(car="mean"))}
+    codes = make_codes(1234, n=8000, ch=8, spikes=14)
+    for name, spec in specs.items():
+        r = run_fixed(codes, spec)
+        g = gold[name]
+        assert [[e.sample, e.channel, e.code, e.delta, e.amp_q8] for e in r["events"]] == g["events"], name
+        assert len(r["candidates"]) == g["n_candidates"]
+        assert hashlib.sha256(r["car"].astype("<i8").tobytes()).hexdigest() == g["car_sha256"], name
+        assert hashlib.sha256(r["filtered"].astype("<i8").tobytes()).hexdigest() == g["filtered_sha256"], name
+        assert r["calibration"]["threshold"].tolist() == g["thresholds"]
+
+
+@pytest.mark.parametrize("hp,lp", [(300.0, 6000.0), (200.0, 4500.0)])
+def test_quantized_poles_stable_and_zero_input_decays(hp, lp):
+    from scripts.filter_iir import IirConfig, design_sos, maximum_pole_magnitude
+    from scripts.fixed_point_model import FixedPointConfig, dequantize_sos, quantize_sos
+    cfg = FixedPointConfig(signal_bits=24)
+    q = quantize_sos(design_sos(IirConfig(sample_rate_hz=30000.0, highpass_hz=hp, lowpass_hz=lp)), cfg)
+    assert maximum_pole_magnitude(dequantize_sos(q, cfg)) < 1.0
+    spec = FixedSpec(highpass_hz=hp, lowpass_hz=lp)
+    kick = np.zeros((6000, 1), dtype=np.int64)
+    kick[0, 0] = 400  # impulse then silence: the output must return to exactly 0 (no limit cycle)
+    r = run_fixed(np.concatenate([kick, np.zeros((6000, 1), dtype=np.int64)]), spec)
+    assert int(np.abs(r["filtered"][-1000:]).max()) == 0
+
+
+def test_filter_stats_worst_case_accumulator_fits_64_bits():
+    alt = np.where(np.arange(4000)[:, None] % 2 == 0, 511, -512) * np.ones((1, 2), dtype=np.int64)
+    r = run_fixed(alt)
+    assert max(s["accumulator_bits_required_including_sign"] for s in r["filter_stats"]) <= 64

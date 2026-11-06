@@ -13,6 +13,15 @@ The MEArec setup is working on Apple Silicon macOS with Python 3.12.15, MEArec 1
 
 The first recording target is **32 channels**. The smoke test uses one excitatory neuron and a Neuronexus-32 probe. The floating-point and fixed-point software references and a complete RTL filter and spike detector pipeline are implemented. The seeded one-second end-to-end RTL test matches all nine Python merged events exactly. A 32-feature linear decoder has been trained and verified in RTL on both synthetic spike-count windows and a small processed real Neuropixels session. SVA k-induction in [`formal/`](formal/README.md) proves the decoder score and the biquad controller handshake.
 
+The C5G FPGA variant has been fitted, timed, programmed, and run on a physical
+board. Its 1,024,000-sample seeded playback matched all nine Python and
+Verilator event triples without transfer or overflow errors. The measured
+JTAG playback rate is much slower than real time; see the
+[C5G validation report](reports/c5g-fpga-validation.md) for separate timing,
+utilization, power-estimate, and host-rate results. A public one-second IBL
+AP window also matched its one-event no-CAR Python reference after 30 to
+32 kHz adaptation; this is separate from the frozen median-CAR real detector.
+
 A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It compares five localization methods on the same event and shows offline benchmark provenance. A Python `edge/` package localizes synthetic, MEArec, and IBL sorter-triggered waveforms; emulates an NSG1 ASIC-to-edge link; and compares count, geometry, estimated-location, and tiny-MLP decoding. Localization RTL is **not** implemented. The [Phase 2](reports/phase2-validation.md) and [Phase 3](reports/phase3-validation.md) validation records separate measured results from limits.
 
 ## Setup and validation

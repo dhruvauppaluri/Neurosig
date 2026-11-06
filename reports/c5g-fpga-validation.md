@@ -106,13 +106,15 @@ hardware cycle counters. A counter-equipped revision is being compiled for
 direct on-chip processing measurement.
 
 The frozen real-data CAR/4σ Python detector is not an equivalent RTL reference
-because the hardware lacks median CAR. No real-data board comparison is
-claimed yet.
+because the hardware lacks median CAR. The later public AP-window result uses
+the matching no-CAR configuration.
 
 ## Counter-equipped final build — 2026-11-05
 
 Quartus full compilation completed with zero errors. Programmer loaded the
-counter-equipped `.sof` (checksum `0x02B69090`) over `USB-Blaster [USB-0]`.
+counter-equipped `.sof` (checksum `0x02B69090`, SHA-256
+`52fde0332f5ec14d99b20ff016f7b7003fca029493ab46460c9a5442039fd398`)
+over `USB-Blaster [USB-0]`.
 The fitted device uses 15,097 / 29,080 ALMs (52%), 19,084 registers,
 59,808 block-memory bits in 10 RAM blocks, and 30 / 150 DSP blocks. The
 slow 85°C timing model reports +5.050 ns worst setup slack for the 20 ns
@@ -149,6 +151,9 @@ matched all nine Python and Verilator triples, with zero errors and FIFO
 high-water one. This fresh run took 760.947 s end to end (1,345.69
 samples/s). It is recorded in ignored
 `data/fpga/c5g-clean-calibration-events.json` and `.csv`.
+All nine clean-run events also fit NSG1's signed 16-bit EVENT amplitude and
+were ingested as EVENT frames by `edge.pipeline`. Host-side retrieval saved
+nine 49×32 ADC windows at the board timestamps.
 
 ## Public raw AP window
 
@@ -158,10 +163,22 @@ selected 32 VISp channels with native 30 kHz calibrated AP voltages. The
 voltage span was −278.91 to +189.84 µV. `fpga/prepare_raw.py` resampled to
 32 kHz, quantized at an explicit ±300 µV range with zero saturation, and
 calibrated the no-CAR 6σ thresholds from the quantized input. Its bit-accurate
-Python reference produced one event. The board comparison is pending.
+Python reference produced one event.
 The ignored raw `.npy`, prepared ADC, and threshold hex SHA-256 values are
 `23d3b6ba93d5a635b2228007eb6d1aec284bb0f033670e99f82a4d8790d7d03a`,
 `63bf0340f70c4a2ea4e1128ec51ffe2400b858a4033ad7bd59c68730d531413a`,
 and `b26510d8fcfb01b31537bfd7fb6f8f60ebf90edd4231ac9f7a40c18a3f61f4cb`
 respectively. The source and channel selection are in ignored
 `data/fpga/ibl-window/source.json`.
+
+The programmed C5G processed the entire prepared 1,024,000-sample window.
+It emitted exactly the Python no-CAR event `(18087, 17, -17606)`, with zero
+missing or extra records, zero status and sticky errors, and event FIFO
+high-water one. System Console playback took 747.885 s (1,369.19
+samples/s); the same hardware feed counter read 5.991211 clocks/sample.
+The signed 24-bit code fits NSG1's 16-bit EVENT amplitude, and the existing
+edge pipeline ingested one converted EVENT frame. Host-side retrieval saved
+a 49×32 ADC window and produced an available location estimate using the
+IBL channel geometry. This is a no-CAR, resampled, quantized one-window
+comparison. The location is an estimate, and no sorter-ground-truth or
+frozen CAR/4σ detector agreement is claimed.

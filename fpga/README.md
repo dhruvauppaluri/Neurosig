@@ -157,6 +157,8 @@ Read the actual `sample_rate_hz` in `ibl-window/source.json` and pass that
 value to `prepare_raw.py`; 30 kHz above is an example. The fetcher saves the
 selected 32-channel voltage matrix, raw channel indices, and local probe
 positions. The input is public calibrated AP voltage, not sorted event counts.
+The validation report records one exact no-CAR hardware event on this public
+window with zero transfer or overflow errors.
 
 Quartus Power Analyzer can provide a vectorless estimate with
 `quartus_pow neurosig_c5g --use_vectorless_estimation=on`. Its confidence

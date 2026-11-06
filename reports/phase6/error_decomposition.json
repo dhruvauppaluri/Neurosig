@@ -1,0 +1,61 @@
+{
+ "windows": [
+  "B:1045.712",
+  "B:2162.722",
+  "B:2063.069",
+  "B:1709.243",
+  "C:1286.369",
+  "C:2160.251",
+  "C:3669.498",
+  "C:2827.008"
+ ],
+ "means": {
+  "filter_total_rms_uv": 0.1264418901018698,
+  "filter_coef_effect_rms_uv": 6.419500134393702e-07,
+  "filter_trunc_effect_rms_uv": 0.12644235856272784,
+  "filter_max_abs_uv": 0.5854146133680509,
+  "gain_int_vs_float_q": 0.00123005285706701,
+  "gain_car": 0.0010588956284272033,
+  "calib_arith_sigma_bias": -7.335115503643848e-06,
+  "filter_car_sigma_bias": 0.0011753497065385685,
+  "acc_bits": 47.875
+ },
+ "max": {
+  "filter_total_rms_uv": 0.13395078454780796,
+  "filter_coef_effect_rms_uv": 7.794748676009942e-07,
+  "filter_trunc_effect_rms_uv": 0.13395129057872426,
+  "filter_max_abs_uv": 0.6642698175484361,
+  "gain_int_vs_float_q": 0.0015838991964620686,
+  "gain_car": 0.0013772145597961138,
+  "calib_arith_sigma_bias": 8.014568409404942e-06,
+  "filter_car_sigma_bias": 0.0016107582294021998,
+  "acc_bits": 49.0
+ },
+ "artifact_window_A_1989s": {
+  "code_std_median_channel": 304.1043314795469,
+  "filter_error_rms_uv": 0.5106344828372742,
+  "filter_error_max_uv": 0.9144550764913717,
+  "acc_bits": 51
+ },
+ "analytic_worst_case_truncation_error_uv": {
+  "v2_200_4500": 1.4698344407718307,
+  "baseline_300_6000": 0.6641549235418893,
+  "at_12_guard_bits_v2": 0.36745861019295767
+ },
+ "rounding_rule_diagnostic": {
+  "trunc_toward_zero": {
+   "gain_error": 0.0013270466224173383,
+   "rms_error_uv": 0.12013886742206974,
+   "zero_input_residual_after_burst_internal_lsb": 0
+  },
+  "round_nearest": {
+   "gain_error": -1.4165002591132181e-05,
+   "rms_error_uv": 0.04704724649199055,
+   "zero_input_residual_after_burst_internal_lsb": 260
+  },
+  "floor": {
+   "gain_error": 7.895394850437887e-06,
+   "rms_error_uv": 0.6747724239916415
+  }
+ }
+}

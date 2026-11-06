@@ -10,6 +10,31 @@ The first recording target is **32 channels**. The smoke test uses one excitator
 
 A separate research UI under [`viz/`](viz/README.md) shows a translucent anatomical human brain surface, illustrative synthetic activity and wiring, and fixture Neuropixels **sorted-spike** playback confined to the visual region. It compares five localization methods on the same event and shows offline benchmark provenance. A Python `edge/` package localizes synthetic, MEArec, and IBL sorter-triggered waveforms; emulates an NSG1 ASIC-to-edge link; and compares count, geometry, estimated-location, and tiny-MLP decoding. Localization RTL is **not** implemented. The [Phase 2](reports/phase2-validation.md) and [Phase 3](reports/phase3-validation.md) validation records separate measured results from limits.
 
+## Phases 5-6: real-signal detection and the fixed-point reference contract
+
+Phase 5 added a probe-clock-synchronised IBL benchmark (four public insertions, seeded splits), chance-corrected channel-consistent metrics, `detector-v2.0` (200-4500 Hz; a small, consistent gain over the 300-6000 Hz baseline), and a bit-specified integer reference. Phase 6 explained every float-vs-fixed disagreement (no unexplained mismatch; three specification slips fixed in `fixed-v1.1`), added independent arithmetic oracles, regenerated the Phase 3-4 IBL results on the correct timebase, and froze an RTL reference contract with deterministic test vectors. **No RTL implements this model yet.**
+
+| Where | What |
+|---|---|
+| [`docs/phase6-rtl-contract.md`](docs/phase6-rtl-contract.md) | Frozen fixed-point contract, vectors, hardware assessment |
+| [`tests/vectors/phase6/`](tests/vectors/phase6/) | Deterministic RTL vectors with intermediates (`scripts/phase6/generate_rtl_vectors.py [--check]`) |
+| [`reports/phase6/phase6-validation.md`](reports/phase6/phase6-validation.md) | Final engineering summary |
+| [`reports/phase6/`](reports/phase6/) | Mismatch classification, float-vs-fixed, generalization, corrected history |
+| [`reports/DEPRECATIONS.md`](reports/DEPRECATIONS.md) | Superseded Phase 3-5 conclusions (originals kept) |
+
+Run the whole software regression with one command (no FPGA, no downloads required; cached real windows add four more checks):
+
+```sh
+.venv/bin/python scripts/run_regression.py        # writes reports/regression-summary.json
+```
+
+### Research limitations
+
+* Spike-sorting output is a comparison reference, not biological ground truth; "precision" is an agreement rate, and unconstrained 1 ms matching has a chance level of about 37 % at these event rates (use channel-consistent F1 and the shifted-reference control).
+* Four to eight public insertions, 32 contacts each; a small gain (ΔF1 about +0.02) of the 200-4500 Hz band is consistent across sessions here but is not shown to hold universally.
+* Thresholds are calibrated offline on the evaluated window; on-chip calibration is untested. The integer model adds a deterministic +0.12 % filter gain from truncation toward zero.
+* No synthesis, timing, area or power results exist for any Phase 5-6 algorithm.
+
 ## Setup and validation
 
 Run these commands from the repository root:

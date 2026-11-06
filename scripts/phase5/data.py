@@ -15,7 +15,9 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-CACHE = ROOT / "data" / "phase5" / "windows"
+import os
+
+CACHE = Path(os.environ.get("NEUROSIG_WINDOWS_DIR", ROOT / "data" / "phase5" / "windows"))
 MANIFEST = ROOT / "reports" / "phase5" / "split_manifest.json"
 
 
@@ -33,6 +35,24 @@ def _one():
                cache_dir="data/neuropixels/ibl_cache")
 
 
+def make_clock_maps(timestamps):
+    """Return (forward, reverse) from a probe-sync table [[probe_sample, session_seconds], ...].
+
+    forward(probe_sample) -> session seconds;  reverse(session_seconds) -> probe_sample. Linear interpolation with
+    extrapolation, exactly what IBL's SpikeSortingLoader.samples2times uses. Pure function (no network).
+    """
+    from scipy.interpolate import interp1d
+    ts = np.asarray(timestamps, dtype=float)
+    return (interp1d(ts[:, 0], ts[:, 1], fill_value="extrapolate"),
+            interp1d(ts[:, 1], ts[:, 0], fill_value="extrapolate"))
+
+
+def session_times_to_window_probe_seconds(session_times_s, timestamps, t0_s, fs):
+    """Sorter spike times (session clock) -> seconds relative to the window start on the probe clock."""
+    _, reverse = make_clock_maps(timestamps)
+    return np.asarray(reverse(np.asarray(session_times_s, dtype=float)), dtype=float) / fs - t0_s
+
+
 def sorter_in_probe_time(one, pid: str, t0_s: float, duration_s: float, selected: np.ndarray, fs: float):
     """Sorter spikes of the selected contacts, in *probe* seconds relative to ``t0_s``.
 
@@ -41,15 +61,13 @@ def sorter_in_probe_time(one, pid: str, t0_s: float, duration_s: float, selected
     seconds. Comparing session-clock spike times with raw sample indices (as the
     earlier phases did) is only valid near the recording start.
     """
-    from scipy.interpolate import interp1d
     from edge.ibl import SORTING_REVISION
 
     eid, probe = one.pid2eid(pid)
     col = f"alf/{probe}/pykilosort"
     ts = np.asarray(one.load_dataset(eid, "_spikeglx_*.timestamps.npy",
                                      collection=f"raw_ephys_data/{probe}"), dtype=float)
-    forward = interp1d(ts[:, 0], ts[:, 1], fill_value="extrapolate")
-    reverse = interp1d(ts[:, 1], ts[:, 0], fill_value="extrapolate")
+    forward, reverse = make_clock_maps(ts)
     a, b = t0_s * fs, (t0_s + duration_s) * fs
     sess_lo, sess_hi = float(forward(a)), float(forward(b))
     st = np.asarray(one.load_dataset(eid, "spikes.times.npy", collection=col, revision=SORTING_REVISION), dtype=float)

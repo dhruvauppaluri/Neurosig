@@ -1,0 +1,152 @@
+{
+ "python": "3.12.15",
+ "groups": {
+  "python_dsp": {
+   "kind": "pytest",
+   "paths": [
+    "tests/test_detect_spikes.py",
+    "tests/test_filter_iir.py",
+    "tests/test_quantize_adc.py",
+    "tests/test_real_detector.py",
+    "tests/test_fixed_point_model.py"
+   ],
+   "returncode": 0,
+   "seconds": 3.7,
+   "counts": {
+    "passed": 21,
+    "failed": 0,
+    "error": 0,
+    "skipped": 0,
+    "missing_dataset": 0
+   },
+   "status": "pass",
+   "not_passing": [],
+   "stdout_tail": ""
+  },
+  "phase5_detector_and_fixed": {
+   "kind": "pytest",
+   "paths": [
+    "tests/test_phase5_detectors.py",
+    "tests/test_phase5_fixed.py"
+   ],
+   "returncode": 0,
+   "seconds": 10.3,
+   "counts": {
+    "passed": 39,
+    "failed": 0,
+    "error": 0,
+    "skipped": 0,
+    "missing_dataset": 0
+   },
+   "status": "pass",
+   "not_passing": [],
+   "stdout_tail": ""
+  },
+  "fixed_point_arithmetic_oracles": {
+   "kind": "pytest",
+   "paths": [
+    "tests/test_phase6_arithmetic.py"
+   ],
+   "returncode": 0,
+   "seconds": 20.0,
+   "counts": {
+    "passed": 103,
+    "failed": 0,
+    "error": 0,
+    "skipped": 0,
+    "missing_dataset": 0
+   },
+   "status": "pass",
+   "not_passing": [],
+   "stdout_tail": ""
+  },
+  "rtl_test_vectors": {
+   "kind": "pytest",
+   "paths": [
+    "tests/test_phase6_vectors.py"
+   ],
+   "returncode": 0,
+   "seconds": 4.1,
+   "counts": {
+    "passed": 2,
+    "failed": 0,
+    "error": 0,
+    "skipped": 0,
+    "missing_dataset": 0
+   },
+   "status": "pass",
+   "not_passing": [],
+   "stdout_tail": ""
+  },
+  "timestamp_alignment": {
+   "kind": "pytest",
+   "paths": [
+    "tests/test_phase6_sync.py"
+   ],
+   "returncode": 0,
+   "seconds": 2.9,
+   "counts": {
+    "passed": 5,
+    "failed": 0,
+    "error": 0,
+    "skipped": 0,
+    "missing_dataset": 0
+   },
+   "status": "pass",
+   "not_passing": [],
+   "stdout_tail": ""
+  },
+  "edge_package": {
+   "kind": "pytest",
+   "paths": [
+    "edge/tests"
+   ],
+   "returncode": 0,
+   "seconds": 5.3,
+   "counts": {
+    "passed": 55,
+    "failed": 0,
+    "error": 0,
+    "skipped": 0,
+    "missing_dataset": 0
+   },
+   "status": "pass",
+   "not_passing": [],
+   "stdout_tail": ""
+  },
+  "real_data_regression": {
+   "kind": "pytest",
+   "paths": [
+    "tests/test_phase6_realdata.py"
+   ],
+   "returncode": 0,
+   "seconds": 10.7,
+   "counts": {
+    "passed": 4,
+    "failed": 0,
+    "error": 0,
+    "skipped": 0,
+    "missing_dataset": 0
+   },
+   "status": "pass",
+   "not_passing": [],
+   "stdout_tail": ""
+  },
+  "vector_manifest_check": {
+   "kind": "command",
+   "cmd": "scripts/phase6/generate_rtl_vectors.py --check",
+   "returncode": 0,
+   "seconds": 3.9,
+   "status": "pass",
+   "stdout_tail": "vector manifest matches\n"
+  }
+ },
+ "totals": {
+  "passed": 229,
+  "failed": 0,
+  "error": 0,
+  "skipped": 0,
+  "missing_dataset": 0
+ },
+ "overall": "pass"
+}

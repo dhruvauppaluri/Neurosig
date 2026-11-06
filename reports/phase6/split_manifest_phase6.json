@@ -1,12 +1,13 @@
 {
+ "revision_note": "Session E was first drawn as mainenlab 366c7c11 but that insertion has no raw AP files on the server (no .ap.ch); replaced by hausserlab c5b9e063 before any window was downloaded or evaluated (availability only).",
  "seed": 20261106,
  "window_s": 2.0,
  "rule": "locked_final windows are reserved before any evaluation, evaluated ONCE per frozen configuration; no parameter changes after viewing them",
  "sessions": {
   "E": {
-   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
-   "lab": "mainenlab",
-   "probe_duration_s": 3100.0
+   "pid": "c5b9e063-f640-4936-b851-f7602cb6659b",
+   "lab": "hausserlab",
+   "probe_duration_s": 4100.0
   },
   "F": {
    "pid": "5135e93f-2f1f-4301-9532-b5ad62548c49",
@@ -27,43 +28,43 @@
  "windows": [
   {
    "session": "E",
-   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
-   "t0_s": 482.745,
+   "pid": "c5b9e063-f640-4936-b851-f7602cb6659b",
+   "t0_s": 542.745,
    "duration_s": 2.0,
    "split": "locked_final"
   },
   {
    "session": "E",
-   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
-   "t0_s": 801.257,
+   "pid": "c5b9e063-f640-4936-b851-f7602cb6659b",
+   "t0_s": 1041.257,
    "duration_s": 2.0,
    "split": "locked_final"
   },
   {
    "session": "E",
-   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
-   "t0_s": 1157.941,
+   "pid": "c5b9e063-f640-4936-b851-f7602cb6659b",
+   "t0_s": 1517.941,
    "duration_s": 2.0,
    "split": "locked_final"
   },
   {
    "session": "E",
-   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
-   "t0_s": 1338.777,
+   "pid": "c5b9e063-f640-4936-b851-f7602cb6659b",
+   "t0_s": 1698.777,
    "duration_s": 2.0,
    "split": "locked_final"
   },
   {
    "session": "E",
-   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
-   "t0_s": 1875.783,
+   "pid": "c5b9e063-f640-4936-b851-f7602cb6659b",
+   "t0_s": 2475.783,
    "duration_s": 2.0,
    "split": "locked_final"
   },
   {
    "session": "E",
-   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
-   "t0_s": 911.562,
+   "pid": "c5b9e063-f640-4936-b851-f7602cb6659b",
+   "t0_s": 1211.562,
    "duration_s": 2.0,
    "split": "locked_final"
   },

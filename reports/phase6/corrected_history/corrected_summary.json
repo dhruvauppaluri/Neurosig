@@ -1,0 +1,356 @@
+{
+ "windows": [
+  {
+   "window": "4836a465 t0=50s",
+   "status": "window not available (download refused: HTTP 403)"
+  },
+  {
+   "window": "4836a465 t0=100s",
+   "sync_offset_ms": -1.467519899989611,
+   "duration_s": 1.0,
+   "sorter_spikes": {
+    "original": 294,
+    "control": 294,
+    "corrected": 294
+   },
+   "events_car_4sigma": 236,
+   "tp_fp_fn_1ms": {
+    "original": [
+     110,
+     126,
+     184
+    ],
+    "control": [
+     110,
+     126,
+     184
+    ],
+    "corrected": [
+     185,
+     51,
+     109
+    ]
+   },
+   "recall_precision_f1_1ms": {
+    "original": [
+     0.3741496598639456,
+     0.4661016949152542,
+     0.4150943396226415
+    ],
+    "corrected": [
+     0.6292517006802721,
+     0.7838983050847458,
+     0.6981132075471699
+    ]
+   },
+   "chance_recall_precision_corrected_1ms": [
+    0.30272108843537415,
+    0.3771186440677966
+   ],
+   "legacy_6sigma_recall": {
+    "original": 0.0,
+    "corrected": 0.003401360544217687
+   },
+   "sorter_aligned_fraction_above_4sigma": {
+    "original": 0.3197278911564626,
+    "corrected": 0.7074829931972789
+   },
+   "localization_median_axial_um": {
+    "original": {
+     "amplitude": 47.59031501892832,
+     "template": 80.0,
+     "beamform": 61.72449568436832,
+     "weighted_scan": 58.1985595691292,
+     "robust_scan": 58.377165996250824
+    },
+    "corrected": {
+     "amplitude": 22.91329746646511,
+     "template": 20.0,
+     "beamform": 22.960203685813667,
+     "weighted_scan": 20.01550721715489,
+     "robust_scan": 19.999999999999773
+    }
+   }
+  },
+  {
+   "window": "4836a465 t0=200s",
+   "sync_offset_ms": -2.9017097999997077,
+   "duration_s": 1.0,
+   "sorter_spikes": {
+    "original": 292,
+    "control": 292,
+    "corrected": 292
+   },
+   "events_car_4sigma": 240,
+   "tp_fp_fn_1ms": {
+    "original": [
+     96,
+     144,
+     196
+    ],
+    "control": [
+     96,
+     144,
+     196
+    ],
+    "corrected": [
+     186,
+     54,
+     106
+    ]
+   },
+   "recall_precision_f1_1ms": {
+    "original": [
+     0.3287671232876712,
+     0.4,
+     0.3609022556390977
+    ],
+    "corrected": [
+     0.636986301369863,
+     0.775,
+     0.6992481203007519
+    ]
+   },
+   "chance_recall_precision_corrected_1ms": [
+    0.2808219178082192,
+    0.3416666666666667
+   ],
+   "legacy_6sigma_recall": {
+    "original": 0.0136986301369863,
+    "corrected": 0.02054794520547945
+   },
+   "sorter_aligned_fraction_above_4sigma": {
+    "original": 0.2671232876712329,
+    "corrected": 0.7191780821917808
+   },
+   "localization_median_axial_um": {
+    "original": {
+     "amplitude": 75.81578282138389,
+     "template": 122.45870966119378,
+     "beamform": 107.91949599380996,
+     "weighted_scan": 61.13701466724024,
+     "robust_scan": 75.49964987836074
+    },
+    "corrected": {
+     "amplitude": 39.15598186526654,
+     "template": 29.672669511149024,
+     "beamform": 35.047304098583936,
+     "weighted_scan": 35.059106070422786,
+     "robust_scan": 35.500905181729195
+    }
+   }
+  },
+  {
+   "window": "1a60a6e1 t0=50s",
+   "sync_offset_ms": -0.4950874322275922,
+   "duration_s": 1.0,
+   "sorter_spikes": {
+    "original": 342,
+    "control": 343,
+    "corrected": 343
+   },
+   "events_car_4sigma": 269,
+   "tp_fp_fn_1ms": {
+    "original": [
+     206,
+     63,
+     136
+    ],
+    "control": [
+     207,
+     62,
+     136
+    ],
+    "corrected": [
+     212,
+     57,
+     131
+    ]
+   },
+   "recall_precision_f1_1ms": {
+    "original": [
+     0.6023391812865497,
+     0.7657992565055762,
+     0.67430441898527
+    ],
+    "corrected": [
+     0.6180758017492711,
+     0.7881040892193308,
+     0.69281045751634
+    ]
+   },
+   "chance_recall_precision_corrected_1ms": [
+    0.39941690962099125,
+    0.5092936802973977
+   ],
+   "legacy_6sigma_recall": {
+    "original": 0.11403508771929824,
+    "corrected": 0.11370262390670553
+   },
+   "sorter_aligned_fraction_above_4sigma": {
+    "original": 0.6812865497076024,
+    "corrected": 0.6967930029154519
+   },
+   "localization_median_axial_um": {
+    "original": {
+     "amplitude": 60.710134200299535,
+     "template": 59.81341437226706,
+     "beamform": 58.78721910522813,
+     "weighted_scan": 81.85247487393053,
+     "robust_scan": 98.00531890840989
+    },
+    "corrected": {
+     "amplitude": 34.21442355442946,
+     "template": 20.0,
+     "beamform": 24.299328257810657,
+     "weighted_scan": 22.374935447109692,
+     "robust_scan": 18.770938247806953
+    }
+   }
+  },
+  {
+   "window": "1a60a6e1 t0=90s",
+   "status": "window not available (download refused: HTTP 403)"
+  }
+ ],
+ "variant_means_recall_precision_f1_1ms": {
+  "legacy_6sigma_no_car": {
+   "orig": [
+    0.043,
+    0.492,
+    0.077
+   ],
+   "ctrl": [
+    0.042,
+    0.492,
+    0.077
+   ],
+   "corr": [
+    0.046,
+    0.908,
+    0.083
+   ]
+  },
+  "car_6sigma": {
+   "orig": [
+    0.132,
+    0.615,
+    0.217
+   ],
+   "ctrl": [
+    0.133,
+    0.62,
+    0.218
+   ],
+   "corr": [
+    0.228,
+    0.986,
+    0.368
+   ]
+  },
+  "car_4sigma": {
+   "orig": [
+    0.435,
+    0.544,
+    0.483
+   ],
+   "ctrl": [
+    0.435,
+    0.545,
+    0.484
+   ],
+   "corr": [
+    0.628,
+    0.782,
+    0.697
+   ]
+  },
+  "car_4sigma_hp_only": {
+   "orig": [
+    0.413,
+    0.557,
+    0.474
+   ],
+   "ctrl": [
+    0.413,
+    0.558,
+    0.475
+   ],
+   "corr": [
+    0.58,
+    0.786,
+    0.667
+   ]
+  },
+  "car_4sigma_9000lp": {
+   "orig": [
+    0.425,
+    0.557,
+    0.482
+   ],
+   "ctrl": [
+    0.426,
+    0.558,
+    0.483
+   ],
+   "corr": [
+    0.611,
+    0.799,
+    0.693
+   ]
+  },
+  "car_4sigma_both_polarity": {
+   "orig": [
+    0.543,
+    0.48,
+    0.509
+   ],
+   "ctrl": [
+    0.543,
+    0.481,
+    0.51
+   ],
+   "corr": [
+    0.775,
+    0.675,
+    0.721
+   ]
+  }
+ },
+ "pilot_localization_median_axial_um": {
+  "published": {
+   "amplitude": 40.90273296836608,
+   "template": 79.99999999999977,
+   "beamform": 61.899746129237656,
+   "robust_scan": 42.20155820325954
+  },
+  "control": {
+   "amplitude": 40.56980082080895,
+   "template": 89.99999999999977,
+   "beamform": 68.4972264150349,
+   "robust_scan": 48.53526369207157
+  },
+  "corrected": {
+   "amplitude": 21.67948717948707,
+   "template": 20.0,
+   "beamform": 19.396489327659765,
+   "robust_scan": 22.60073391114929
+  }
+ },
+ "pilot_fraction_above_4sigma": {
+  "published": 0.3197278911564626,
+  "corrected": 0.7074829931972789
+ },
+ "decode_block_offsets": {
+  "A": {
+   "t0_s": 1465.0,
+   "offset_ms_at_block_start": -21.03011671783861,
+   "offset_ms_at_block_end_40s": -21.597162227408262
+  },
+  "B": {
+   "t0_s": 1825.0,
+   "offset_ms_at_block_start": -17.340875130685163,
+   "offset_ms_at_block_end_40s": -17.721718453003632
+  }
+ }
+}

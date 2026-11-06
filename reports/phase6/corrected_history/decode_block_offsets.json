@@ -1,0 +1,12 @@
+{
+ "A": {
+  "t0_s": 1465.0,
+  "offset_ms_at_block_start": -21.03011671783861,
+  "offset_ms_at_block_end_40s": -21.597162227408262
+ },
+ "B": {
+  "t0_s": 1825.0,
+  "offset_ms_at_block_start": -17.340875130685163,
+  "offset_ms_at_block_end_40s": -17.721718453003632
+ }
+}

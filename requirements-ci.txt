@@ -1,0 +1,7 @@
+# Minimal pins for the software regression (no MEArec/NEURON, no IBL, no FPGA). Versions match requirements-lock.txt.
+numpy==2.5.4
+scipy==1.18.1
+matplotlib==3.11.2
+h5py==3.16.0
+pyyaml==6.0.3
+pytest

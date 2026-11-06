@@ -1,0 +1,198 @@
+{
+ "seed": 20261106,
+ "window_s": 2.0,
+ "rule": "locked_final windows are reserved before any evaluation, evaluated ONCE per frozen configuration; no parameter changes after viewing them",
+ "sessions": {
+  "E": {
+   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
+   "lab": "mainenlab",
+   "probe_duration_s": 3100.0
+  },
+  "F": {
+   "pid": "5135e93f-2f1f-4301-9532-b5ad62548c49",
+   "lab": "angelakilab",
+   "probe_duration_s": 5220.0
+  },
+  "G": {
+   "pid": "18d316bf-d322-4c5c-814e-a58147f7bf5f",
+   "lab": "steinmetzlab",
+   "probe_duration_s": 5180.0
+  },
+  "H": {
+   "pid": "730770d6-617a-4ada-95db-a48521befda5",
+   "lab": "churchlandlab_ucla",
+   "probe_duration_s": 6500.0154934
+  }
+ },
+ "windows": [
+  {
+   "session": "E",
+   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
+   "t0_s": 482.745,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "E",
+   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
+   "t0_s": 801.257,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "E",
+   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
+   "t0_s": 1157.941,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "E",
+   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
+   "t0_s": 1338.777,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "E",
+   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
+   "t0_s": 1875.783,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "E",
+   "pid": "366c7c11-5509-443f-b07b-dabc9dcfd53e",
+   "t0_s": 911.562,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "F",
+   "pid": "5135e93f-2f1f-4301-9532-b5ad62548c49",
+   "t0_s": 3437.416,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "F",
+   "pid": "5135e93f-2f1f-4301-9532-b5ad62548c49",
+   "t0_s": 3088.114,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "F",
+   "pid": "5135e93f-2f1f-4301-9532-b5ad62548c49",
+   "t0_s": 2719.131,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "F",
+   "pid": "5135e93f-2f1f-4301-9532-b5ad62548c49",
+   "t0_s": 385.683,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "F",
+   "pid": "5135e93f-2f1f-4301-9532-b5ad62548c49",
+   "t0_s": 4225.129,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "F",
+   "pid": "5135e93f-2f1f-4301-9532-b5ad62548c49",
+   "t0_s": 2890.074,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "G",
+   "pid": "18d316bf-d322-4c5c-814e-a58147f7bf5f",
+   "t0_s": 560.283,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "G",
+   "pid": "18d316bf-d322-4c5c-814e-a58147f7bf5f",
+   "t0_s": 1465.037,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "G",
+   "pid": "18d316bf-d322-4c5c-814e-a58147f7bf5f",
+   "t0_s": 1742.721,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "G",
+   "pid": "18d316bf-d322-4c5c-814e-a58147f7bf5f",
+   "t0_s": 3721.968,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "G",
+   "pid": "18d316bf-d322-4c5c-814e-a58147f7bf5f",
+   "t0_s": 1510.516,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "G",
+   "pid": "18d316bf-d322-4c5c-814e-a58147f7bf5f",
+   "t0_s": 1995.812,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "H",
+   "pid": "730770d6-617a-4ada-95db-a48521befda5",
+   "t0_s": 4886.621,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "H",
+   "pid": "730770d6-617a-4ada-95db-a48521befda5",
+   "t0_s": 4096.894,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "H",
+   "pid": "730770d6-617a-4ada-95db-a48521befda5",
+   "t0_s": 485.179,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "H",
+   "pid": "730770d6-617a-4ada-95db-a48521befda5",
+   "t0_s": 4528.042,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "H",
+   "pid": "730770d6-617a-4ada-95db-a48521befda5",
+   "t0_s": 2355.389,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  },
+  {
+   "session": "H",
+   "pid": "730770d6-617a-4ada-95db-a48521befda5",
+   "t0_s": 1031.872,
+   "duration_s": 2.0,
+   "split": "locked_final"
+  }
+ ],
+ "previously_used_benchmark": "Phase 5 held-out windows (reports/phase5/split_manifest.json split=heldout) were evaluated and discussed; they are not a fresh holdout"
+}

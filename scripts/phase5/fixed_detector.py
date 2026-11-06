@@ -28,13 +28,13 @@ from scripts.quantize_adc import round_half_away_from_zero
 SIGNAL_BITS = 24
 SIG_MIN = -(1 << (SIGNAL_BITS - 1))
 SIG_MAX = (1 << (SIGNAL_BITS - 1)) - 1
-MAD_TO_SIGMA_Q16 = 97157  # round(65536 / 0.6744897501960817)
+MAD_TO_SIGMA_Q16 = 97164  # round(65536 / 0.6744897501960817) = 97163.82 (v1 had 97157, an arithmetic slip)
 NEVER = SIG_MIN  # threshold sentinel: x < SIG_MIN is impossible, channel can never fire
 
 
 @dataclass(frozen=True)
 class FixedSpec:
-    version: str = "fixed-v1"
+    version: str = "fixed-v1.1"
     sample_rate_hz: int = 30_000
     adc_lsb_uv_x32: int = 75  # 75/32 = 2.34375 uV per code (native 10-bit probe ADC)
     adc_bits: int = 16  # int16 container, saturating
@@ -43,7 +43,7 @@ class FixedSpec:
     lowpass_hz: float = 6000.0
     car: str = "median"  # median | mean | none
     threshold_mult_q8: int = 1024  # 4.0 sigma in Q8
-    clip_mult_q16: int = 582_964  # round(65536 * 6 / 0.6744897501960817) = 8.8956 MADs
+    clip_mult_q16: int = 582_983  # round(65536 * 6 / 0.6744897501960817) = 582982.9 (v1 had 582964)
     mad_iterations: int = 3
     peak_search: int = 15  # samples (0.5 ms)
     refractory: int = 30  # samples (1.0 ms)
@@ -57,6 +57,9 @@ class FixedSpec:
 
     def as_dict(self) -> dict:
         return asdict(self)
+
+
+V2_SPEC = FixedSpec(highpass_hz=200.0, lowpass_hz=4500.0)  # detector-v2.0 integer reference (median CAR)
 
 
 @dataclass(frozen=True)
@@ -103,7 +106,7 @@ def filter_stage(adc_codes: np.ndarray, spec: FixedSpec):
     fcfg = FixedPointConfig(signal_bits=SIGNAL_BITS)
     sos = quantize_sos(design_sos(IirConfig(sample_rate_hz=float(spec.sample_rate_hz),
                                             highpass_hz=spec.highpass_hz, lowpass_hz=spec.lowpass_hz)), fcfg)
-    x = np.asarray(adc_codes, dtype=np.int64) << spec.guard_bits
+    x = np.clip(np.asarray(adc_codes, dtype=np.int64) << spec.guard_bits, SIG_MIN, SIG_MAX)  # s24 input: codes beyond +-8191 saturate
     out, stats = fixed_iir_filter(x, sos, fcfg)
     return out.astype(np.int64), sos, stats
 
@@ -120,7 +123,7 @@ def car_stage(filtered: np.ndarray, active: np.ndarray, method: str) -> np.ndarr
         s = np.sort(sub, axis=1)
         ref = s[:, n // 2] if n % 2 else (s[:, n // 2 - 1] + s[:, n // 2]) >> 1
     elif method == "mean":
-        recip = (1 << 32) // n if (n & (n - 1)) == 0 else int(round((1 << 32) / n))
+        recip = ((1 << 33) + n) // (2 * n)  # round(2^32 / n), integer only
         ref = (sub.sum(axis=1) * recip + (1 << 31)) >> 32
     else:
         raise ValueError(method)
@@ -314,7 +317,7 @@ class StreamingFixed:
             return 0
         if self.spec.car == "median":
             return act[n // 2] if n % 2 else (act[n // 2 - 1] + act[n // 2]) >> 1
-        recip = (1 << 32) // n if (n & (n - 1)) == 0 else int(round((1 << 32) / n))
+        recip = ((1 << 33) + n) // (2 * n)
         return (sum(act) * recip + (1 << 31)) >> 32
 
     def _close(self, c: int, out: list[FEvent]) -> None:
@@ -338,7 +341,7 @@ class StreamingFixed:
                 self._close(c, out)
         if frame is None:
             return out
-        ys = [self._filter_channel(c, int(frame[c]) << self.spec.guard_bits) for c in range(self.n)]
+        ys = [self._filter_channel(c, max(SIG_MIN, min(SIG_MAX, int(frame[c]) << self.spec.guard_bits))) for c in range(self.n)]
         ref = self._car(ys)
         for c in self.cols:
             v = ys[c] - ref

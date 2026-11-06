@@ -1,0 +1,94 @@
+{
+ "scenario": "overlapping_spikes_4ch",
+ "note": "two spikes 12 samples apart on one channel plus simultaneous spikes on distant channels",
+ "n_frames_total": 1500,
+ "n_frames_present": 1500,
+ "channels": 4,
+ "active": [
+  1,
+  1,
+  1,
+  1
+ ],
+ "spec": {
+  "version": "fixed-v1.1",
+  "sample_rate_hz": 30000,
+  "adc_lsb_uv_x32": 75,
+  "adc_bits": 16,
+  "guard_bits": 10,
+  "highpass_hz": 200.0,
+  "lowpass_hz": 4500.0,
+  "car": "median",
+  "threshold_mult_q8": 1024,
+  "clip_mult_q16": 582983,
+  "mad_iterations": 3,
+  "peak_search": 15,
+  "refractory": 30,
+  "merge_window": 15,
+  "veto_window": 6,
+  "veto_fraction_q8": 128
+ },
+ "sos_q30_rows_b0_b1_b2_a0_a1_a2": [
+  [
+   1042404711,
+   -2084809422,
+   1042404711,
+   1073741824,
+   -2083894655,
+   1011982365
+  ],
+  [
+   140774468,
+   281548936,
+   140774468,
+   1073741824,
+   -802932516,
+   292288564
+  ]
+ ],
+ "calibration": {
+  "baseline": [
+   -23,
+   -26,
+   18,
+   12
+  ],
+  "mad": [
+   1072,
+   1135,
+   1091,
+   1128
+  ],
+  "sigma_q16": [
+   104159808,
+   110281140,
+   106005924,
+   109600992
+  ],
+  "threshold": [
+   -6380,
+   -6757,
+   -6452,
+   -6678
+  ],
+  "recip_q": [
+   2702337,
+   2552340,
+   2655275,
+   2568179
+  ],
+  "armed": [
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ "counts": {
+  "candidates": 14,
+  "after_veto": 11,
+  "vetoed": 3,
+  "events": 11
+ },
+ "valid_mask": "all"
+}

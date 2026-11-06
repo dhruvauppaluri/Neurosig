@@ -1,0 +1,122 @@
+{
+ "scenario": "common_mode_8ch",
+ "note": "large shared 800 Hz interference (clipped to native range)",
+ "n_frames_total": 2000,
+ "n_frames_present": 2000,
+ "channels": 8,
+ "active": [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "spec": {
+  "version": "fixed-v1.1",
+  "sample_rate_hz": 30000,
+  "adc_lsb_uv_x32": 75,
+  "adc_bits": 16,
+  "guard_bits": 10,
+  "highpass_hz": 200.0,
+  "lowpass_hz": 4500.0,
+  "car": "median",
+  "threshold_mult_q8": 1024,
+  "clip_mult_q16": 582983,
+  "mad_iterations": 3,
+  "peak_search": 15,
+  "refractory": 30,
+  "merge_window": 15,
+  "veto_window": 6,
+  "veto_fraction_q8": 128
+ },
+ "sos_q30_rows_b0_b1_b2_a0_a1_a2": [
+  [
+   1042404711,
+   -2084809422,
+   1042404711,
+   1073741824,
+   -2083894655,
+   1011982365
+  ],
+  [
+   140774468,
+   281548936,
+   140774468,
+   1073741824,
+   -802932516,
+   292288564
+  ]
+ ],
+ "calibration": {
+  "baseline": [
+   -2,
+   26,
+   22,
+   11,
+   3,
+   -32,
+   -10,
+   -26
+  ],
+  "mad": [
+   1256,
+   1386,
+   1358,
+   1318,
+   1269,
+   1264,
+   1336,
+   1244
+  ],
+  "sigma_q16": [
+   122037984,
+   134669304,
+   131948712,
+   128062152,
+   123301116,
+   122815296,
+   129811104,
+   120872016
+  ],
+  "threshold": [
+   -7451,
+   -8194,
+   -8032,
+   -7805,
+   -7523,
+   -7528,
+   -7933,
+   -7403
+  ],
+  "recip_q": [
+   2306453,
+   2090119,
+   2133215,
+   2197956,
+   2282825,
+   2291856,
+   2168342,
+   2328702
+  ],
+  "armed": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ "counts": {
+  "candidates": 18,
+  "after_veto": 18,
+  "vetoed": 0,
+  "events": 17
+ },
+ "valid_mask": "all"
+}

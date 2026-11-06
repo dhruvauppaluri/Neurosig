@@ -26,7 +26,7 @@ Dataset roles: **development** (calibration windows: failure diagnostics, and wh
 | v2 − baseline @ 2.0 ms | +0.0171 [+0.0056, +0.0293] | 83 % | A +0.038, B +0.009, C +0.012 | -0.007 | +0.042 | 0.83 |
 | mean-CAR − median-CAR (v2) @ 1.0 ms | +0.0015 [-0.0204, +0.0214] | 75 % | A +0.006, B -0.017, C +0.020 | -0.048 | +0.070 | 0.68 |
 
-Windows where v2 F1 > baseline F1: 12 of 12 (worse: 0). Timing error of matched events (1 ms, channel-consistent): v2 median 0.033 ms, MAD 0.033 ms; baseline median 0.000 ms, MAD 0.033 ms. Per channel (channels with ≥ 20 reference spikes): v2 recall ≥ baseline on 33 of 54; median Δrecall +0.0000. Runtime (Python, total): baseline 2.1 s, v2 1.9 s, v2_meancar 1.6 s.
+Windows where v2 F1 > baseline F1: 12 of 12 (worse: 0). Timing error of matched events (1 ms, channel-consistent): v2 median 0.033 ms, MAD 0.033 ms; baseline median 0.000 ms, MAD 0.033 ms. Per channel (channels with ≥ 20 reference spikes): v2 recall ≥ baseline on 33 of 54; median Δrecall +0.0000. Runtime (Python, total): baseline 2.0 s, v2 1.9 s, v2_meancar 1.6 s.
 
 ## model_selection
 
@@ -76,7 +76,7 @@ Windows where v2 F1 > baseline F1: 11 of 12 (worse: 1). Timing error of matched 
 | v2 − baseline @ 2.0 ms | +0.0098 [+0.0048, +0.0158] | 85 % | A +0.036, B +0.007, C +0.007, D +0.006 | -0.005 | +0.033 | 0.85 |
 | mean-CAR − median-CAR (v2) @ 1.0 ms | -0.0148 [-0.0249, -0.0027] | 35 % | A +0.010, B -0.038, C +0.020, D -0.023 | -0.053 | +0.065 | 0.67 |
 
-Windows where v2 F1 > baseline F1: 19 of 20 (worse: 1). Timing error of matched events (1 ms, channel-consistent): v2 median 0.000 ms, MAD 0.033 ms; baseline median 0.000 ms, MAD 0.033 ms. Per channel (channels with ≥ 20 reference spikes): v2 recall ≥ baseline on 53 of 84; median Δrecall +0.0000. Runtime (Python, total): baseline 3.4 s, v2 3.2 s, v2_meancar 2.6 s.
+Windows where v2 F1 > baseline F1: 19 of 20 (worse: 1). Timing error of matched events (1 ms, channel-consistent): v2 median 0.000 ms, MAD 0.033 ms; baseline median 0.000 ms, MAD 0.033 ms. Per channel (channels with ≥ 20 reference spikes): v2 recall ≥ baseline on 53 of 84; median Δrecall +0.0000. Runtime (Python, total): baseline 3.3 s, v2 3.2 s, v2_meancar 2.6 s.
 
 ## seen_legacy
 
@@ -105,5 +105,26 @@ Windows where v2 F1 > baseline F1: 3 of 3 (worse: 0). Timing error of matched ev
 
 ## locked_final_phase6
 
-No windows available (24 reserved).
+24 of 24 reserved windows; sessions E, F, G, H.
+
+| Config | Tol (ms) | F1 [95 % CI] | Recall | Precision | Chance F1 | False det./s | Unconstrained F1 |
+|---|---|---|---|---|---|---|---|
+| baseline | 0.5 | 0.443 [0.399, 0.474] | 0.404 | 0.490 | 0.101 | 126 | 0.553 |
+| baseline | 1.0 | 0.487 [0.447, 0.517] | 0.444 | 0.539 | 0.173 | 114 | 0.623 |
+| baseline | 2.0 | 0.554 [0.513, 0.583] | 0.505 | 0.612 | 0.276 | 96 | 0.697 |
+| v2 | 0.5 | 0.459 [0.414, 0.491] | 0.413 | 0.516 | 0.098 | 116 | 0.561 |
+| v2 | 1.0 | 0.498 [0.455, 0.528] | 0.448 | 0.560 | 0.171 | 106 | 0.625 |
+| v2 | 2.0 | 0.561 [0.521, 0.589] | 0.505 | 0.631 | 0.273 | 88 | 0.695 |
+| v2_meancar | 0.5 | 0.453 [0.413, 0.482] | 0.371 | 0.581 | 0.092 | 80 | 0.545 |
+| v2_meancar | 1.0 | 0.487 [0.449, 0.515] | 0.399 | 0.625 | 0.158 | 72 | 0.597 |
+| v2_meancar | 2.0 | 0.539 [0.501, 0.566] | 0.441 | 0.691 | 0.253 | 59 | 0.650 |
+
+| Paired difference | ΔF1 [95 % CI] | v2 better in windows | per session ΔF1 | Δrecall | Δprecision | false-det./s ratio |
+|---|---|---|---|---|---|---|
+| v2 − baseline @ 0.5 ms | +0.0163 [+0.0097, +0.0232] | 79 % | E +0.012, F -0.006, G +0.030, H +0.022 | +0.009 | +0.026 | 0.92 |
+| v2 − baseline @ 1.0 ms | +0.0106 [+0.0022, +0.0183] | 83 % | E +0.008, F -0.016, G +0.026, H +0.017 | +0.004 | +0.021 | 0.93 |
+| v2 − baseline @ 2.0 ms | +0.0075 [+0.0017, +0.0141] | 67 % | E +0.004, F -0.003, G +0.021, H +0.008 | +0.000 | +0.019 | 0.92 |
+| mean-CAR − median-CAR (v2) @ 1.0 ms | -0.0108 [-0.0193, -0.0021] | 33 % | E -0.015, F +0.010, G -0.018, H -0.021 | -0.049 | +0.065 | 0.68 |
+
+Windows where v2 F1 > baseline F1: 20 of 24 (worse: 4). Timing error of matched events (1 ms, channel-consistent): v2 median 0.000 ms, MAD 0.033 ms; baseline median 0.000 ms, MAD 0.033 ms. Per channel (channels with ≥ 20 reference spikes): v2 recall ≥ baseline on 45 of 70; median Δrecall +0.0084. Runtime (Python, total): baseline 4.0 s, v2 3.8 s, v2_meancar 3.2 s.
 

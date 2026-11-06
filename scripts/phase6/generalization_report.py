@@ -22,15 +22,13 @@ ROLES = {"development": ("calibration", "phase5"), "model_selection": ("selectio
          "seen_legacy": ("seen", "phase5"), "locked_final_phase6": ("locked_final", "phase6")}
 
 
-def specs(split, which):
-    if which == "phase5":
-        return manifest_windows(split)
-    p = ROOT / "reports" / "phase6" / "split_manifest_phase6.json"
-    return [w for w in json.loads(p.read_text())["windows"] if w["split"] == split] if p.exists() else []
+from scripts.phase6.manifests import DETECTOR_FILE, P6, sha256, specs
 
 
 def main() -> None:
-    out = {"roles": {}}
+    out = {"roles": {}, "audit": {"locked_manifest_sha256": sha256(P6) if P6.exists() else None, "frozen_configs_file_sha256": sha256(DETECTOR_FILE),
+           "note": "configurations are frozen in reports/phase5/detector-v2.json; locked-final windows are evaluated here with no parameter changes after viewing them",
+           "configs": {k: v.as_dict() for k, v in CFGS.items()}}}
     for role, (split, which) in ROLES.items():
         items = []
         for sp in specs(split, which):

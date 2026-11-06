@@ -16,7 +16,8 @@ import numpy as np
 
 from scripts.phase5.benchmark import RADIUS_UM, NULL_SHIFTS_S
 from scripts.phase5.compare_float_fixed import spec_from_float
-from scripts.phase5.data import load_window, manifest_windows, window_path
+from scripts.phase5.data import load_window, window_path
+from scripts.phase6.manifests import specs as manifest_specs
 from scripts.phase5.detectors import run_detector
 from scripts.phase5.fixed_detector import adc_quantize, run_fixed
 from scripts.phase5.metrics import match_optimal, paired_bootstrap_diff, pooled, window_metrics
@@ -37,8 +38,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default="v2", choices=list(CONFIGS))
     ap.add_argument("--car", default=None, choices=[None, "mean"])
-    ap.add_argument("--splits", nargs="*", default=["calibration", "selection", "heldout", "seen"])
-    ap.add_argument("--manifest", default="phase5")
+    ap.add_argument("--splits", nargs="*", default=["calibration", "selection", "heldout", "seen"], help="splits of the chosen manifest")
+    ap.add_argument("--manifest", default="phase5", choices=["phase5", "phase6"])
     ap.add_argument("--out", type=Path)
     a = ap.parse_args()
     cfg = CONFIGS[a.config]
@@ -47,7 +48,7 @@ def main() -> None:
     fspec = spec_from_float(cfg); ilsb = fspec.internal_lsb_uv; lsb = fspec.adc_lsb_uv_x32 / 32.0
     rows = []
     for split in a.splits:
-        for spec in manifest_windows(split):
+        for spec in manifest_specs(split, a.manifest):
             p = window_path(spec["pid"], spec["t0_s"], spec["duration_s"])
             if not p.exists():
                 continue

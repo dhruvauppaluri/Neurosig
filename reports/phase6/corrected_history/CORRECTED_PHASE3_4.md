@@ -10,11 +10,13 @@ The *control* column re-runs the unchanged original evaluation code with the sor
 
 | Window | Offset (ms) | Sorter spikes | Events | TP/FP/FN original | TP/FP/FN control | TP/FP/FN corrected | Recall orig → corr | Precision orig → corr | Chance recall / precision (corrected) |
 |---|---|---|---|---|---|---|---|---|---|
-| 4836a465 t0=50s | - | - | - | - | - | - | not re-runnable: window not available (download refused: HTTP 403) | | |
+| 4836a465 t0=50s | -0.73 | 205 | 242 | 157/85/48 | 157/85/48 | 160/82/45 | 0.766 → 0.780 | 0.649 → 0.661 | 0.351 / 0.298 |
 | 4836a465 t0=100s | -1.47 | 294 | 236 | 110/126/184 | 110/126/184 | 185/51/109 | 0.374 → 0.629 | 0.466 → 0.784 | 0.303 / 0.377 |
 | 4836a465 t0=200s | -2.90 | 292 | 240 | 96/144/196 | 96/144/196 | 186/54/106 | 0.329 → 0.637 | 0.400 → 0.775 | 0.281 / 0.342 |
 | 1a60a6e1 t0=50s | -0.50 | 342 | 269 | 206/63/136 | 207/62/136 | 212/57/131 | 0.602 → 0.618 | 0.766 → 0.788 | 0.399 / 0.509 |
-| 1a60a6e1 t0=90s | - | - | - | - | - | - | not re-runnable: window not available (download refused: HTTP 403) | | |
+| 1a60a6e1 t0=90s | -0.87 | 904 | 324 | 304/20/600 | 306/18/598 | 310/14/594 | 0.336 → 0.343 | 0.938 → 0.957 | 0.264 / 0.736 |
+
+**Headline (mean unconstrained 1 ms recall over the window set):** first insertion (3 windows) legacy 6σ no-CAR 0.034 → 0.039, CAR 4σ 0.490 → 0.682; second insertion (2 windows) legacy 0.078 → 0.078, CAR 4σ 0.469 → 0.480. The published CAR-4σ figures (49.0 %, 46.9 %) and the first-insertion legacy figure (3.4 %) are reproduced by the original-clock control; the published second-insertion legacy figure (8.1 %) comes from a separate legacy-detector field and is 7.8 % for the 6σ no-CAR variant tabulated here. The corrected values replace all of them.
 
 Matching is the original ordered one-to-one matcher (unconstrained, not channel-consistent), so these are directly comparable to the published figures; the chance column shows that a large share of unconstrained recall is chance at this event rate.
 
@@ -22,12 +24,12 @@ Matching is the original ordered one-to-one matcher (unconstrained, not channel-
 
 | Variant | Original | Control | Corrected |
 |---|---|---|---|
-| legacy_6sigma_no_car | [0.043, 0.492, 0.077] | [0.042, 0.492, 0.077] | [0.046, 0.908, 0.083] |
-| car_6sigma | [0.132, 0.615, 0.217] | [0.133, 0.62, 0.218] | [0.228, 0.986, 0.368] |
-| car_4sigma | [0.435, 0.544, 0.483] | [0.435, 0.545, 0.484] | [0.628, 0.782, 0.697] |
-| car_4sigma_hp_only | [0.413, 0.557, 0.474] | [0.413, 0.558, 0.475] | [0.58, 0.786, 0.667] |
-| car_4sigma_9000lp | [0.425, 0.557, 0.482] | [0.426, 0.558, 0.483] | [0.611, 0.799, 0.693] |
-| car_4sigma_both_polarity | [0.543, 0.48, 0.509] | [0.543, 0.481, 0.51] | [0.775, 0.675, 0.721] |
+| legacy_6sigma_no_car | [0.052, 0.639, 0.094] | [0.051, 0.639, 0.094] | [0.054, 0.897, 0.099] |
+| car_6sigma | [0.169, 0.757, 0.268] | [0.169, 0.764, 0.27] | [0.226, 0.984, 0.36] |
+| car_4sigma | [0.481, 0.644, 0.53] | [0.482, 0.646, 0.531] | [0.602, 0.793, 0.662] |
+| car_4sigma_hp_only | [0.46, 0.652, 0.522] | [0.461, 0.654, 0.523] | [0.566, 0.798, 0.644] |
+| car_4sigma_9000lp | [0.473, 0.652, 0.529] | [0.474, 0.655, 0.53] | [0.591, 0.809, 0.663] |
+| car_4sigma_both_polarity | [0.565, 0.557, 0.533] | [0.566, 0.559, 0.534] | [0.737, 0.7, 0.687] |
 
 The ordering of variants is unchanged by the correction (CAR + 4σ >> CAR 6σ >> no-CAR 6σ; 9 kHz low-pass similar), and absolute agreement is much higher. Dual polarity has the highest F1 both before and after correction but much lower precision; the Phase 4 choice of negative-only rested on precision (false-positive inflation), not on F1, and that trade-off is unchanged. Corrected precision values of 0.9+ for the 6σ detectors reflect that they detect few, large spikes.
 
@@ -48,8 +50,7 @@ The snippets were centred 1.5 ms away from the true spike peak, which degraded e
 ## Not corrected / unaffected
 
 * `ibl-decode.json` uses only session-clock quantities (sorted spikes and `stimOn_times`), so it is not affected by this error.
-* `ibl-detector-decode.json` mixed clocks: detector events are on the probe clock, `stimOn_times` on the session clock; the 50-250 ms window was shifted by -21.0 ms (insertion A, t0=1465 s) and -17.3 ms (insertion B, t0=1825 s) of 200 ms. It was **not re-run** (the 40 s raw blocks could not be downloaded at the time of this phase; the data server returned HTTP 403). The experiment had 10-11 trials and was already inconclusive; treat it as deprecated.
-* Two of the five published 1 s windows (first insertion t0 = 50 s, second insertion t0 = 90 s) could not be re-downloaded (HTTP 403), so they are not re-run; their published numbers should be treated as deprecated (sync-file offsets: -0.73 ms and -0.87 ms, session minus probe).
+* `ibl-detector-decode.json` mixed clocks: detector events are on the probe clock, `stimOn_times` on the session clock; the 50-250 ms window was shifted by -21.0 ms (insertion A, t0=1465 s) and -17.3 ms (insertion B, t0=1825 s) of 200 ms. **Re-run** with trial onsets mapped to the probe clock (`scripts/phase6/corrected_decode.py`, original experiment code unchanged): within-session held-out accuracy of detector counts 0.2 → 0.4 (5 test trials; sorted counts unchanged at 0.6), cross-recording detector accuracy 0.7 → 0.3 (10 trials; majority 0.7). With 10-11 trials these changes are within noise and no decoding conclusion can be drawn either way; the original conclusion is deprecated rather than reversed.
 
 ## Remaining uncertainty
 Sorter spikes are not ground truth; three windows of 1 s on two insertions are a small sample; the control reproduces the published numbers to within one spike (a one-spike edge difference in one window arises from reconstructing the original clock with a constant offset). Chance level is estimated with two circular shifts (41 ms, 73 ms).

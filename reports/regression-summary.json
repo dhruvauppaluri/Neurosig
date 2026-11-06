@@ -30,7 +30,7 @@
     "tests/test_phase5_fixed.py"
    ],
    "returncode": 0,
-   "seconds": 10.3,
+   "seconds": 10.2,
    "counts": {
     "passed": 39,
     "failed": 0,
@@ -48,7 +48,7 @@
     "tests/test_phase6_arithmetic.py"
    ],
    "returncode": 0,
-   "seconds": 20.0,
+   "seconds": 20.1,
    "counts": {
     "passed": 103,
     "failed": 0,
@@ -66,7 +66,7 @@
     "tests/test_phase6_vectors.py"
    ],
    "returncode": 0,
-   "seconds": 4.1,
+   "seconds": 4.0,
    "counts": {
     "passed": 2,
     "failed": 0,
@@ -102,7 +102,7 @@
     "edge/tests"
    ],
    "returncode": 0,
-   "seconds": 5.3,
+   "seconds": 5.2,
    "counts": {
     "passed": 55,
     "failed": 0,
@@ -120,7 +120,7 @@
     "tests/test_phase6_realdata.py"
    ],
    "returncode": 0,
-   "seconds": 10.7,
+   "seconds": 10.4,
    "counts": {
     "passed": 4,
     "failed": 0,
@@ -136,7 +136,7 @@
    "kind": "command",
    "cmd": "scripts/phase6/generate_rtl_vectors.py --check",
    "returncode": 0,
-   "seconds": 3.9,
+   "seconds": 3.6,
    "status": "pass",
    "stdout_tail": "vector manifest matches\n"
   }

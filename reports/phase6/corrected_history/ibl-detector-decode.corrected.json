@@ -1,0 +1,130 @@
+{
+ "status": "ran",
+ "frozen_detector": "car_4sigma_300_6000_negative",
+ "rationale": "Across three disjoint 1 s windows on IBL insertion 4836a465, median-CAR plus a 300\u20136000 Hz cascade and 4\u03c3 negative threshold had the most stable 1 ms F1 versus sorting without the false-positive inflation of dual polarity. A 9 kHz low-pass was statistically similar; the 6 kHz cut is frozen because it matches the existing hardware IIR band. Six-sigma after CAR remains too conservative on the harder windows. RTL does not follow: the frozen path requires median CAR before the threshold comparison, and that stage is not in the current SystemVerilog pipeline. Offline 4\u03c3 registers could be loaded only after CAR.",
+ "rtl_follows": false,
+ "rtl_reason": "Frozen path requires median CAR before thresholding; that stage is absent from the verified SystemVerilog pipeline.",
+ "window": "50-250 ms after stimOn_times on a contiguous raw AP block",
+ "primary": {
+  "pid": "4836a465-c691-4852-a0b1-dcd2b1ce38a1",
+  "eid": "caa5dddc-9290-4e27-9f5e-575ba3598614",
+  "t0_s": 1465.0,
+  "duration_s": 40.0,
+  "n_trials": 11,
+  "n_detector_events": 8065,
+  "majority": 0.6363636363636364,
+  "detector": "car_4sigma_300_6000_negative",
+  "clock_note": "trial onsets mapped session->probe for detector counts; sorted counts on the session clock"
+ },
+ "within_session": {
+  "sorted_counts": {
+   "accuracy": 0.6,
+   "confusion_matrix": [
+    [
+     2,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ],
+   "precision": [
+    0.6666666666666666,
+    0.5
+   ],
+   "recall": [
+    0.6666666666666666,
+    0.5
+   ]
+  },
+  "detector_counts": {
+   "accuracy": 0.4,
+   "confusion_matrix": [
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     0
+    ]
+   ],
+   "precision": [
+    0.5,
+    0.0
+   ],
+   "recall": [
+    0.6666666666666666,
+    0.0
+   ]
+  }
+ },
+ "paired_tests": {
+  "mcnemar_detector_vs_sorted": {
+   "n01_a_only": 1,
+   "n10_b_only": 0,
+   "n_discordant": 1,
+   "p_two_sided": 1.0
+  },
+  "bootstrap_detector_minus_sorted": {
+   "mean_delta": -0.19399999999999998,
+   "ci95": [
+    -0.6,
+    0.0
+   ],
+   "n_boot": 400
+  }
+ },
+ "cross_recording": {
+  "status": "ran",
+  "secondary_pid": "1a60a6e1-da99-4d4e-a734-39b1d4544fad",
+  "secondary_eid": "51e53aff-1d5d-4182-a684-aba783d50ae5",
+  "secondary_trials": 10,
+  "train_primary_test_secondary_detector": {
+   "accuracy": 0.3,
+   "confusion_matrix": [
+    [
+     3,
+     0
+    ],
+    [
+     7,
+     0
+    ]
+   ],
+   "precision": [
+    0.3,
+    0.0
+   ],
+   "recall": [
+    1.0,
+    0.0
+   ]
+  },
+  "train_primary_test_secondary_sorted": {
+   "accuracy": 0.3,
+   "confusion_matrix": [
+    [
+     3,
+     0
+    ],
+    [
+     7,
+     0
+    ]
+   ],
+   "precision": [
+    0.3,
+    0.0
+   ],
+   "recall": [
+    1.0,
+    0.0
+   ]
+  },
+  "secondary_majority": 0.7
+ },
+ "limitation": "Detector counts are 32 selected contacts, not sorted units. Eligible visual trials are sparse, so the AP block is a 40 s trial-dense window (primary t0=1465 s, 11 trials; secondary t0=1825 s, 10 trials). Held-out accuracy on five primary trials is not a session-level result. Cross-recording uses unmatched contact indices across insertions. Sorting remains an imperfect comparison, not ground truth.",
+ "corrected": "probe-clock trial onsets; originals in reports/ibl-detector-decode.json unchanged"
+}

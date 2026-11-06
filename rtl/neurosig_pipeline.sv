@@ -5,7 +5,10 @@
 // final filtered sample has cleared the pipeline.
 module neurosig_pipeline #(
     parameter int CHANNELS = 32,
-    parameter int CHANNEL_BITS = (CHANNELS > 1 ? $clog2(CHANNELS) : 1)
+    parameter int CHANNEL_BITS = (CHANNELS > 1 ? $clog2(CHANNELS) : 1),
+    parameter int MERGE_DEPTH = 64,
+    parameter bit SERIAL_MERGE = 0,
+    parameter bit PIPELINED_FILTER = 0
 ) (
     input  logic clk,
     input  logic rst_n,
@@ -52,7 +55,8 @@ module neurosig_pipeline #(
         .captured_code(captured_code), .captured_channel(captured_channel)
     );
 
-    spike_band_filter #(.CHANNELS(CHANNELS), .CHANNEL_BITS(CHANNEL_BITS)) filter (
+    spike_band_filter #(.CHANNELS(CHANNELS), .CHANNEL_BITS(CHANNEL_BITS),
+                        .PIPELINED(PIPELINED_FILTER)) filter (
         .clk(clk), .rst_n(rst_n),
         .in_valid(captured_valid), .in_ready(captured_ready),
         .in_sample({{8{captured_code[15]}}, captured_code}),
@@ -61,7 +65,8 @@ module neurosig_pipeline #(
         .out_sample(filtered_code), .out_channel(filtered_channel)
     );
 
-    spike_detector_multichannel #(.CHANNELS(CHANNELS), .CHANNEL_BITS(CHANNEL_BITS)) detector (
+    spike_detector_multichannel #(.CHANNELS(CHANNELS), .CHANNEL_BITS(CHANNEL_BITS),
+                                  .FRAME_ORDERED(SERIAL_MERGE)) detector (
         .clk(clk), .rst_n(rst_n),
         .in_valid(filtered_valid), .in_ready(filtered_ready),
         .in_sample(filtered_code), .in_channel(filtered_channel),
@@ -72,7 +77,8 @@ module neurosig_pipeline #(
         .event_margin(candidate_margin), .completed_frames(completed_frames)
     );
 
-    spike_event_merge #(.CHANNEL_BITS(CHANNEL_BITS)) merger (
+    generate if (SERIAL_MERGE) begin : serial_merger
+    spike_event_merge_serial #(.CHANNEL_BITS(CHANNEL_BITS), .DEPTH(MERGE_DEPTH)) merger (
         .clk(clk), .rst_n(rst_n), .flush(merge_flush),
         .completed_frames(completed_frames),
         .candidate_valid(candidate_valid), .candidate_code(candidate_code),
@@ -82,4 +88,16 @@ module neurosig_pipeline #(
         .event_index(event_index), .event_channel(event_channel),
         .overflow(event_overflow)
     );
+    end else begin : reference_merger
+    spike_event_merge #(.CHANNEL_BITS(CHANNEL_BITS), .DEPTH(MERGE_DEPTH)) merger (
+        .clk(clk), .rst_n(rst_n), .flush(merge_flush),
+        .completed_frames(completed_frames),
+        .candidate_valid(candidate_valid), .candidate_code(candidate_code),
+        .candidate_index(candidate_index), .candidate_channel(candidate_channel),
+        .candidate_margin(candidate_margin),
+        .event_valid(event_valid), .event_code(event_code),
+        .event_index(event_index), .event_channel(event_channel),
+        .overflow(event_overflow)
+    );
+    end endgenerate
 endmodule

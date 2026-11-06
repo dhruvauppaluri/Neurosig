@@ -1,6 +1,8 @@
 `timescale 1ns/1ps
 
-module spike_band_filter_reference_tb;
+module spike_band_filter_reference_tb #(
+    parameter bit PIPELINED = 0
+);
     logic clk = 0;
     always #5 clk = ~clk;
     logic rst_n = 1;
@@ -15,7 +17,7 @@ module spike_band_filter_reference_tb;
     logic [23:0] expected_bits;
     string vector_path;
 
-    spike_band_filter #(.CHANNELS(32)) dut (.*);
+    spike_band_filter #(.CHANNELS(32), .PIPELINED(PIPELINED)) dut (.*);
 
     initial begin
         #10000000;

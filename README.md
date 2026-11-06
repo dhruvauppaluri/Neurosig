@@ -1,5 +1,10 @@
 # Neurosig
 
+**C5G FPGA deployment:** See [fpga/README.md](fpga/README.md) for the
+Cyclone V GX JTAG playback project, build steps, and validation contract.
+Current simulation and physical status is in
+[reports/c5g-fpga-validation.md](reports/c5g-fpga-validation.md).
+
 Neurosig is a neural signal processing hardware project inspired by Neuropixels recordings. The plan is to generate synthetic extracellular recordings, implement spike detection in SystemVerilog, train a small neural decoder, and implement its inference in RTL. A later milestone is to evaluate the digital design using SKY130 and an open source physical design flow.
 
 ## Current status
@@ -135,7 +140,7 @@ To repeat the full end-to-end comparison on the one-second, 32-channel recording
 
 ```sh
 .venv/bin/python rtl/tb/generate_pipeline_reference.py
-verilator --binary --timing -j 4 -Wno-fatal --top-module neurosig_pipeline_reference_tb --Mdir /tmp/neurosig-verilator-pipeline rtl/tb/neurosig_pipeline_reference_tb.sv rtl/neurosig_pipeline.sv rtl/sample_input.sv rtl/spike_band_filter.sv rtl/biquad_controller.sv rtl/biquad_state.sv rtl/biquad_arithmetic.sv rtl/spike_detector_multichannel.sv rtl/spike_detector_channel.sv rtl/spike_event_merge.sv
+verilator --binary --timing -j 4 -Wno-fatal --top-module neurosig_pipeline_reference_tb --Mdir /tmp/neurosig-verilator-pipeline rtl/tb/neurosig_pipeline_reference_tb.sv rtl/neurosig_pipeline.sv rtl/sample_input.sv rtl/spike_band_filter.sv rtl/biquad_controller.sv rtl/biquad_controller_pipelined.sv rtl/biquad_state.sv rtl/biquad_arithmetic.sv rtl/spike_detector_multichannel.sv rtl/spike_detector_channel.sv rtl/spike_event_merge.sv rtl/spike_event_merge_serial.sv
 /tmp/neurosig-verilator-pipeline/Vneurosig_pipeline_reference_tb +ADC=data/quantized/adc_codes.hex +THRESHOLDS=/tmp/neurosig-thresholds.txt +EVENTS=/tmp/neurosig-merged-events.txt +OBSERVED=/tmp/neurosig-rtl-events.txt
 .venv/bin/python rtl/tb/evaluate_pipeline_events.py
 ```

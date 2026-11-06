@@ -29,26 +29,20 @@ assign x2 = x2_mem[read_channel];
 assign y1 = y1_mem[read_channel];
 assign y2 = y2_mem[read_channel];
 
-always_ff @(posedge clk or negedge rst_n)
-begin
-    if (!rst_n)
-    begin
-        for (int i = 0; i < CHANNELS; i++) begin
-            x1_mem[i] <= 0;
-            x2_mem[i] <= 0;
-            y1_mem[i] <= 0;
-            y2_mem[i] <= 0;
+genvar c;
+generate for (c = 0; c < CHANNELS; c = c + 1) begin : channel_state
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            x1_mem[c] <= 0;
+            x2_mem[c] <= 0;
+            y1_mem[c] <= 0;
+            y2_mem[c] <= 0;
+        end else if (write_enable && write_channel == CHANNEL_BITS'(c)) begin
+            x1_mem[c] <= new_x;
+            x2_mem[c] <= x1_mem[c];
+            y1_mem[c] <= new_y;
+            y2_mem[c] <= y1_mem[c];
         end
     end
-    else
-    begin
-        if (write_enable)
-        begin
-            x1_mem[write_channel] <= new_x;
-            x2_mem[write_channel] <= x1_mem[write_channel];
-            y1_mem[write_channel] <= new_y;
-            y2_mem[write_channel] <= y1_mem[write_channel];
-        end
-    end
-end
+end endgenerate
 endmodule

@@ -1,0 +1,116 @@
+{
+  "versions": {
+    "python": "3.12.15",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "git": "111430e"
+  },
+  "seeds": [
+    20261103,
+    20261104,
+    20261105
+  ],
+  "n_events_per_method": 324,
+  "forward_model": "quasi-static monopole offset_reciprocal, lambda=80um, Gaussian white noise 2/10/25 uV",
+  "geometries": [
+    "linear 32ch 20um pitch x=z=0",
+    "staggered x=+-10 20um y pitch"
+  ],
+  "truth_layout": "x=d+2, y=y0+7, z=8; d in 20/45/75, y0 in 110/310/510; 50% add a second source 8 samples later at (d+15, y0+55, -10), scored against source 1",
+  "methods": {
+    "amplitude": {
+      "n": 324,
+      "mean": 24.254522856299317,
+      "median": 16.638323704305755,
+      "p90": 51.42832964901861,
+      "p95": 65.91714286775048,
+      "worst": 96.79018223065026,
+      "total": 324,
+      "rejected": 0,
+      "rejection_rate": 0.0,
+      "runtime_ms_median": 0.6113335002737585,
+      "runtime_ms_p95": 0.7633838500623824
+    },
+    "template": {
+      "n": 324,
+      "mean": 20.76799907033163,
+      "median": 18.68949583880996,
+      "p90": 41.52875754188117,
+      "p95": 49.50554368522684,
+      "worst": 69.43196481582514,
+      "total": 324,
+      "rejected": 0,
+      "rejection_rate": 0.0,
+      "runtime_ms_median": 0.03712499892571941,
+      "runtime_ms_p95": 0.05916690315643788
+    },
+    "beamform": {
+      "n": 324,
+      "mean": 21.877619637148513,
+      "median": 16.36877626991204,
+      "p90": 43.17982863548626,
+      "p95": 49.44282893683881,
+      "worst": 70.30823664417255,
+      "total": 324,
+      "rejected": 0,
+      "rejection_rate": 0.0,
+      "runtime_ms_median": 0.17593750089872628,
+      "runtime_ms_p95": 0.2563204954640238
+    },
+    "weighted_scan": {
+      "n": 324,
+      "mean": 26.773828919413294,
+      "median": 16.829014322749345,
+      "p90": 52.2337904187353,
+      "p95": 67.50940469914097,
+      "worst": 267.15136089980666,
+      "total": 324,
+      "rejected": 0,
+      "rejection_rate": 0.0,
+      "runtime_ms_median": 0.40268800148623995,
+      "runtime_ms_p95": 0.5274374969303607
+    },
+    "robust_scan": {
+      "n": 282,
+      "mean": 23.26056227024926,
+      "median": 16.20126241600905,
+      "p90": 47.64928619712425,
+      "p95": 58.7283771537901,
+      "worst": 101.69410767798182,
+      "total": 324,
+      "rejected": 42,
+      "rejection_rate": 0.12962962962962962,
+      "runtime_ms_median": 0.7489165000151843,
+      "runtime_ms_p95": 0.945895648692385
+    }
+  },
+  "drift_vs_v3_report": {
+    "amplitude": {
+      "median_diff_um": 0.0,
+      "p90_diff_um": 0.0,
+      "rejected_diff": 0
+    },
+    "template": {
+      "median_diff_um": -2.1316282072803006e-14,
+      "p90_diff_um": -7.105427357601002e-15,
+      "rejected_diff": 0
+    },
+    "beamform": {
+      "median_diff_um": -0.07911159418510039,
+      "p90_diff_um": 7.105427357601002e-15,
+      "rejected_diff": 0
+    },
+    "weighted_scan": {
+      "median_diff_um": 7.105427357601002e-15,
+      "p90_diff_um": 7.105427357601002e-15,
+      "rejected_diff": 0
+    },
+    "robust_scan": {
+      "median_diff_um": -0.07997009586541992,
+      "p90_diff_um": 0.0,
+      "rejected_diff": 0
+    }
+  },
+  "peak_traced_python_memory_kib": 43237.9541015625,
+  "note": "runtime is wall-clock Python; memory from a separate tracemalloc pass"
+}

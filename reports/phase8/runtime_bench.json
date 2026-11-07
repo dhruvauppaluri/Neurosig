@@ -1,0 +1,250 @@
+{
+  "versions": {
+    "python": "3.12.15",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "git": "111430e"
+  },
+  "n_events": 210,
+  "per_method": {
+    "amplitude": {
+      "median_ms": 0.7473330006178003,
+      "p95_ms": 1.1489673011965347,
+      "p99_ms": 1.4128294059628377,
+      "cpu_median_ms": 0.7279999999998399
+    },
+    "template": {
+      "median_ms": 0.03464600013103336,
+      "p95_ms": 0.08496039772580836,
+      "p99_ms": 0.17104509090131584,
+      "cpu_median_ms": 0.03500000000000725
+    },
+    "beamform": {
+      "median_ms": 0.15122900367714465,
+      "p95_ms": 0.31680660067650024,
+      "p99_ms": 0.497994913093861,
+      "cpu_median_ms": 0.14900000000017677
+    },
+    "weighted_scan": {
+      "median_ms": 0.4436254967004061,
+      "p95_ms": 0.8222663469496182,
+      "p99_ms": 1.2317609188903582,
+      "cpu_median_ms": 0.44399999999988893
+    },
+    "robust_scan": {
+      "median_ms": 0.7245209999382496,
+      "p95_ms": 0.8506374986609443,
+      "p99_ms": 1.0385850031161676,
+      "cpu_median_ms": 0.7250000000000867
+    },
+    "refined_scan": {
+      "median_ms": 1.1345005004841369,
+      "p95_ms": 1.395724347094074,
+      "p99_ms": 1.8796078283048676,
+      "cpu_median_ms": 1.1330000000000506
+    },
+    "phase8": {
+      "median_ms": 10.45243750559166,
+      "p95_ms": 14.232166051806415,
+      "p99_ms": 17.26185226478264,
+      "cpu_median_ms": 10.279499999999997
+    }
+  },
+  "memory_peak_kib": {
+    "amplitude": 1719.8896484375,
+    "template": 22.09375,
+    "beamform": 170.91015625,
+    "weighted_scan": 4988.0546875,
+    "robust_scan": 4996.1240234375,
+    "refined_scan": 1188.7939453125,
+    "phase8": 891.5419921875
+  },
+  "scaling": {
+    "16": {
+      "beamform": {
+        "setup_ms": 1.4784579980187118,
+        "median_ms": 0.11333300062688068,
+        "p95_ms": 0.18632499923114665,
+        "p99_ms": 0.23347438036580564
+      },
+      "robust_scan": {
+        "setup_ms": 1.2651249999180436,
+        "median_ms": 0.5159374995855615,
+        "p95_ms": 0.9131351016549157,
+        "p99_ms": 1.120101879205322
+      },
+      "refined_scan": {
+        "setup_ms": 0.2004590060096234,
+        "median_ms": 1.1524790024850518,
+        "p95_ms": 4.170258346493938,
+        "p99_ms": 4.4097863901697565
+      },
+      "phase8": {
+        "setup_ms": 0.12145799701102078,
+        "median_ms": 12.401228996168356,
+        "p95_ms": 18.612321150067142,
+        "p99_ms": 19.56030937129981
+      }
+    },
+    "32": {
+      "beamform": {
+        "setup_ms": 5.959583999356255,
+        "median_ms": 0.14070799807086587,
+        "p95_ms": 0.25486664635536727,
+        "p99_ms": 0.5723879994911837
+      },
+      "robust_scan": {
+        "setup_ms": 1.4147500041872263,
+        "median_ms": 0.8556875036447309,
+        "p95_ms": 0.9974187512852948,
+        "p99_ms": 2.0470050006406373
+      },
+      "refined_scan": {
+        "setup_ms": 0.30174999847076833,
+        "median_ms": 1.2724794978566933,
+        "p95_ms": 3.659746496487057,
+        "p99_ms": 4.792878377775196
+      },
+      "phase8": {
+        "setup_ms": 0.27383400447433814,
+        "median_ms": 12.96456299678539,
+        "p95_ms": 22.35902534848719,
+        "p99_ms": 27.151813375312482
+      }
+    },
+    "64": {
+      "beamform": {
+        "setup_ms": 9.496457998466212,
+        "median_ms": 0.16558299830649048,
+        "p95_ms": 0.2985461527714504,
+        "p99_ms": 0.5597799974202642
+      },
+      "robust_scan": {
+        "setup_ms": 3.2474170002387837,
+        "median_ms": 1.5954994996718597,
+        "p95_ms": 3.5440104034933015,
+        "p99_ms": 4.759532989119179
+      },
+      "refined_scan": {
+        "setup_ms": 1.5023749947431497,
+        "median_ms": 2.0415415056049824,
+        "p95_ms": 3.667883001253357,
+        "p99_ms": 4.221502381406026
+      },
+      "phase8": {
+        "setup_ms": 0.5533329967875034,
+        "median_ms": 13.998249498399673,
+        "p95_ms": 18.35445030446862,
+        "p99_ms": 22.497709249946638
+      }
+    }
+  },
+  "ratio_to_robust_scan_median": {
+    "amplitude": 1.0314856307567275,
+    "template": 0.04781918002926929,
+    "beamform": 0.20872963473803213,
+    "weighted_scan": 0.6123017783310849,
+    "robust_scan": 1.0,
+    "refined_scan": 1.5658628260337928,
+    "phase8": 14.426686744045396
+  },
+  "burst": {
+    "50": {
+      "full": {
+        "offered_hz": 50,
+        "processed": 100,
+        "dropped": 0,
+        "drop_rate": 0.0,
+        "fast_tier_fraction": 0.0,
+        "delay_p50_ms": 12.063333499099826,
+        "delay_p99_ms": 30.525955182623413,
+        "delay_max_ms": 32.33029590680214
+      },
+      "tiered": {
+        "offered_hz": 50,
+        "processed": 100,
+        "dropped": 0,
+        "drop_rate": 0.0,
+        "fast_tier_fraction": 0.0,
+        "delay_p50_ms": 12.063333499099826,
+        "delay_p99_ms": 30.525955182623413,
+        "delay_max_ms": 32.33029590680214
+      }
+    },
+    "100": {
+      "full": {
+        "offered_hz": 100,
+        "processed": 200,
+        "dropped": 0,
+        "drop_rate": 0.0,
+        "fast_tier_fraction": 0.0,
+        "delay_p50_ms": 131.28199738797463,
+        "delay_p99_ms": 255.3995384924956,
+        "delay_max_ms": 259.07915953087945
+      },
+      "tiered": {
+        "offered_hz": 100,
+        "processed": 200,
+        "dropped": 0,
+        "drop_rate": 0.0,
+        "fast_tier_fraction": 0.04,
+        "delay_p50_ms": 119.89600763497133,
+        "delay_p99_ms": 176.98487148765983,
+        "delay_max_ms": 180.66449252604366
+      }
+    },
+    "300": {
+      "full": {
+        "offered_hz": 300,
+        "processed": 453,
+        "dropped": 147,
+        "drop_rate": 0.245,
+        "fast_tier_fraction": 0.0,
+        "delay_p50_ms": 1539.9322942773383,
+        "delay_p99_ms": 2533.829383420486,
+        "delay_max_ms": 2543.3714913481954
+      },
+      "tiered": {
+        "offered_hz": 300,
+        "processed": 600,
+        "dropped": 0,
+        "drop_rate": 0.0,
+        "fast_tier_fraction": 0.7316666666666667,
+        "delay_p50_ms": 59.551693311354235,
+        "delay_p99_ms": 131.69856392483135,
+        "delay_max_ms": 163.6594161495175
+      }
+    },
+    "1000": {
+      "full": {
+        "offered_hz": 1000,
+        "processed": 456,
+        "dropped": 1544,
+        "drop_rate": 0.772,
+        "fast_tier_fraction": 0.0,
+        "delay_p50_ms": 2069.784828563713,
+        "delay_p99_ms": 2656.4363284254396,
+        "delay_max_ms": 2662.104866668985
+      },
+      "tiered": {
+        "offered_hz": 1000,
+        "processed": 1917,
+        "dropped": 83,
+        "drop_rate": 0.0415,
+        "fast_tier_fraction": 0.989567031820553,
+        "delay_p50_ms": 203.72188828508996,
+        "delay_p99_ms": 308.7409135783019,
+        "delay_max_ms": 453.0708350455686
+      }
+    }
+  },
+  "capacity": {
+    "phase8_events_per_s_single_core": 95.67146414078415,
+    "refined_events_per_s_single_core": 881.4451818868831,
+    "beamform_events_per_s_single_core": 6612.488184706138
+  },
+  "notes": [
+    "No batch speedup measured: per-event fits are scipy-call-overhead bound; matrix-product scans are already O(CG).",
+    "Expected 32-channel event rate is an assumption (order 10-300 events/s), not measured here."
+  ]
+}

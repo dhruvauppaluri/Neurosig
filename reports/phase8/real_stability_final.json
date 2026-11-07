@@ -1,0 +1,255 @@
+{
+  "versions": {
+    "python": "3.12.15",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "git": "111430e"
+  },
+  "splits": "final",
+  "n_windows": 24,
+  "missing_windows": [],
+  "frozen_accept": {
+    "max_chi2": 221.09744027305774,
+    "max_unit_area_um2": 188848.70262033804,
+    "derived_from": "dev windows (P95 of K=1 chi2 and unit area)"
+  },
+  "methods": {
+    "beamform": {
+      "events": 1439,
+      "usable_coverage": 1.0,
+      "n_units_ge5": 113,
+      "within_unit_spread_um_median": 19.257242219092905,
+      "within_unit_spread_um_mean": 29.360925318184822,
+      "within_unit_axial_mad_um_median": 14.716200275761821,
+      "total_axial_mad_um": 263.2208645614819,
+      "chance_ratio_axial": 0.05590818303966356,
+      "early_late_drift_um_median": 15.859021110176624,
+      "n_drift_units": 92,
+      "dropout": {
+        "0.25": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 5.770439906942102,
+          "p90_disp_um": 50.847426661650935
+        },
+        "0.5": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 20.978809248412364,
+          "p90_disp_um": 109.75174157478162
+        }
+      },
+      "noise": {
+        "0.5": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 2.307623758609165,
+          "p90_disp_um": 11.821444402794722
+        },
+        "1.0": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 3.8156310896822534,
+          "p90_disp_um": 28.40096791498304
+        }
+      },
+      "per_session": {
+        "E": {
+          "n_units": 35,
+          "median_within_unit_spread_um": 17.13801625337726
+        },
+        "F": {
+          "n_units": 23,
+          "median_within_unit_spread_um": 37.59608355415981
+        },
+        "G": {
+          "n_units": 31,
+          "median_within_unit_spread_um": 19.257242219092905
+        },
+        "H": {
+          "n_units": 24,
+          "median_within_unit_spread_um": 9.082327618536699
+        }
+      }
+    },
+    "template": {
+      "events": 1439,
+      "usable_coverage": 1.0,
+      "n_units_ge5": 113,
+      "within_unit_spread_um_median": 25.71665903725267,
+      "within_unit_spread_um_mean": 30.94472584342527,
+      "within_unit_axial_mad_um_median": 19.820841062087993,
+      "total_axial_mad_um": 261.20409910379817,
+      "chance_ratio_axial": 0.0758825804422446,
+      "early_late_drift_um_median": 17.204166690962822,
+      "n_drift_units": 92,
+      "dropout": {
+        "0.25": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 9.38720483822269,
+          "p90_disp_um": 41.15829529961524
+        },
+        "0.5": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 21.12986257139089,
+          "p90_disp_um": 110.44740349275814
+        }
+      },
+      "noise": {
+        "0.5": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 0.7927317753974842,
+          "p90_disp_um": 15.111940906308792
+        },
+        "1.0": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 5.347940599267642,
+          "p90_disp_um": 31.103446442402426
+        }
+      },
+      "per_session": {
+        "E": {
+          "n_units": 35,
+          "median_within_unit_spread_um": 26.34421214073272
+        },
+        "F": {
+          "n_units": 23,
+          "median_within_unit_spread_um": 34.68945253262068
+        },
+        "G": {
+          "n_units": 31,
+          "median_within_unit_spread_um": 24.486163638318807
+        },
+        "H": {
+          "n_units": 24,
+          "median_within_unit_spread_um": 13.435736300464686
+        }
+      }
+    },
+    "robust_scan": {
+      "events": 1439,
+      "usable_coverage": 0.8068102849200834,
+      "n_units_ge5": 94,
+      "within_unit_spread_um_median": 28.164222664237997,
+      "within_unit_spread_um_mean": 39.10430084588558,
+      "within_unit_axial_mad_um_median": 19.310436339652483,
+      "total_axial_mad_um": 244.2830539741799,
+      "chance_ratio_axial": 0.07904943067272095,
+      "early_late_drift_um_median": 19.80650566043133,
+      "n_drift_units": 78,
+      "dropout": {
+        "0.25": {
+          "n": 1161,
+          "failure_rate": 0.08010335917312661,
+          "median_disp_um": 12.020350418523984,
+          "p90_disp_um": 47.842879094746934
+        },
+        "0.5": {
+          "n": 1161,
+          "failure_rate": 0.05081826012058566,
+          "median_disp_um": 26.310528185223752,
+          "p90_disp_um": 136.47193573446566
+        }
+      },
+      "noise": {
+        "0.5": {
+          "n": 1161,
+          "failure_rate": 0.07924203273040487,
+          "median_disp_um": 4.521498576328095,
+          "p90_disp_um": 15.646492490222034
+        },
+        "1.0": {
+          "n": 1161,
+          "failure_rate": 0.12144702842377264,
+          "median_disp_um": 8.75741716047499,
+          "p90_disp_um": 34.463442314575104
+        }
+      },
+      "per_session": {
+        "E": {
+          "n_units": 29,
+          "median_within_unit_spread_um": 24.027495800993172
+        },
+        "F": {
+          "n_units": 19,
+          "median_within_unit_spread_um": 71.10909343504723
+        },
+        "G": {
+          "n_units": 23,
+          "median_within_unit_spread_um": 26.38143071962605
+        },
+        "H": {
+          "n_units": 23,
+          "median_within_unit_spread_um": 25.05769814403419
+        }
+      }
+    },
+    "phase8_k1": {
+      "events": 1439,
+      "usable_coverage": 0.920778318276581,
+      "n_units_ge5": 109,
+      "within_unit_spread_um_median": 26.03522364755517,
+      "within_unit_spread_um_mean": 45.10315105206415,
+      "within_unit_axial_mad_um_median": 24.65972406395258,
+      "total_axial_mad_um": 250.09195839950462,
+      "chance_ratio_axial": 0.09860262689678481,
+      "early_late_drift_um_median": 105.52714021353971,
+      "n_drift_units": 89,
+      "dropout": {
+        "0.25": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 12.745213825297466,
+          "p90_disp_um": 302.25344406007395
+        },
+        "0.5": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 33.22698702832657,
+          "p90_disp_um": 308.3606758147704
+        }
+      },
+      "noise": {
+        "0.5": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 6.072354840817423,
+          "p90_disp_um": 283.1519284537344
+        },
+        "1.0": {
+          "n": 1439,
+          "failure_rate": 0.0,
+          "median_disp_um": 8.053000119493287,
+          "p90_disp_um": 287.2698126769352
+        }
+      },
+      "per_session": {
+        "E": {
+          "n_units": 35,
+          "median_within_unit_spread_um": 54.72684951632721
+        },
+        "F": {
+          "n_units": 19,
+          "median_within_unit_spread_um": 44.84085289806937
+        },
+        "G": {
+          "n_units": 31,
+          "median_within_unit_spread_um": 20.222136644238144
+        },
+        "H": {
+          "n_units": 24,
+          "median_within_unit_spread_um": 14.885078177336311
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Sorter-derived positions and repeated-unit consistency are proxies, not neuron coordinates.",
+    "Stability metrics reward consistency; a constant output would also be consistent, so the chance ratio is reported.",
+    "phase8_k1 uses single-source mode on real data; two-source declarations are not validated here."
+  ]
+}

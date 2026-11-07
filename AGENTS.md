@@ -1,83 +1,40 @@
 # Neurosig agent guidance
 
-## Purpose and scope
+Reproducible path: MEArec → software reference → SystemVerilog detector → decoder inference → optional FPGA / later SKY130. Neuropixels is the inspiration; this repo does not implement a probe or analog front end. Default channel count is 32; keep it configurable.
 
-Build a reproducible neural signal processing project: MEArec simulation → software reference → SystemVerilog spike detection → trained decoder → RTL inference → digital physical design exploration. Neuropixels is the inspiration; this repository does not currently implement a probe or analog acquisition hardware.
+## Frozen contracts
 
-The initial recording target is 32 channels. Keep the channel count configurable and permit smaller smoke tests.
+There are two detectors. Mixing them is the usual way to report a wrong number.
 
-## Current execution checklist
+1. **MEArec / current RTL / C5G** — 32 kHz, no CAR, 300 Hz–6 kHz IIR, negative 6σ. Golden models: `scripts/filter_iir.py`, `scripts/detect_spikes.py`, `scripts/fixed_point_model.py`. RTL: `rtl/neurosig_pipeline.sv`. Do not change rounding or saturation without rechecking poles and the zero-input decay test (`scripts/stress_fixed_point.py`). Section outputs truncate toward zero.
+2. **Real AP, software-only** — 30 kHz, `detector-v2.0` + integer `fixed-v1.1` (200–4500 Hz, median CAR, 4σ). Spec: `docs/phase6-rtl-contract.md`. Compare new arithmetic to `scripts/phase6/oracles.py`, not the model against itself. Bump the version, regenerate `tests/vectors/phase6/`, and rerun float-vs-fixed if the math changes. **No RTL implements this yet.**
 
-- [x] Create a project-local Python environment and install MEArec with template generation dependencies.
-- [x] Complete reproducible setup scripts and dependency locks.
-- [x] Complete and verify a short MEArec template and recording generation smoke test.
-- [x] Document the exact validation command and generated output summary.
-- [x] Establish 32-channel recording parameters and a floating-point software spike detection reference.
-- [x] Interactive 3D visualization smoke: install `viz/requirements.txt`, build `viz/web`, run the server, and run `viz.tests`.
-- [x] Define the sample stream interface, fixed point representation, and RTL filter verification vectors.
-- [x] Implement and verify the SystemVerilog spike detector on the seeded one-second recording.
-- [x] Select synthetic latent-state and real Neuropixels visual-contrast tasks and establish held-out software baselines.
-- [x] Quantize and implement 32-feature decoder inference in RTL; compare exact scores and predictions.
-- [x] Python spatial localization (amplitude, template, quasi-static amplitude scan) with a seeded synthetic benchmark.
-- [x] Software-emulated NSG1 ASIC-to-edge packets, buffering, and control (no localization RTL).
-- [x] Pair NSG1 EVENT/SNIPPET packets once, verify real RTL event triples through the software packet emulator, and test loss, duplicate, corruption, FIFO drop, and backpressure.
-- [x] Multi-seed synthetic and seeded MEArec localization benchmarks with shared held-out events.
-- [x] Pilot a public IBL raw AP chunk at native sample rate with sorting-derived location proxies.
-- [x] Compare A/B/C no-leakage spatial decoders on synthetic and IBL visual-stimulus trials.
-- [x] Show same-event localization comparisons and provenance in the research dashboard.
-- [x] Recalibrate a Python-only real-recording detector (CAR, robust MAD, 4σ) and benchmark it on multiple IBL AP windows without claiming sorter ground truth.
-- [x] Interpolated quasi-static scan, aligned-trough amplitudes, and a noise-aware local refine; multi-seed held-out localization v3 plus real-recording consistency metrics.
-- [x] Occupancy bins on native IBL y range; compare count, geometry, estimated-location, and tiny MLP decoders with paired tests.
-- [x] Freeze the Python real-recording detector (`car_4sigma_300_6000_negative`); do not follow in RTL without a median-CAR stage.
-- [x] Fail-closed robust scan on spatially overlapping trough footprints.
-- [x] Second public IBL insertion detection (NYU-45 VISa) and detector-event vs sorted-count decode on a trial-dense AP block.
-- [x] Restore the seeded MEArec recording and rerun golden-model plus Verilator 9/9 pipeline comparison.
-- [x] Formally verify the Q8.8 spike-count decoder and the biquad controller handshake with SVA k-induction. The controller proof uses an unconstrained arithmetic result.
-- [x] Phase 5: probe-clock-synced real-signal benchmark (4 IBL insertions, seeded calibration/selection/held-out split), chance-corrected channel-consistent metrics, detector-v2.0 (200–4500 Hz, held-out ΔF1 +0.017), and a bit-specified integer reference `fixed-v1` with RTL-readiness spec. See `reports/phase5/phase5-validation.md`. No RTL changed; earlier Phase 3–4 IBL reports still carry the uncorrected sorter-clock offset.
-- [x] Phase 6: mismatch classification (0 unexplained), independent arithmetic oracles (103 tests), `fixed-v1.1` (3 specification slips fixed), corrected Phase 3-4 IBL results on the probe clock (originals kept, see `reports/DEPRECATIONS.md`), frozen RTL contract `docs/phase6-rtl-contract.md` with deterministic vectors, `scripts/run_regression.py` and a software-only GitHub Actions workflow. No RTL changed.
-- [x] Program the C5G and capture the seeded 1,024,000-sample recording with all nine exact events and no transfer or overflow error.
-- [x] Play a public IBL AP window through the C5G with 32 kHz adaptation and match the no-CAR bit-accurate Python event; retrieve a host-side snippet for edge localization.
-- [ ] Explore synthesis and SKY130/OpenROAD implementation after functional verification.
+Use `.venv/bin/python` after `bash scripts/setup.sh`. Locks in `requirements*.txt` are the package source of truth. Keep venvs, MEArec outputs, IBL caches, and FPGA build products out of Git.
 
-Environment installed during initial setup: Python 3.12.15, MEArec 1.11.0, NEURON 8.2.7, and LFPy 2.3.6. On October 19, 2026, `.venv/bin/python scripts/smoke_mearec.py` passed on Apple Silicon macOS: two templates, 32,000 samples × 32 channels, one second at 32 kHz, and nine ground-truth spikes. `reports/setup-validation.json` records the result. The separate C5G hardware result is in `reports/c5g-fpga-validation.md`.
+## Do not
 
-## Working rules
+- Edit `rtl/` or golden-model arithmetic to support `viz/`. Viewer code stays under `viz/`. Neuropixels playback is sorted spikes, not ADC samples.
+- Fold localization into `scripts/` DSP. It lives in `edge/`. `viz/sim/localization.py` is a display adapter. No localization RTL until a bit-accurate Python model and packet freeze exist (`docs/rtl-acceleration-localization.md`).
+- Compare IBL sorter times to raw samples without `scripts/phase5/data.py` (session clock → probe samples). Quote channel-consistent F1 plus the shifted-reference chance level, not unconstrained recall alone.
+- Use ground-truth xyz as decoder features. Occupancy bins must use the recording’s y range, not the synthetic 0–620 µm default.
+- Treat missing IBL windows as passes; `scripts/run_regression.py` reports `missing_dataset`.
+- Claim C5G IBL playback as the CAR/4σ detector. That board path is the no-CAR 32 kHz adaptation.
+- Report area, power, or clock as measured unless the tool actually ran. The 100 MHz figure on the generic pipeline is an assumption; C5G is a 50 MHz fit of a different schedule.
 
-- Support the user's learning: explain concepts and give incremental instructions; let them choose ADC limits and calculate quantization before supplying a finished conversion implementation.
-- `scripts/unfiltered_mearec.py` regenerates the smoke data with recording filtering disabled for ADC range inspection; outputs live under `data/unfiltered/`.
-- The selected digital filter is a causal cascade of a second-order 300 Hz Butterworth high-pass and a second-order 6 kHz Butterworth low-pass at 32 kHz. `scripts/filter_iir.py` is the float64 reference. Recheck pole locations after every coefficient quantization change; float stability does not prove fixed-point stability.
-- `scripts/detect_spikes.py` is the floating-point detector reference: per-channel MAD noise, negative six-sigma threshold, local-minimum timestamps, 1 ms refractory time, 0.5 ms cross-channel merge, and 1 ms ground-truth matching tolerance. Its 9/9 result is specific to the seeded one-second single-neuron smoke recording. `scripts/real_detector.py` is the Python-only real-recording path. The frozen contract is `car_4sigma_300_6000_negative` (`frozen_real_detector()` / `reports/frozen-real-detector.json`): median CAR, 300–6 kHz, 4σ negative. RTL does not follow because `rtl/neurosig_pipeline.sv` has no median-CAR stage.
-- `scripts/fixed_point_model.py` is the bit-accurate reference: Q2.30 coefficients, 24-bit signed section states at the ADC LSB scale, 64-bit accumulators, and section saturation. Coefficients round half away from zero; section outputs truncate toward zero because nearest rounding caused a 127-code zero-input limit cycle. The runtime detector uses integer threshold registers, comparisons, subtraction, and counters; MAD threshold generation is offline calibration.
-- `scripts/stress_fixed_point.py` runs the reproducible randomized fixed-point stress suite. Preserve its seed, explicit error limits, per-trial report, zero-input decay check, and exact synthetic detector checks when changing arithmetic or event behavior.
-- `formal/` holds the SVA contracts and SymbiYosys flows for `rtl/spike_count_decoder.sv` and `rtl/biquad_controller.sv`. `bash formal/run_formal.sh` is the check; results are in `reports/formal-verification.json`. The controller proof black-boxes `biquad_arithmetic` with one unconstrained `new_y`. Do not treat that proof as a Q2.30 arithmetic check or as timing closure. `read_slang` drives `(* anyseq *)` with a constant-X buffer; `formal/biquad_controller.sby` deletes that buffer and attaches one `$anyseq` cell before `prep`.
-- `rtl/sample_input.sv`, `rtl/biquad_state.sv`, `rtl/biquad_arithmetic.sv`, and `rtl/biquad_controller.sv` have passing standalone testbenches. `rtl/spike_band_filter.sv` cascades independent per-channel high-pass and low-pass controllers. The Python-to-RTL filter reference test passed 32,768 exact outputs from 1,024 frames of 32-channel MEArec ADC data with patterned output stalls on November 2, 2026. Matching copies live in the separate `NeuroSignalProject` VS Code folder; synchronize deliberately when editing either location.
-- `rtl/spike_detector_channel.sv` has a passing 77-check directed testbench for crossing, peak search, tied minima, idle gaps, reset, and refractory boundary. Independent full-trace Python-to-RTL comparisons passed for all 32 channels: 1,024,000 samples and all 37 unmerged candidate events matched exactly.
-- `rtl/spike_detector_multichannel.sv`, `rtl/spike_event_merge.sv`, and `rtl/neurosig_pipeline.sv` integrate the complete stream. The merge directed test passes. On November 2, 2026, a Verilator 5.050 full-recording test matched all 9 merged Python events exactly and measured 9 TP, 0 FP, 0 FN against MEArec ground truth with 1 ms tolerance. On November 3, 2026, the restored smoke recording reproduced the same 9/9 match under Verilator 5.020. See `reports/rtl-pipeline-validation.json`. This is one seeded recording; event queue depth, synthesis timing, area, and power remain unverified.
-- `rtl/tb/neurosig_throughput_tb.sv` measures ready/valid input acceptance under continuous valid traffic. On November 2, 2026, 131,072 zero-code samples were accepted in 393,212 inclusive cycles (2.999969 cycles/sample; maximum 3-cycle gap). See `reports/rtl-throughput.json`. Clock frequency, timing closure, area, and power remain unverified; the 100 MHz rate conversion is only an assumption.
-- On November 5, 2026, the final counter-equipped C5G variant passed 50 MHz static timing with +5.050 ns worst setup slack and was programmed over USB-Blaster. Its seeded full recording produced the same nine Python and Verilator event triples with zero errors. On-chip feed took 5.991211 clocks/sample; the clean-calibration System Console playback measured 1,345.69 samples/s, far below the real-time transfer target. A one-second public IBL AP window resampled from 30 to 32 kHz matched its one-event no-CAR Python reference on the board with zero errors; this does not match or validate the frozen CAR/4σ detector. Quartus vectorless power estimate was 373.56 mW with low confidence; board power was not measured. This applies to the C5G variant with a serial merge and pipelined biquad schedule; it does not validate the older generic pipeline's 100 MHz projection. See `reports/c5g-fpga-validation.md`.
-- On November 3, 2026, dense seeded end-to-end RTL tests at 1, 4, and 32 channels matched Python events, and directed tests covered partial end-of-stream searches, integrated reset, and queue overflow; see `reports/rtl-stress.json`. Assert `flush` only after the filter drains and reset between finite recordings.
-- `scripts/synthetic_decoder.py` trains a Q8.8 linear decoder for synthetic latent-state count windows. `scripts/neuropixels_decoder.py` uses a real processed Steinmetz Neuropixels session to decode blank versus full right-side visual contrast from 32 VISp unit counts. The real held-out set has 73 trials; float and fixed accuracy are 90.4% versus 69.9% majority baseline, and all 73 RTL scores match Python exactly. The downloaded data under `data/neuropixels/` stay out of Git. These processed sorted counts are not raw voltage and cannot validate the ADC/filter/detector path.
-- `edge/pipeline.py` assembles session-scoped EVENT/SNIPPET packets once at end of stream. Keep bounded state, CRC policy, duplicate/conflict checks, sequence-gap reporting, and event-only/snippet-only modes. `scripts/run_edge_integration.py` uses actual RTL event triples and a separately labeled software NSG1 emulator; it does not prove an RTL packet transmitter.
-- `edge/benchmark_v2.py` is the historical four-method report. `edge/benchmark_v3.py` adds aligned-trough amplitudes, interpolated scans, `robust_scan`, electrode dropout, and a 16 µm pitch check. `edge/localize/overlap.py` refuses a single-source `robust_scan` estimate when the aligned-trough profile is bimodal. The matched synthetic template catalog still has a model advantage; read p90 and unavailable counts in `reports/localization-benchmark-v3.json`.
-- `edge/ibl.py` and `edge/ibl_eval.py` use public IBL insertion `4836a465-c691-4852-a0b1-dcd2b1ce38a1` at native 30 kHz, plus `SECOND_PID` `1a60a6e1-da99-4d4e-a734-39b1d4544fad` (NYU-45 VISa). `select_visp_channels` falls back to VIS* when VISp is short. Sorter peak-channel depth is an imperfect position proxy. Run optional IBL dependencies in `data/ibl-venv` via `scripts/setup_ibl.sh`; keep raw cache out of Git. The 6σ no-CAR detector still fails these sessions because most sorter-aligned troughs sit near 3–4σ after filtering. The frozen Python CAR/4σ detector improves sorter-coincidence recall; it is not RTL or ADC validated at 30 kHz, and sorting is not ground truth. `edge/decode/detector_experiment.py` bins frozen-detector events in the 50–250 ms stimulus window and compares them with sorted counts; trial-dense AP blocks start after the first eligible `stimOn_times` (not t=90 s on the first insertion).
-- `edge/decode/experiment_v2.py` and `edge/decode/ibl_experiment.py` compare counts, geometry, estimated positions, and a tiny MLP on matched splits. Occupancy bins must use the recording's y range, not the synthetic 0–620 µm default. Never use ground-truth source positions as inference features or claim the processed IBL trial decode is end-to-end raw voltage decode. The existing RTL count decoder remains a separate baseline.
-- Read the README and inspect the current files before extending the project. Keep its status and this checklist consistent with actual results.
-- Use `scripts/setup.sh` for environment setup and `.venv/bin/python` for project commands. Use the dependency files as the source of truth for package versions.
-- Keep local tools, environments, generated datasets, compiled mechanisms, and large simulation outputs out of Git. Commit source, small configurations, and concise result summaries.
-- Record random seeds, simulator parameters, versions, and commands for reproducibility. A smoke test demonstrates operation of its tested configuration only.
-- Preserve MEArec spike ground truth for evaluating detection. Define the event matching tolerance and metrics before comparing detectors.
-- MEArec does not supply intended movement labels. Select a labeled dataset or explicitly define a synthetic decoding task before reporting decoder accuracy.
-- Define signedness, scaling, saturation or overflow behavior, ordering, handshake behavior, and reset behavior before implementing RTL interfaces. Compare RTL against a deterministic software reference.
-- Report measured accuracy, latency, throughput, area, and power separately from targets or estimates. Document tool versions and constraints for physical design results.
-- Keep the first implementation small enough to validate end to end. Expand channel count or model complexity after the existing pipeline is reproducible.
-- Visualization code lives under `viz/` only. Do not edit golden-model arithmetic or RTL to support the UI. Neuropixels playback is sorted spikes, not ADC samples.
-- Spatial localization and the ASIC-to-edge codec live under `edge/`. Do not fold those algorithms into `scripts/` DSP golden models. `viz/sim/localization.py` is a display adapter. Do not implement localization RTL until a bit-accurate Python reference and packet freeze exist; see `docs/rtl-acceleration-localization.md`.
-- Simulated source positions, electrode sites, and estimated locations must stay visually distinct. Neuropixels CCF is not a human neuron coordinate. Localization is not a stimulation targeting spec.
+## Tests
 
-## Parallel work
+```sh
+.venv/bin/python scripts/run_regression.py
+.venv/bin/python -m unittest discover -s tests
+.venv/bin/python -m unittest discover -s edge/tests
+```
 
-When tasks run in parallel, assign ownership of files, share interface assumptions early, and avoid modifying the same files concurrently. Integrate completed work with a validation command and a concise record of the outcome. Do not claim another task's pending check has passed.
+Formal: `bash formal/run_formal.sh`. FPGA: `fpga/README.md`. Current vs superseded reports: `reports/README.md`.
 
-- Phase 5 (`scripts/phase5/`, `docs/phase5-*.md`, `reports/phase5/`): IBL sorter times must be mapped session clock → probe samples via `_spikeglx_*.timestamps.npy` (`scripts/phase5/data.py`); report channel-consistent F1 with the shifted-reference chance level, not unconstrained recall alone. `scripts/phase5/fixed_detector.py` is the integer reference (10 guard bits; two implementations must stay bit-identical; `tests/golden/phase5_fixed_golden.json` pins behaviour). Held-out windows are evaluated only via a frozen `--configs` file.
+## Open
 
-- Phase 6 (`scripts/phase6/`, `docs/phase6-rtl-contract.md`, `tests/vectors/phase6/`): the RTL reference is `fixed-v1.1` with `V2_SPEC` (median CAR). Tests must compare against `scripts/phase6/oracles.py` (independent plain-int/Fraction code), never the model against itself; changing arithmetic needs a version bump, regenerated vectors (`generate_rtl_vectors.py`), and a float-vs-fixed rerun. `scripts/run_regression.py` is the single regression entry point (missing real-data windows are reported as `missing_dataset`, never as passes). Report the Phase 5 held-out windows as a previously-used benchmark, not a fresh holdout; the Phase 6 locked-final windows (`reports/phase6/split_manifest_phase6.json`) are evaluated once per frozen configuration.
+- Implement `fixed-v1.1` in RTL against the Phase 6 vectors.
+- SKY130 / OpenROAD after that match.
+- Visualization markers for truth vs estimate vs electrodes must stay distinct. CCF is not a human neuron coordinate.
+
+If you explain a conversion or threshold, let the user compute the quantization before pasting a finished implementation. Record seeds, widths, and the command that produced a claimed number.

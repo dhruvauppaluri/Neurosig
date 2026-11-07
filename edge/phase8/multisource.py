@@ -46,7 +46,7 @@ class SpaceTimeFitter:
     def __init__(self, array: ElectrodeArray, lambda_um: float = LAMBDA_UM, model: str = "offset_reciprocal",
                  grid_step_um: tuple[float, float] = (6.0, 10.0), max_x_um: float = 90.0, y_margin_um: float = 40.0,
                  min_candidate_ortho: float = 0.25, prescreen_free: float = 0.0,
-                 prescreen_shared: float = 0.0, rank: int | None = None) -> None:
+                 prescreen_shared: float = 0.0, rank: int | None = None, nuisance_cm: bool = False) -> None:
         self.array = array
         self.lam = lambda_um
         self.model = model
@@ -64,10 +64,18 @@ class SpaceTimeFitter:
         self.G = _gain(self.grid, self.E, self.lam, model)
         self.min_ortho = min_candidate_ortho
         self.rank = rank  # reduced temporal rank for fitting (None = full)
+        self.nuisance_cm = nuisance_cm   # project the common-mode direction out of data and gains (shared noise)
+        self._u = None
         self.pre_free = prescreen_free      # skip K=2 LM when the greedy grid drop is below this (0 = never skip)
         self.pre_shared = prescreen_shared  # skip the shared-waveform refinement below this grid gain
         self.lo = np.array([x_lo - 0.5 if planar else 0.5, ys.min() - y_margin_um])
         self.hi = np.array([x_hi, ys.max() + y_margin_um])
+
+    def _P(self, gw: np.ndarray) -> np.ndarray:
+        """Remove the common-mode direction from whitened gains (last axis = channels)."""
+        if self._u is None:
+            return gw
+        return gw - (gw @ self._u)[..., None] * self._u
 
     # ---------------------------------------------------------------------------------------
     def whiten(self, snippet: Snippet, mask: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray]:
@@ -79,19 +87,25 @@ class SpaceTimeFitter:
             sigma = np.where(np.asarray(mask, bool), sigma, 1e6)
             v = np.where(np.asarray(mask, bool)[None, :], v, 0.0)
         Wt = (v / sigma[None, :]).T  # [C,T]
+        if self.nuisance_cm:
+            u = 1.0 / sigma
+            self._u = u / np.linalg.norm(u)
+            Wt = Wt - np.outer(self._u, self._u @ Wt)
+        else:
+            self._u = None
         if self.rank is not None and self.rank < Wt.shape[1]:
             u, sv, _ = np.linalg.svd(Wt, full_matrices=False)
             Wt = u[:, : self.rank] * sv[None, : self.rank]  # [C,r] temporal-subspace coordinates
         return Wt, sigma
 
     def _vp_sse(self, pos: np.ndarray, Wt: np.ndarray, sigma: np.ndarray) -> float:
-        g = _gain(pos.reshape(-1, 2), self.E, self.lam, self.model) / sigma[None, :]  # [K,C]
+        g = self._P(_gain(pos.reshape(-1, 2), self.E, self.lam, self.model) / sigma[None, :])  # [K,C]
         h, *_ = np.linalg.lstsq(g.T, Wt, rcond=None)
         r = Wt - g.T @ h
         return float(np.sum(r * r))
 
     def _vp_resid(self, flat: np.ndarray, Wt: np.ndarray, sigma: np.ndarray) -> np.ndarray:
-        g = _gain(flat.reshape(-1, 2), self.E, self.lam, self.model) / sigma[None, :]
+        g = self._P(_gain(flat.reshape(-1, 2), self.E, self.lam, self.model) / sigma[None, :])
         h, *_ = np.linalg.lstsq(g.T, Wt, rcond=None)
         return (Wt - g.T @ h).ravel()
 
@@ -105,7 +119,7 @@ class SpaceTimeFitter:
         return sol.x.reshape(k, 2)
 
     def _grid_energy(self, Wt: np.ndarray, sigma: np.ndarray, exclude_unit: np.ndarray | None):
-        Gw = self.G / sigma[None, :]
+        Gw = self._P(self.G / sigma[None, :])
         if exclude_unit is not None:
             proj = Gw @ exclude_unit
             Gw = Gw - proj[:, None] * exclude_unit[None, :]
@@ -134,14 +148,14 @@ class SpaceTimeFitter:
         return best, coef
 
     def _shared_sse(self, pos: np.ndarray, R: np.ndarray, total: float, sigma: np.ndarray) -> float:
-        g = _gain(pos.reshape(-1, 2), self.E, self.lam, self.model) / sigma[None, :]
+        g = self._P(_gain(pos.reshape(-1, 2), self.E, self.lam, self.model) / sigma[None, :])
         lam, _ = self._shared_lambda(g, R)
         return total - lam if lam >= 0 else total
 
     def _fit_shared(self, pos1: np.ndarray, Wt: np.ndarray, sigma: np.ndarray, total: float):
         R = Wt @ Wt.T
-        Gw = self.G / sigma[None, :]
-        g1 = _gain(pos1, self.E, self.lam, self.model)[0] / sigma
+        Gw = self._P(self.G / sigma[None, :])
+        g1 = self._P(_gain(pos1, self.E, self.lam, self.model)[0] / sigma)
         # vectorized generalized eigenvalue over candidate second positions
         Rg1 = R @ g1
         a11 = g1 @ g1
@@ -189,7 +203,7 @@ class SpaceTimeFitter:
         p1 = self.grid[i1].copy()
         pos1 = self._refine(p1[None, :], Wt, sigma) if refine else p1[None, :]
         sse1 = self._vp_sse(pos1, Wt, sigma)
-        g1 = _gain(pos1, self.E, self.lam, self.model)[0] / sigma
+        g1 = self._P(_gain(pos1, self.E, self.lam, self.model)[0] / sigma)
         u1 = g1 / np.linalg.norm(g1)
         e2 = self._grid_energy(Wt, sigma, u1)
         i2 = int(np.argmax(e2))
@@ -225,7 +239,7 @@ class SpaceTimeFitter:
 
     def _describe(self, pos: np.ndarray, Wt, sigma) -> list[SourceFit]:
         g = _gain(pos, self.E, self.lam, self.model)
-        gw = g / sigma[None, :]
+        gw = self._P(g / sigma[None, :])
         h, *_ = np.linalg.lstsq(gw.T, Wt, rcond=None)
         out = []
         for k in range(pos.shape[0]):

@@ -1,0 +1,45 @@
+{
+ "calibration": {
+  "tau_two": 111.96307386187395,
+  "tau_gray": 87.50836068497361,
+  "q_clean": 10.063575016774985,
+  "q_flagged": 19.76610207899863,
+  "q_two": 531.3346756427688,
+  "tau_shared": 33.866841980411884,
+  "q_shared": 41.2658839702127,
+  "nominal": 0.9,
+  "max_unit_area_um2": 979.0567170051477,
+  "max_chi2_red": 6.011973194147879,
+  "min_sep_um": 30.0
+ },
+ "select": {
+  "n": 300,
+  "singles": 149,
+  "pairs": 151,
+  "resolvable_pairs": 54,
+  "two_source_recall_resolvable": 0.9259259259259259,
+  "two_source_recall_all_pairs": 0.5298013245033113,
+  "false_two_source_rate_singles": 0.053691275167785234,
+  "per_source_median_err_correct_pairs_um": 4.2993519712494255,
+  "n_correct_pairs": 50,
+  "rejected_all": 0.06,
+  "rejected_resolvable": 0.018518518518518517,
+  "p9_single_engine_pair_event_err_p90": 32.681865897397735,
+  "k2_pair_event_err_p90": 73.37441137834028,
+  "p9_single_engine_resolvable_err_median": 6.606635541296255,
+  "k2_resolvable_event_err_median": 5.402950253099486,
+  "accepted_fraction": 0.94,
+  "accepted_primary_err": {
+   "median": 6.851203195650786,
+   "p90": 77.96310247766684,
+   "p95": 104.31860485660543
+  },
+  "large_error_rate_primary_accepted": 0.16666666666666666,
+  "large_error_rate_single_engine": 0.05333333333333334,
+  "region_coverage_accepted": 0.8297872340425532,
+  "region_coverage_singles": 0.9432624113475178,
+  "region_coverage_pairs": 0.7163120567375887,
+  "region_area_um2_median": 2326.703785008578,
+  "runtime_ms_median": 7.541624996520113
+ }
+}

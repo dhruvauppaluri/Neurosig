@@ -11,3 +11,8 @@ The files listed here are **not deleted or edited**; they remain as historical r
 | `reports/phase5/phase5-validation.md` | Phase 5 held-out windows as an untouched final holdout | They were evaluated and discussed; they are now a previously-used benchmark | `reports/phase6/generalization.md` |
 
 Unaffected: `reports/ibl-decode.json` (uses only session-clock quantities), MEArec/RTL results, formal verification, synthetic benchmarks.
+
+## Phase 9 additions (localization stability)
+* **Raw-snippet within-unit spreads are not evidence of localization quality.** A null control (same units' times shifted +20 ms) shows raw-path spreads (e.g. amplitude 7.4 µm real vs 6.6 µm null) are static channel-offset artifacts. Any stability number computed without baseline subtraction and a null comparator, including the Phase 4 pilot's within-unit consistency and Phase 8 `reports/phase8/real_stability_*.json` (different filtered/re-aligned path, no null control), should be read as unvalidated. Originals are kept. See `reports/phase9/phase9-validation.md` §2.
+* **Phase 8 overlap results do not transfer** to a real-like forward model with shared noise (resolvable recall 18.5% as configured); Phase 9's nuisance-common-mode variant replaces the CAR-conditioned configuration.
+* **Phase 8 synthetic accuracy** came from a broad-footprint generator (λ=80 µm); the measured real footprint is ~λ=20 µm. Those synthetic gains should not be used to rank methods on real recordings.

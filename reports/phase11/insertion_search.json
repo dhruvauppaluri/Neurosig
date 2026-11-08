@@ -1,0 +1,843 @@
+[
+ {
+  "pid": "00a824c0-e060-495f-9ebc-79c82fef4c67",
+  "lab": "churchlandlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "00a96dee-1e8b-44cc-9cc3-aca704d2b594",
+  "lab": "zadorlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "00c425fd-ec3e-4cd2-b8af-c0bc0c4bdd44",
+  "lab": "steinmetzlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0143d3fe-79c2-4922-8332-62c3e4e0ba85",
+  "lab": "mrsicflogellab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "01864e9d-0dbe-41d4-9e3a-0285348ecfc1",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "01937b3b-8719-43c3-b5bd-14e6b0cf2802",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "02106173-e888-429b-a03c-7daaa40cc6be",
+  "lab": "churchlandlab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "0228bcfd-632e-49bd-acd4-c334cf9213e9",
+  "lab": "mrsicflogellab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "02328ef5-47d4-4690-b020-04b6315aa2d6",
+  "lab": "hoferlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0259543e-1ca3-48e7-95c9-53f9e4c9bfcc",
+  "lab": "cortexlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "02d544f4-aaff-4b82-a5b7-9a23f1d6fb46",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "0319e090-a0c1-4325-b3ce-a52ef819b791",
+  "lab": "mainenlab",
+  "error": "HTTPError: HTTP Error 404: Not Found"
+ },
+ {
+  "pid": "03c42ea1-1e04-4a3e-9b04-46d8568dcd02",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "03d2d8d1-a116-4763-8425-4ef7b1c1bd35",
+  "lab": "zadorlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "03d9a7d6-1aa6-4830-aa5d-7b917bec19f8",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "041f272e-acae-47c1-9d33-f34147fd648b",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "044e3d53-8f5b-4532-8d82-ddd78b126a60",
+  "lab": "angelakilab",
+  "vis": 100,
+  "visp": 98,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "04690e35-ab38-41db-982c-50cbdf8d0dd1",
+  "lab": "churchlandlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "04954136-75a8-4a20-9054-37b0bffd3b8b",
+  "lab": "mainenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": true
+ },
+ {
+  "pid": "04a449bc-547a-4989-93fe-d6605cfa5206",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "04c9890f-2276-4c20-854f-305ff5c9b6cf",
+  "lab": "mrsicflogellab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "04db6b9e-a80c-4507-a98e-ad76294ac444",
+  "lab": "churchlandlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "04ee67c1-973a-4637-b82c-26c0bba541cd",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "04fafabb-d237-4ce8-a738-68f98362e64d",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "04ff9db6-3a86-4b53-ad3f-09d921ac8d28",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0566938b-245d-4e5f-89ee-59d53a44f065",
+  "lab": "hausserlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "05ccc92c-fcb0-4e92-84d3-de033890c7a8",
+  "lab": "mainenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "05d4b19d-c2fe-4849-96fd-a074cd33cbae",
+  "lab": "angelakilab",
+  "vis": 28,
+  "visp": 28,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "05d69b47-9e2c-4da3-ab45-be889e1fbef7",
+  "lab": "mainenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": true
+ },
+ {
+  "pid": "05db6d4d-cfda-4686-b485-481423912b33",
+  "lab": "mainenlab",
+  "vis": 52,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": true
+ },
+ {
+  "pid": "05e9ff72-23ed-49cc-bfbc-a0d897a9fe13",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "05ec6af9-6c83-422d-91a3-ba815fa65e92",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0685d767-80a2-49b6-a51a-0e9b1dd7a14d",
+  "lab": "mrsicflogellab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "069c2674-80b0-44b4-a3d9-28337512967f",
+  "lab": "churchlandlab_ucla",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "06c6741e-9f2a-4114-8ca9-0dc5ccc951e6",
+  "lab": "hoferlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "06cb2ee3-0fb8-4ace-acbe-19c716f3ca40",
+  "lab": "steinmetzlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "06d37f6e-3fa4-4a31-aa2e-3cbdf8b88ae9",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "06d42449-d6ac-4c35-8f85-24ecfbc08bc1",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0777b1bf-964b-49b7-888b-8a6c9df09c3b",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "07abb39b-063b-4ef8-b3ab-963c6a1b5cc5",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "07c79864-6fff-4e72-9fce-1c982e3457f9",
+  "lab": "steinmetzlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "082187a0-121f-47d5-962a-a9ad467e7124",
+  "lab": "cortexlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "089a12f6-aa8e-4c47-ba04-5fe5f9aca884",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "08c49305-d12c-4cc5-8f5c-b29f62f3a4a6",
+  "lab": "churchlandlab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "08ccd00c-0758-4614-9cc3-b0f87538bdb8",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "08ed0b3c-9f94-4c1f-8522-3d42a642a6b0",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "08f03147-6ef4-448d-9a6c-ba9ca21c29ef",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0909252c-3ad0-413f-96f5-7eff885b50aa",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "091392a5-73f6-40f3-8552-fa917cf96deb",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "09249aa4-006c-4aa9-b86a-215da86e1778",
+  "lab": "mainenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": true
+ },
+ {
+  "pid": "0925fb1b-cf83-4f55-bfb7-aa52f993a404",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "09295528-644d-43ac-a7e4-0d90658ddef9",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "099c0519-640b-4eb7-867c-998dc337579d",
+  "lab": "mrsicflogellab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "09b62a15-dd8b-4f47-881f-d3f1e5ea5ff4",
+  "lab": "hausserlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0a45a464-a909-4b7c-a3e0-cd6cfb4262e4",
+  "lab": "hausserlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0a85a28b-e9e3-44ec-ad4d-88ba9116ff63",
+  "lab": "hausserlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0aafb6f1-6c10-4886-8f03-543988e02d9e",
+  "lab": "steinmetzlab",
+  "vis": 74,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0b877123-0902-4432-b789-c4c6cc681df4",
+  "lab": "mainenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0b8ea3ec-e75b-41a1-9442-64f5fbc11a5a",
+  "lab": "mainenlab",
+  "vis": 50,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0bc568eb-feed-4d5d-86e2-edfdf84ed707",
+  "lab": "churchlandlab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "0c15a331-09ac-445c-837f-6afb5e377e56",
+  "lab": "churchlandlab_ucla",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0c42a3d2-beb7-4b7b-a9b5-1eea6c51e1f4",
+  "lab": "cortexlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0ce74616-abf8-47c2-86d9-f821cd25efd3",
+  "lab": "churchlandlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0d3d2522-635d-4463-a090-d9f841927588",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "0dfc64c5-80bc-43b6-a7c4-2fb6e638e9f3",
+  "lab": "zadorlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0e5784e8-a136-48b4-b9dc-e750a1bbf15a",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0e69747a-e39f-459a-a976-3574dcac63ee",
+  "lab": "angelakilab",
+  "vis": 74,
+  "visp": 74,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "0e8d3cb3-2e4c-47a0-8bb4-65d2cc3161c6",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0eb65305-bb95-4bf1-a154-1b810c0cff25",
+  "lab": "churchlandlab",
+  "vis": 58,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0f306cdc-878a-4ea0-9e91-b97736731637",
+  "lab": "hoferlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0fa33419-e7b9-4d00-8cab-3b51f93ecf0c",
+  "lab": "zadorlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "0fcb5f66-4d56-4247-8413-aef51e484e67",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "0fd73cce-ad1b-4881-a3df-07d081c120d6",
+  "lab": "angelakilab",
+  "vis": 96,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "0ffa052a-fe3f-46c2-999d-43bd56b7826e",
+  "lab": "hausserlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "100433fa-2c59-4432-8295-aa27657fe3fb",
+  "lab": "cortexlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "1078a062-bb28-478b-bc03-4c2c34f680d2",
+  "lab": "wittenlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "10d8d2de-7cfd-4b33-89da-8ca9bd9454c2",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "10ef1dcd-093c-4839-8f38-90a25edefb49",
+  "lab": "cortexlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "10f59add-706e-41d0-87ed-9a55eb138a66",
+  "lab": "mrsicflogellab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "117f0d28-3cc0-4837-9e3e-46db5bc3e662",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+  "lab": "wittenlab",
+  "vis": 68,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "11f6f999-a50a-4ae7-b39e-ddc25c4acc41",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "11f70c37-a546-439a-9fb7-da6b6ebfb0cb",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "13de9d1b-99fc-420e-be9e-3c4e0094533e",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "13f9cf22-d289-4ca3-8531-ddc15055501a",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "1440f0de-0d4b-4d96-835e-5e5e56303294",
+  "lab": "angelakilab",
+  "vis": 120,
+  "visp": 30,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "14d4b3cc-bd15-46d4-bfcf-27162c68f049",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "157184cf-5cad-4519-9a66-05536b2bb8d7",
+  "lab": "angelakilab",
+  "vis": 72,
+  "visp": 70,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "15a2a63f-739d-4eb0-ab8f-fc95b6299b68",
+  "lab": "cortexlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "1627e9b2-bc85-4b79-80aa-dad342beff04",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "1628d1c1-dca3-45c9-b71b-3e607f998e5c",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+  "lab": "cortexlab",
+  "vis": 60,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "169d5e41-deb1-4e21-8275-88c7cb4afc73",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "16ad5eef-3fa6-4c75-9296-29bf40c5cfaa",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "16fc4607-fae3-430b-a2a3-5b49214f73e4",
+  "lab": "angelakilab",
+  "vis": 78,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "174fe5c3-5671-49b0-ae66-889966b01c5d",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "179ce6d0-e348-4257-b718-e58dd4134589",
+  "lab": "zadorlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+  "lab": "churchlandlab_ucla",
+  "vis": 64,
+  "visp": 64,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "180d278e-1a49-42da-a624-24aa14b57a4e",
+  "lab": "zadorlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "1878c999-d523-474a-9d4e-8dde53d7324c",
+  "lab": "hausserlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "18be19f9-6ca5-4fc8-9220-ba43c3e75905",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "19b4c3ef-c511-48f2-8032-4ee0d3c786dc",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "19baa84c-22a5-4589-9cbd-c23f111c054c",
+  "lab": "hoferlab",
+  "vis": 84,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "19c77535-3089-401d-9ee9-52debbf04f3f",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "19c9caea-2df8-4097-92f8-0a2bad055948",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "19e0bf1e-018e-40cb-9acd-af8f0f66bd4a",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "1a166c4f-4c53-422e-8473-b3cff85e6750",
+  "lab": "danlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": true
+ },
+ {
+  "pid": "1a924329-65aa-465d-b201-c2dd898aebd0",
+  "lab": "hausserlab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": true,
+  "new_lab": false
+ },
+ {
+  "pid": "1a94e1a3-74b6-4771-b678-7a035250d0f0",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "1b1a6822-1a47-430d-8e3a-3032ff1e70ce",
+  "lab": "angelakilab",
+  "vis": 120,
+  "visp": 120,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "1b66a9ad-72aa-4513-9a7c-39aebdcd65d8",
+  "lab": "angelakilab",
+  "vis": 0,
+  "visp": 0,
+  "raw_ap": false,
+  "new_lab": false
+ },
+ {
+  "pid": "1b7b6146-bac6-4070-b63f-9413b84f3c5e",
+  "lab": "angelakilab",
+  "error": "ALFObjectNotFound: Dataset \"channels.brainLocationIds_ccf_2017.npy\" not found \n"
+ },
+ {
+  "pid": "1bd85dab-7a53-49d1-acd4-e82f9fd07cf6",
+  "lab": "zadorlab",
+  "vis": 68,
+  "visp": 68,
+  "raw_ap": true,
+  "new_lab": true
+ }
+]

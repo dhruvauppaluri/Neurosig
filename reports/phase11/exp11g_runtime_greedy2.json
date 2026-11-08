@@ -1,0 +1,45 @@
+{
+ "machine": "macOS-26.7-arm64-arm-64bit",
+ "mode": "greedy2",
+ "tau_gate": 5.1325076842901405,
+ "gate_rule": "2nd percentile of the score on p11dev events the full pipeline declares two-source",
+ "staged": {
+  "resolvable_recall": 0.9411764705882353,
+  "false_two_singles": 0.041666666666666664,
+  "simultaneous_recall": 0.7391304347826086,
+  "matched_err_median": 3.711124395090053,
+  "latency_ms": {
+   "median": 9.68554149949341,
+   "mean": 10.07874884845579,
+   "p95": 17.127114298273227,
+   "p99": 20.433965476477148
+  },
+  "single_event_latency_ms_median": 9.28162499985774,
+  "invoked_fraction": 0.9444444444444444,
+  "invoked_fraction_singles": 0.9416666666666667,
+  "sustainable_events_per_s_single_core": 99.21866444297939,
+  "margin_vs_real_rate": 0.3772273974861791
+ },
+ "full": {
+  "resolvable_recall": 0.9411764705882353,
+  "false_two_singles": 0.041666666666666664,
+  "simultaneous_recall": 0.7391304347826086,
+  "matched_err_median": 3.711124395090053,
+  "latency_ms": {
+   "median": 8.699457997863647,
+   "mean": 9.462150848654952,
+   "p95": 15.947487801531672,
+   "p99": 19.424412020671294
+  },
+  "single_event_latency_ms_median": 8.349853997060563,
+  "invoked_fraction": 1.0,
+  "invoked_fraction_singles": 1.0,
+  "sustainable_events_per_s_single_core": 105.68421662207493,
+  "margin_vs_real_rate": 0.4018092988403641
+ },
+ "real_event_rate_per_s": 263.0208333333333,
+ "p10_cache16_resident_mib_after_40_masks": 165.13671779632568,
+ "p10_cache16_peak_mib": 190.52283191680908,
+ "p10_cache4_resident_mib_after_40_masks": 41.31047058105469,
+ "p10_cache4_peak_mib": 66.69641208648682
+}

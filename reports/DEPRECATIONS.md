@@ -20,3 +20,7 @@ Unaffected: `reports/ibl-decode.json` (uses only session-clock quantities), MEAr
 ## Phase 10 additions
 * **Phase 9 overlap false two-source rate (3.2%)** was optimistic. Three fresh real-like pools give 7.5-8.3% with the same frozen calibration (`reports/phase10/overlap_stress.json`, `exp_dead_mask_*.json`). Phase 9's resolvable-pair recall (94.5%) measured 89.3% on the fresh p10test pool.
 * **Phase 9 dead-contact interpolation in the overlap pipeline** produces phantom second sources under unknown dropout (52-87% false two-source); use the Phase 10 mask (`dead_as_mask=True`).
+
+## Phase 11 additions
+* **False two-source rates from single pools are not stable.** Five fresh 120-single pools (Phases 10-11) gave 3.3-9.2% with similar rules (`reports/phase11/final11.json`, `exp11e_overlap.json`). Single-pool figures, including Phase 9's 3.2% and Phase 10's 7.5%, should be read with that spread.
+* **Phase 9 conformal regions** under-cover low-SNR events (78% at nominal 90%) and are oversized for pairs (median area 6,668 um^2 on p11select). Superseded by the Phase 11 Mondrian calibration (`reports/phase11/calibration_p11.json`).

@@ -1,0 +1,491 @@
+{
+ "sessions": {
+  "A": {
+   "trough_fraction": 0.6248196248196248,
+   "snr_median": 4.568624688177783,
+   "snr_p25_p75": [
+    3.571493187959491,
+    7.231471331632088
+   ],
+   "matched_frac_of_sorter": 0.6200432588320115,
+   "chance_frac": 0.08171112713290075,
+   "contact_mad_uv_median": 7.11314776182779,
+   "dead_contacts_max": 14,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.31614012465076297,
+   "ibl_good_fraction": 0.14,
+   "ibl_amp_median_uv": 40.69671249679655,
+   "ibl_contamination_median": 0.09883138593542792,
+   "width_ms_median": 0.2,
+   "extent_contacts_median": 7.0,
+   "alignment_at_bound_fraction": 0.06683859875349236,
+   "spread_A_full_um": 13.663603460648861,
+   "spread_matched_um": {
+    "A": 11.587781626052056,
+    "B": 12.065190614686284,
+    "C": 13.96267863175628
+   },
+   "p90_matched_um": {
+    "A": 26.69471794599287,
+    "B": 35.20240820504938,
+    "C": 32.75515745562865
+   },
+   "spread_linefree_vs_line20_um": [
+    9.996676284264225,
+    11.698045800558043
+   ],
+   "categories": [
+    "poor_isolation",
+    "noisy_or_dead"
+   ]
+  },
+  "B": {
+   "trough_fraction": 0.4095991273520589,
+   "snr_median": 3.6757978971570457,
+   "snr_p25_p75": [
+    2.9202565708565547,
+    4.946887870467614
+   ],
+   "matched_frac_of_sorter": 0.35066702967601415,
+   "chance_frac": 0.07450766857246574,
+   "contact_mad_uv_median": 7.235326653301392,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.41237554865646076,
+   "ibl_good_fraction": 0.11320754716981132,
+   "ibl_amp_median_uv": 43.38205488770119,
+   "ibl_contamination_median": 0.18655359093692495,
+   "width_ms_median": 0.2,
+   "extent_contacts_median": 7.0,
+   "alignment_at_bound_fraction": 0.10287977732576811,
+   "spread_A_full_um": 18.792605477775503,
+   "spread_matched_um": {
+    "A": 14.420802037605242,
+    "B": 15.265833869205792,
+    "C": 14.557646505843303
+   },
+   "p90_matched_um": {
+    "A": 38.817537147953566,
+    "B": 41.86872503129656,
+    "C": 39.547944097845395
+   },
+   "spread_linefree_vs_line20_um": [
+    10.627188816415085,
+    10.96471631496308
+   ],
+   "categories": [
+    "poor_isolation"
+   ]
+  },
+  "C": {
+   "trough_fraction": 0.5926096997690531,
+   "snr_median": 4.5370907330425725,
+   "snr_p25_p75": [
+    3.2312377303599096,
+    7.425049062861626
+   ],
+   "matched_frac_of_sorter": 0.5332409972299169,
+   "chance_frac": 0.1272699292089874,
+   "contact_mad_uv_median": 7.409239795948382,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.30766710353866317,
+   "ibl_good_fraction": 0.14634146341463414,
+   "ibl_amp_median_uv": 55.75276614507627,
+   "ibl_contamination_median": 0.2849842817473495,
+   "width_ms_median": 0.2,
+   "extent_contacts_median": 5.0,
+   "alignment_at_bound_fraction": 0.17660550458715596,
+   "spread_A_full_um": 27.15143448085564,
+   "spread_matched_um": {
+    "A": 15.044964853459785,
+    "B": 15.872796420741125,
+    "C": 19.08661495542715
+   },
+   "p90_matched_um": {
+    "A": 138.32476557652708,
+    "B": 61.77286322106954,
+    "C": 87.06480867554741
+   },
+   "spread_linefree_vs_line20_um": [
+    11.649596849993637,
+    13.664587892172829
+   ],
+   "categories": [
+    "poor_isolation"
+   ]
+  },
+  "D": {
+   "trough_fraction": 0.5729051310446659,
+   "snr_median": 4.378325917900551,
+   "snr_p25_p75": [
+    3.236606034228611,
+    6.383730297357478
+   ],
+   "matched_frac_of_sorter": 0.4788697788697789,
+   "chance_frac": 0.09377559377559377,
+   "contact_mad_uv_median": 9.177178787405479,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.39705159705159704,
+   "ibl_good_fraction": 0.19753086419753085,
+   "ibl_amp_median_uv": 74.86942147311126,
+   "ibl_contamination_median": 0.15047150495336198,
+   "width_ms_median": 0.2,
+   "extent_contacts_median": 6.0,
+   "alignment_at_bound_fraction": 0.07506142506142506,
+   "spread_A_full_um": 9.974623219062213,
+   "spread_matched_um": {
+    "A": 7.486764179819827,
+    "B": 8.187196792986674,
+    "C": 8.978250233288954
+   },
+   "p90_matched_um": {
+    "A": 32.97491635831783,
+    "B": 36.933092432447516,
+    "C": 34.98759620590211
+   },
+   "spread_linefree_vs_line20_um": [
+    8.01625035576977,
+    7.866329811880046
+   ],
+   "categories": [
+    "poor_isolation"
+   ]
+  },
+  "E": {
+   "trough_fraction": 0.5743547044129892,
+   "snr_median": 4.355119003568591,
+   "snr_p25_p75": [
+    3.327403560237799,
+    6.167485070367643
+   ],
+   "matched_frac_of_sorter": 0.42641196013289034,
+   "chance_frac": 0.08925802879291252,
+   "contact_mad_uv_median": 9.32763558697373,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.5272425249169436,
+   "ibl_good_fraction": 0.17105263157894737,
+   "ibl_amp_median_uv": 55.2933484595021,
+   "ibl_contamination_median": 0.47984178032269104,
+   "width_ms_median": 0.2,
+   "extent_contacts_median": 7.0,
+   "alignment_at_bound_fraction": 0.11710963455149502,
+   "spread_A_full_um": 18.3970831641652,
+   "spread_matched_um": {
+    "A": 13.969450320303633,
+    "B": 15.69374896376519,
+    "C": 17.910824390669266
+   },
+   "p90_matched_um": {
+    "A": 45.68118679356645,
+    "B": 50.02105860998913,
+    "C": 44.78840948674493
+   },
+   "spread_linefree_vs_line20_um": [
+    12.15667825463442,
+    13.447183985244262
+   ],
+   "categories": [
+    "poor_isolation",
+    "overlap_dense"
+   ]
+  },
+  "F": {
+   "trough_fraction": 0.3183098591549296,
+   "snr_median": 3.141428656446157,
+   "snr_p25_p75": [
+    2.4696529192960046,
+    4.5555357691506515
+   ],
+   "matched_frac_of_sorter": 0.26659167604049494,
+   "chance_frac": 0.06974128233970754,
+   "contact_mad_uv_median": 6.166104823034626,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.23678290213723285,
+   "ibl_good_fraction": 0.04878048780487805,
+   "ibl_amp_median_uv": 29.704952597292305,
+   "ibl_contamination_median": 0.4040174183754193,
+   "width_ms_median": 0.5666666666666667,
+   "extent_contacts_median": 8.0,
+   "alignment_at_bound_fraction": 0.24128233970753657,
+   "spread_A_full_um": 47.32129483262556,
+   "spread_matched_um": {
+    "A": 26.685777258104814,
+    "B": 22.409034863133186,
+    "C": 25.340681542927612
+   },
+   "p90_matched_um": {
+    "A": 114.55750994222953,
+    "B": 67.64437742162232,
+    "C": 88.48013010228505
+   },
+   "spread_linefree_vs_line20_um": [
+    27.2505796328134,
+    24.21217074472543
+   ],
+   "categories": [
+    "unreliable_reference",
+    "low_snr",
+    "poor_isolation"
+   ]
+  },
+  "G": {
+   "trough_fraction": 0.3579474342928661,
+   "snr_median": 3.499257164829463,
+   "snr_p25_p75": [
+    2.7658845336031903,
+    4.539327092741842
+   ],
+   "matched_frac_of_sorter": 0.36875,
+   "chance_frac": 0.05722222222222222,
+   "contact_mad_uv_median": 7.542082087975169,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.18916666666666668,
+   "ibl_good_fraction": 0.08333333333333333,
+   "ibl_amp_median_uv": 32.602257240088754,
+   "ibl_contamination_median": 0.24299539864011094,
+   "width_ms_median": 0.23333333333333334,
+   "extent_contacts_median": 8.0,
+   "alignment_at_bound_fraction": 0.12666666666666668,
+   "spread_A_full_um": 23.950523880116492,
+   "spread_matched_um": {
+    "A": 15.38038709139461,
+    "B": 16.532301404212685,
+    "C": 16.1148409715614
+   },
+   "p90_matched_um": {
+    "A": 45.308627104599495,
+    "B": 46.876366113244565,
+    "C": 42.49406678365502
+   },
+   "spread_linefree_vs_line20_um": [
+    12.274076818539204,
+    11.60581078591002
+   ],
+   "categories": [
+    "unreliable_reference",
+    "low_snr",
+    "poor_isolation"
+   ]
+  },
+  "H": {
+   "trough_fraction": 0.5324519230769231,
+   "snr_median": 4.186226455148007,
+   "snr_p25_p75": [
+    3.023814433989911,
+    6.08105107160375
+   ],
+   "matched_frac_of_sorter": 0.48189882522176936,
+   "chance_frac": 0.10636937584911692,
+   "contact_mad_uv_median": 7.860740934671188,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.339966434907696,
+   "ibl_good_fraction": 0.18604651162790697,
+   "ibl_amp_median_uv": 45.10788916126771,
+   "ibl_contamination_median": 0.19574157479583532,
+   "width_ms_median": 0.2,
+   "extent_contacts_median": 7.0,
+   "alignment_at_bound_fraction": 0.08151522416686646,
+   "spread_A_full_um": 17.61826998893912,
+   "spread_matched_um": {
+    "A": 13.149998701570414,
+    "B": 15.381831360014228,
+    "C": 12.553108378409547
+   },
+   "p90_matched_um": {
+    "A": 36.06977529191749,
+    "B": 40.118983679165,
+    "C": 35.20093813583367
+   },
+   "spread_linefree_vs_line20_um": [
+    8.385818997351855,
+    8.021855178261266
+   ],
+   "categories": [
+    "poor_isolation"
+   ]
+  },
+  "I": {
+   "trough_fraction": 0.5859112933283638,
+   "snr_median": 4.378234746045536,
+   "snr_p25_p75": [
+    3.408785003444236,
+    5.813424918289145
+   ],
+   "matched_frac_of_sorter": 0.5496836620766654,
+   "chance_frac": 0.08745813174544101,
+   "contact_mad_uv_median": 9.795951747601054,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.3524376628209899,
+   "ibl_good_fraction": 0.10810810810810811,
+   "ibl_amp_median_uv": 59.12003458531134,
+   "ibl_contamination_median": 0.22480788237915095,
+   "width_ms_median": 0.23333333333333334,
+   "extent_contacts_median": 6.0,
+   "alignment_at_bound_fraction": 0.09080759211016003,
+   "spread_A_full_um": 14.565901934904495,
+   "spread_matched_um": {
+    "A": 10.149107393786432,
+    "B": 15.851396996531562,
+    "C": 10.529686802184724
+   },
+   "p90_matched_um": {
+    "A": 37.64061257383376,
+    "B": 41.243437667151085,
+    "C": 41.335896735346
+   },
+   "spread_linefree_vs_line20_um": [
+    8.60447258381845,
+    8.347562241458107
+   ],
+   "categories": [
+    "poor_isolation"
+   ]
+  },
+  "J": {
+   "trough_fraction": 0.6049382716049383,
+   "snr_median": 4.655893121263435,
+   "snr_p25_p75": [
+    3.275460872109644,
+    7.725456659840003
+   ],
+   "matched_frac_of_sorter": 0.6140939597315436,
+   "chance_frac": 0.07084265473527218,
+   "contact_mad_uv_median": 8.415191996999782,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.16666666666666666,
+   "ibl_good_fraction": 0.3333333333333333,
+   "ibl_amp_median_uv": 58.00777577536652,
+   "ibl_contamination_median": 0.061074136637200356,
+   "width_ms_median": 0.2,
+   "extent_contacts_median": 7.0,
+   "alignment_at_bound_fraction": 0.1342281879194631,
+   "spread_A_full_um": 9.868318839144653,
+   "spread_matched_um": {
+    "A": 9.714640808891197,
+    "B": 11.297393695744379,
+    "C": 10.050682550722001
+   },
+   "p90_matched_um": {
+    "A": 128.44894133406436,
+    "B": 45.3562534716547,
+    "C": 49.676824977828865
+   },
+   "spread_linefree_vs_line20_um": [
+    10.01813241558283,
+    8.831451234041154
+   ],
+   "categories": []
+  },
+  "K": {
+   "trough_fraction": 0.14349525404801786,
+   "snr_median": 2.801452144906281,
+   "snr_p25_p75": [
+    2.313898090384913,
+    3.424382115894568
+   ],
+   "matched_frac_of_sorter": 0.20178372352285395,
+   "chance_frac": 0.04942400594574508,
+   "contact_mad_uv_median": 8.732399327857394,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.0875139353400223,
+   "ibl_good_fraction": 0.037037037037037035,
+   "ibl_amp_median_uv": 30.86394382859838,
+   "ibl_contamination_median": 0.2706725571112481,
+   "width_ms_median": 0.3,
+   "extent_contacts_median": 10.0,
+   "alignment_at_bound_fraction": 0.26588628762541805,
+   "spread_A_full_um": 55.780533832640074,
+   "spread_matched_um": {
+    "A": 58.33799308648105,
+    "B": 41.29937354705211,
+    "C": 53.57911387793457
+   },
+   "p90_matched_um": {
+    "A": 139.86025078164286,
+    "B": 154.99922876392435,
+    "C": 145.05488716474406
+   },
+   "spread_linefree_vs_line20_um": [
+    74.46835868654412,
+    69.10260206418602
+   ],
+   "categories": [
+    "unreliable_reference",
+    "low_snr",
+    "poor_isolation"
+   ]
+  },
+  "L": {
+   "trough_fraction": 0.7123308047002826,
+   "snr_median": 5.3457885499743245,
+   "snr_p25_p75": [
+    3.7933894626827103,
+    8.171014198758595
+   ],
+   "matched_frac_of_sorter": 0.5318674788292973,
+   "chance_frac": 0.14554548605952558,
+   "contact_mad_uv_median": 8.332566626444716,
+   "dead_contacts_max": 0,
+   "pitch_y_um": 20.0,
+   "x_columns": 4,
+   "overlap_fraction": 0.5528153320457584,
+   "ibl_good_fraction": 0.2261904761904762,
+   "ibl_amp_median_uv": 58.91061633835617,
+   "ibl_contamination_median": 0.34713179075726086,
+   "width_ms_median": 0.16666666666666666,
+   "extent_contacts_median": 6.0,
+   "alignment_at_bound_fraction": 0.07175753974149458,
+   "spread_A_full_um": 11.527289083773905,
+   "spread_matched_um": {
+    "A": 9.686731193985906,
+    "B": 12.210964643226008,
+    "C": 11.067918606755068
+   },
+   "p90_matched_um": {
+    "A": 31.283870271798804,
+    "B": 41.64468313705345,
+    "C": 35.20481781822692
+   },
+   "spread_linefree_vs_line20_um": [
+    9.378745380826967,
+    8.22159274238663
+   ],
+   "categories": [
+    "poor_isolation",
+    "overlap_dense"
+   ]
+  }
+ },
+ "categories_rule": "Phase 11C: difficult-session diagnostics on the 12 previously used sessions (A-L) from cached 11A selection/dev\nrecords, raw windows, footprint events and IBL sorter metrics. Writes reports/phase11/exp11c_sessions.json.\n\nFailure categories (thresholds fixed before inspecting F/K in this phase, from the pooled distribution of all 12):\n  unreliable_reference  sorter-event trough fraction < 0.40\n  low_snr               median sorter-event SNR < 3.5\n  poor_isolation        fraction of window units labelled 'good' by IBL < 0.25\n  noisy_or_dead         > 2 dead/flat contacts or median contact MAD > 1.5x the pooled median\n  overlap_dense         > 50% of sorter events with another sorter spike within 1 ms and 100 um\nInterventions per category are read from the 11A (B detector / C alignment), 11B (linefree) and 11D results.\n",
+ "spearman_vs_full_spread_n12": {
+  "trough_fraction": -0.7202797202797203,
+  "snr_median": -0.7972027972027973,
+  "matched_frac_of_sorter": -0.7062937062937064,
+  "contact_mad_uv_median": -0.3426573426573427,
+  "overlap_fraction": -0.3846153846153847,
+  "ibl_good_fraction": -0.8181818181818183,
+  "ibl_amp_median_uv": -0.7412587412587414,
+  "width_ms_median": 0.6486453817157574,
+  "extent_contacts_median": 0.5050981945707873
+ }
+}

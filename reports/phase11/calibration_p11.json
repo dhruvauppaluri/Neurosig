@@ -1,0 +1,140 @@
+{
+ "keys": [
+  "stratum",
+  "snr_g",
+  "drop"
+ ],
+ "table": {
+  "clean|high|none": 7.229239190611845,
+  "clean|high|dead": 34.0275487695517,
+  "two|mid|none": 8.523941013865747,
+  "two|mid|dead": 13.571712233903295,
+  "clean|mid|none": 9.472392459136948,
+  "shared|mid|dead": 19.915009300075457,
+  "two|high|none": 14.807575540699814,
+  "shared|mid|none": 13.702859777519489,
+  "shared|high|dead": 19.915009300075457,
+  "two|high|dead": 39.427126351338586,
+  "shared|high|none": 19.915009300075457,
+  "flagged|mid|dead": 21.314198459889305,
+  "flagged|high|dead": 31.445144853415957,
+  "two|low|dead": 24.837932710712046,
+  "clean|mid|dead": 28.009872058516507,
+  "clean|low|none": 22.005160749307226,
+  "clean|low|dead": 131.4229362318755,
+  "shared|low|none": 539.0179846357922,
+  "shared|low|dead": 602.1664423533927,
+  "flagged|mid|none": 26.541798094985868,
+  "two|low|none": 23.248696641677572,
+  "flagged|low|dead": 120.91546157123221,
+  "flagged|high|none": 26.541798094985868,
+  "flagged|low|none": 19.340388009050645
+ },
+ "info": {
+  "clean|high|none": [
+   "own",
+   39
+  ],
+  "clean|high|dead": [
+   "own",
+   39
+  ],
+  "two|mid|none": [
+   "own",
+   156
+  ],
+  "two|mid|dead": [
+   "own",
+   130
+  ],
+  "clean|mid|none": [
+   "own",
+   85
+  ],
+  "shared|mid|dead": [
+   "pooled_conservative",
+   19
+  ],
+  "two|high|none": [
+   "own",
+   149
+  ],
+  "shared|mid|none": [
+   "own",
+   30
+  ],
+  "shared|high|dead": [
+   "pooled_conservative",
+   6
+  ],
+  "two|high|dead": [
+   "own",
+   121
+  ],
+  "shared|high|none": [
+   "pooled_conservative",
+   5
+  ],
+  "flagged|mid|dead": [
+   "own",
+   44
+  ],
+  "flagged|high|dead": [
+   "pooled_conservative",
+   11
+  ],
+  "two|low|dead": [
+   "own",
+   63
+  ],
+  "clean|mid|dead": [
+   "own",
+   89
+  ],
+  "clean|low|none": [
+   "own",
+   147
+  ],
+  "clean|low|dead": [
+   "own",
+   161
+  ],
+  "shared|low|none": [
+   "pooled_conservative",
+   17
+  ],
+  "shared|low|dead": [
+   "pooled_conservative",
+   12
+  ],
+  "flagged|mid|none": [
+   "pooled_conservative",
+   21
+  ],
+  "two|low|none": [
+   "own",
+   65
+  ],
+  "flagged|low|dead": [
+   "own",
+   77
+  ],
+  "flagged|high|none": [
+   "pooled_conservative",
+   7
+  ],
+  "flagged|low|none": [
+   "own",
+   50
+  ]
+ },
+ "stratum": {
+  "clean": 28.85252066031442,
+  "two": 16.14754736407065,
+  "shared": 19.915009300075457,
+  "flagged": 26.541798094985868
+ },
+ "all": 21.537127098605197,
+ "fitted_on": "p11dev (seed 20271201), OV-A rule, accepted events",
+ "level": 0.9
+}

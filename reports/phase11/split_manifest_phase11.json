@@ -1,0 +1,212 @@
+{
+ "seed": 20271107,
+ "window_s": 2.0,
+ "skipped_for_availability": [
+  {
+   "pid": "0eb65305-bb95-4bf1-a154-1b810c0cff25",
+   "lab": "churchlandlab",
+   "reason": "degenerate probe sync file shape (2, 2)"
+  }
+ ],
+ "rule": "Phase 11 final windows are reserved before any Phase 11 evaluation and evaluated ONCE after all Phase 11 configurations and analysis protocols are frozen; no parameter changes after viewing them",
+ "sessions": {
+  "M": {
+   "pid": "0b8ea3ec-e75b-41a1-9442-64f5fbc11a5a",
+   "lab": "mainenlab",
+   "probe_duration_s": 3360.0,
+   "vis_contacts": 50,
+   "new_lab": true
+  },
+  "N": {
+   "pid": "19baa84c-22a5-4589-9cbd-c23f111c054c",
+   "lab": "hoferlab",
+   "probe_duration_s": 7760.101045412418,
+   "vis_contacts": 84,
+   "new_lab": true
+  },
+  "O": {
+   "pid": "1bd85dab-7a53-49d1-acd4-e82f9fd07cf6",
+   "lab": "zadorlab",
+   "probe_duration_s": 5700.0,
+   "vis_contacts": 68,
+   "new_lab": true
+  },
+  "P": {
+   "pid": "0aafb6f1-6c10-4886-8f03-543988e02d9e",
+   "lab": "steinmetzlab",
+   "probe_duration_s": 3860.0,
+   "vis_contacts": 74,
+   "new_lab": false
+  }
+ },
+ "windows": [
+  {
+   "session": "M",
+   "pid": "0b8ea3ec-e75b-41a1-9442-64f5fbc11a5a",
+   "t0_s": 2189.866,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "M",
+   "pid": "0b8ea3ec-e75b-41a1-9442-64f5fbc11a5a",
+   "t0_s": 1758.294,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "M",
+   "pid": "0b8ea3ec-e75b-41a1-9442-64f5fbc11a5a",
+   "t0_s": 902.26,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "M",
+   "pid": "0b8ea3ec-e75b-41a1-9442-64f5fbc11a5a",
+   "t0_s": 2413.856,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "M",
+   "pid": "0b8ea3ec-e75b-41a1-9442-64f5fbc11a5a",
+   "t0_s": 1861.744,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "M",
+   "pid": "0b8ea3ec-e75b-41a1-9442-64f5fbc11a5a",
+   "t0_s": 1441.539,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "N",
+   "pid": "19baa84c-22a5-4589-9cbd-c23f111c054c",
+   "t0_s": 3676.656,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "N",
+   "pid": "19baa84c-22a5-4589-9cbd-c23f111c054c",
+   "t0_s": 2410.73,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "N",
+   "pid": "19baa84c-22a5-4589-9cbd-c23f111c054c",
+   "t0_s": 6864.167,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "N",
+   "pid": "19baa84c-22a5-4589-9cbd-c23f111c054c",
+   "t0_s": 6787.435,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "N",
+   "pid": "19baa84c-22a5-4589-9cbd-c23f111c054c",
+   "t0_s": 2524.603,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "N",
+   "pid": "19baa84c-22a5-4589-9cbd-c23f111c054c",
+   "t0_s": 1164.858,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "O",
+   "pid": "1bd85dab-7a53-49d1-acd4-e82f9fd07cf6",
+   "t0_s": 2245.485,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "O",
+   "pid": "1bd85dab-7a53-49d1-acd4-e82f9fd07cf6",
+   "t0_s": 3845.512,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "O",
+   "pid": "1bd85dab-7a53-49d1-acd4-e82f9fd07cf6",
+   "t0_s": 3205.399,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "O",
+   "pid": "1bd85dab-7a53-49d1-acd4-e82f9fd07cf6",
+   "t0_s": 1746.349,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "O",
+   "pid": "1bd85dab-7a53-49d1-acd4-e82f9fd07cf6",
+   "t0_s": 4346.097,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "O",
+   "pid": "1bd85dab-7a53-49d1-acd4-e82f9fd07cf6",
+   "t0_s": 4209.98,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "P",
+   "pid": "0aafb6f1-6c10-4886-8f03-543988e02d9e",
+   "t0_s": 2521.82,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "P",
+   "pid": "0aafb6f1-6c10-4886-8f03-543988e02d9e",
+   "t0_s": 3134.719,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "P",
+   "pid": "0aafb6f1-6c10-4886-8f03-543988e02d9e",
+   "t0_s": 1395.762,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "P",
+   "pid": "0aafb6f1-6c10-4886-8f03-543988e02d9e",
+   "t0_s": 2368.908,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "P",
+   "pid": "0aafb6f1-6c10-4886-8f03-543988e02d9e",
+   "t0_s": 3260.078,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  },
+  {
+   "session": "P",
+   "pid": "0aafb6f1-6c10-4886-8f03-543988e02d9e",
+   "t0_s": 2595.07,
+   "duration_s": 2.0,
+   "split": "locked_final_p11"
+  }
+ ]
+}

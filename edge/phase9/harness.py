@@ -34,6 +34,9 @@ def manifest_windows(kind: str) -> list[dict]:
         w = [x for x in m5["windows"] if x["split"] == "heldout"]
     elif kind == "locked":
         w = list(m6["windows"])
+    elif kind == "locked10":            # Phase 10 fresh locked set (sessions I-L), see scripts/phase10/make_manifest10.py
+        m10 = json.loads((ROOT / "reports/phase10/split_manifest_phase10.json").read_text())
+        return [dict(x) for x in m10["windows"]]
     else:
         raise ValueError(kind)
     return [{**x, "session": sess[x["pid"]]} for x in w]

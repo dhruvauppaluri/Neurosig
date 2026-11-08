@@ -16,3 +16,7 @@ Unaffected: `reports/ibl-decode.json` (uses only session-clock quantities), MEAr
 * **Raw-snippet within-unit spreads are not evidence of localization quality.** A null control (same units' times shifted +20 ms) shows raw-path spreads (e.g. amplitude 7.4 µm real vs 6.6 µm null) are static channel-offset artifacts. Any stability number computed without baseline subtraction and a null comparator, including the Phase 4 pilot's within-unit consistency and Phase 8 `reports/phase8/real_stability_*.json` (different filtered/re-aligned path, no null control), should be read as unvalidated. Originals are kept. See `reports/phase9/phase9-validation.md` §2.
 * **Phase 8 overlap results do not transfer** to a real-like forward model with shared noise (resolvable recall 18.5% as configured); Phase 9's nuisance-common-mode variant replaces the CAR-conditioned configuration.
 * **Phase 8 synthetic accuracy** came from a broad-footprint generator (λ=80 µm); the measured real footprint is ~λ=20 µm. Those synthetic gains should not be used to rank methods on real recordings.
+
+## Phase 10 additions
+* **Phase 9 overlap false two-source rate (3.2%)** was optimistic. Three fresh real-like pools give 7.5-8.3% with the same frozen calibration (`reports/phase10/overlap_stress.json`, `exp_dead_mask_*.json`). Phase 9's resolvable-pair recall (94.5%) measured 89.3% on the fresh p10test pool.
+* **Phase 9 dead-contact interpolation in the overlap pipeline** produces phantom second sources under unknown dropout (52-87% false two-source); use the Phase 10 mask (`dead_as_mask=True`).

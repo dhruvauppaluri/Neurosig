@@ -1,0 +1,102 @@
+{
+ "versions": {
+  "python": "3.12.15",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "git": "9c36963"
+ },
+ "split": "final",
+ "sessions": {
+  "T": {
+   "thr2_selfcal": 4.210702106511964,
+   "n_isolated": 400,
+   "two_isolated": 0.0,
+   "n_coincident": 442,
+   "two_coincident": 0.0,
+   "templates": {
+    "N1": {
+     "n_units": 1,
+     "false_two": 0.0
+    },
+    "N10": {
+     "n_units": 1,
+     "false_two": 0.0
+    },
+    "N50": {
+     "n_units": 1,
+     "false_two": 0.0
+    }
+   }
+  },
+  "U": {
+   "thr2_selfcal": 4.63992950042692,
+   "n_isolated": 400,
+   "two_isolated": 0.0225,
+   "n_coincident": 4118,
+   "two_coincident": 0.1590577950461389,
+   "templates": {
+    "N1": {
+     "n_units": 2,
+     "false_two": 0.0
+    },
+    "N10": {
+     "n_units": 2,
+     "false_two": 0.0
+    },
+    "N50": {
+     "n_units": 2,
+     "false_two": 0.0
+    }
+   }
+  },
+  "V": {
+   "thr2_selfcal": 3.9273085907461027,
+   "n_isolated": 400,
+   "two_isolated": 0.0,
+   "n_coincident": 189,
+   "two_coincident": 0.0,
+   "templates": {
+    "N1": {
+     "n_units": 1,
+     "false_two": 0.0
+    },
+    "N10": {
+     "n_units": 1,
+     "false_two": 0.0
+    },
+    "N50": {
+     "n_units": 1,
+     "false_two": 1.0
+    }
+   }
+  },
+  "W": {
+   "thr2_selfcal": 4.367401144253964,
+   "n_isolated": 400,
+   "two_isolated": 0.0,
+   "n_coincident": 1005,
+   "two_coincident": 0.01890547263681592,
+   "templates": {
+    "N1": {
+     "n_units": 4,
+     "false_two": 0.0
+    },
+    "N10": {
+     "n_units": 4,
+     "false_two": 0.0
+    },
+    "N50": {
+     "n_units": 4,
+     "false_two": 0.25
+    }
+   }
+  }
+ },
+ "summary": {
+  "two_isolated_median": 0.0,
+  "two_coincident_median": 0.00945273631840796,
+  "template_false_two_N1_median": 0.0,
+  "template_false_two_N10_median": 0.0,
+  "template_false_two_N50_median": 0.125
+ }
+}

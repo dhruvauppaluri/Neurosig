@@ -1,0 +1,44 @@
+{
+ "rule": "dev/select = Phase 13 mice (already analysed); final candidates = first half of a seeded permutation of unused assets, train expansion = second half; first 6 eligible of each are used. Reserved before any new session was opened.",
+ "seed": 20271431,
+ "dev": [
+  "715093703",
+  "719161530"
+ ],
+ "select_p13": [
+  "721123822",
+  "732592105",
+  "739448407"
+ ],
+ "final_candidates": [
+  "760693773",
+  "757970808",
+  "763673393",
+  "798911424",
+  "750749662",
+  "757216464",
+  "754829445",
+  "754312389",
+  "737581020",
+  "762120172",
+  "746083955",
+  "755434585",
+  "744228101"
+ ],
+ "train_candidates": [
+  "756029989",
+  "743475441",
+  "760345702",
+  "773418906",
+  "762602078",
+  "758798717",
+  "799864342",
+  "791319847",
+  "797828357",
+  "759883607",
+  "742951821",
+  "751348571",
+  "761418226",
+  "750332458"
+ ]
+}

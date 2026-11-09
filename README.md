@@ -283,6 +283,19 @@ Phase 12 separates unit-level from event-level localization and evaluates once o
 
 Phase 13 decodes visual stimuli from public IBL (18 insertions) and Allen Brain Observatory Neuropixels (5 mice) recordings with fixed, blocked-CV protocols, matched-capacity and shuffled controls, and single-use final splits. The Steinmetz baseline reproduces exactly (90.4%). Stimulus side, contrast level, grating orientation (median error about 3-5 deg), spatial frequency and 118-way natural-image identity decode well above controls; stimulus presence does not, in the 40-120 ms IBL window. Precise timing adds 3-5 points for contrast, static-grating orientation and spatial frequency across independent sessions. Spatial maps from unit or per-spike positions never beat spike counts. They beat permuted positions only inconsistently, and they do not generalize across mice. Position noise up to ~25 um does not change decoding, and a controlled simulation shows localization matters only when the code is spatially organized at a scale larger than the position error. See `reports/phase13/phase13-validation.md` and `docs/phase13-visual-decoding.md`.
 
+### Phase 14: neural source identity, online units, drift and visual decoding (software only)
+
+Phase 14 separates one complex neuron from two overlapping neurons on a morphology-disjoint MEArec/NEURON benchmark. The final set uses 7 cell models never simulated before, on Neuropixels 1.0 and 2.0 geometry, with background noise from 4 fresh IBL insertions.
+
+- **Overlap.** The phantom second source is mostly real correlated background. Spatial whitening plus a 3-component "extended neuron" null (P14, threshold self-calibrated per recording without labels) keeps false additional neurons at 1.3-3.2%. It recovers 33-51% of resolvable pairs, about 2x P12-LR at matched false-positive rates (AUC 0.90 vs 0.75-0.79), and 8-15% of triples.
+- **Identifiability limit.** A noise-free experiment shows the 32-contact limit: one neuron's own complexity caps recall near 56% even without noise.
+- **Online units.** Sorter-free online association reaches 96.7% precision with 59.5% coverage on high-quality events from the fresh sessions, and pooled unit positions are 61% less variable than single events.
+- **Drift.** A Kalman tracker cuts drift-tracking error 2.4-4x in ground-truth simulations.
+- **Runtime.** The fast count path takes about 2 ms per event, and 2 worker processes sustain 1.7x the busiest measured event rate.
+- **Visual decoding.** The Allen waveform-map defect is fixed. On 6 new mice and 4 new IBL insertions, 50 ms timing adds 3-5 points for grating orientation, spatial frequency, Gabor position and IBL contrast. Localization still adds nothing beyond activity. Per-area population features decode spatial frequency, orientation, Gabor position and natural-image identity above chance in every held-out mouse (spatial frequency 0.42 vs 0.20 chance).
+
+See [`reports/phase14/phase14-validation.md`](reports/phase14/phase14-validation.md) and [`docs/phase14-localization.md`](docs/phase14-localization.md).
+
 ### Integrated RTL stress and finite-recording behavior
 
 `rtl/tb/generate_pipeline_stress.py` makes seeded dense ADC streams and exact Python event vectors. With seed `20261103`, 256 frames at 1, 4, and 32 channels all passed end-to-end RTL comparison: respectively 5, 20, and 160 channel candidates merged to 5 events in each case. The detector's `end_of_stream` closes a partial 16-sample peak search at the end of a finite recording; the pipeline sends this signal to one channel per clock before flushing the event merge. Stop input and let the filter drain before asserting `flush`, and reset between recordings. Directed tests cover partial searches, a midstream integrated reset, and sticky queue overflow at 65 candidates with queue depth 64. See `reports/rtl-stress.json`. A system-level source still needs to exercise queue sizing under varied event densities.

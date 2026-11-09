@@ -1,0 +1,62 @@
+{
+ "rule": "Frozen BEFORE any Phase 14 final evaluation (morphology-disjoint final templates final_np1/final_np2, IBL sessions T-W, Allen final mice). Selected on dev/select only.",
+ "git_rev_base": "9c369630e9bdd81facc26e37d997c51657af3a42",
+ "p14": {
+  "spec": "ms3",
+  "n_cand": 2,
+  "rounds": 1,
+  "fp_target": 0.02,
+  "k1_position": "ms3",
+  "lr_w": [
+   -3.1107693490344883,
+   3.159477426715733
+  ],
+  "thr3": 3.828325772434244,
+  "q_region": 279.09808852563305
+ },
+ "p14_calibration": {
+  "thr3": 3.828325772434244,
+  "lr_w": [
+   -3.1107693490344883,
+   3.159477426715733
+  ],
+  "q_region": 279.09808852563305,
+  "q_disc": 9.83456553686361,
+  "r_fixed": 62.28277278294318,
+  "q_region_finite": true,
+  "k1_position": "ms3",
+  "dev_single_err_fastline20": 54.31533934834232,
+  "dev_single_err_ms3": 21.08355483733815,
+  "n_dev_events": 1440,
+  "frac_truth_outside_grid": 0.011805555555555555
+ },
+ "count_rule": "two iff F21(ms3, spatial whitening) > per-session self-calibrated thr2 (98th pct of development-morphology singles in the session background); three iff two and F32 > thr3",
+ "uncertainty": {
+  "primary": "conformal disc around the ms3 K=1 centre, radius q_disc * sigma_hat(level 6) (dev 90%)",
+  "q_disc": 9.83456553686361,
+  "secondary": "profile-likelihood region at q_region; fixed disc r_fixed",
+  "r_fixed": 62.28277278294318
+ },
+ "online_units": {
+  "min_gain": 80.0,
+  "merge_every": 1000000000,
+  "snr_assign": 6.0
+ },
+ "tracker": {
+  "method": "kalman",
+  "q": 2.0,
+  "r": 15.0
+ },
+ "vision": {
+  "primary_hypotheses": [
+   "tb50 vs counts (SG orientation, SF, DG, NS)",
+   "lat vs counts",
+   "dmap_p12c vs dmap_peak (corrected map)",
+   "dmap_p12c vs dmap_shuf / dmap_rand / counts_rp",
+   "ccf_surface vs counts for Gabor position",
+   "cross-mouse zscore area_tb25 vs chance, area permutation and shuffled labels"
+  ],
+  "protocol": "scripts/phase14/run_vis14.py docstring (fixed on dev)"
+ },
+ "hash": "9d8006e97d8f"
+}

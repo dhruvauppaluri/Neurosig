@@ -1,0 +1,14 @@
+{
+ "thr3": 3.559058491565576,
+ "lr_w": [
+  -3.1098700293538095,
+  3.104316929308471
+ ],
+ "q_region": 279.09808852563305,
+ "q_region_finite": true,
+ "k1_position": "ms3",
+ "dev_single_err_fastline20": 54.31533934834232,
+ "dev_single_err_ms3": 21.08355483733815,
+ "n_dev_events": 1440,
+ "frac_truth_outside_grid": 0.011805555555555555
+}

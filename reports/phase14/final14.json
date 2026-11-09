@@ -1,0 +1,33 @@
+{
+ "frozen_hash": "9d8006e97d8f",
+ "steps_returncode": {
+  "count_np1": 0,
+  "count_np2": 0,
+  "eval_np1": 0,
+  "eval_np2": 0,
+  "baseline_np1": 0,
+  "baseline_np2": 0,
+  "drift": 0,
+  "online": 0,
+  "real_count": 0
+ },
+ "det_caches": {
+  "T": {
+   "n_events": 3791,
+   "matched_frac": 0.27064099182273804
+  },
+  "U": {
+   "n_events": 6493,
+   "matched_frac": 0.712613583859541
+  },
+  "V": {
+   "n_events": 3471,
+   "matched_frac": 0.32008066839527516
+  },
+  "W": {
+   "n_events": 5211,
+   "matched_frac": 0.5709076952600268
+  }
+ },
+ "rule": "single use; numbers in the referenced per-step reports"
+}

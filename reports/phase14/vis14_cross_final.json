@@ -1,0 +1,332 @@
+{
+ "protocol": "Phase 14V: visual decoding on Allen Visual Coding Neuropixels with the corrected waveform map (data/ibl-venv).\n\nUsage:\n  run_vis14.py within <split>            split in dev | select | final  (final only after frozen_p14.json exists)\n  run_vis14.py cross <split>             leave-one-mouse-out within select; final = train on dev+select, test each\n                                         final mouse once\nSplits (reports/phase14/allen_split14.json, reserved before fetching): dev = 2 Phase 13 dev mice; select = 3 Phase 13\nselect/final mice + the first 6 eligible 'train expansion' mice; final = the first 6 eligible 'final candidate'\nmice. Every session is a different mouse.\n\nProtocol (fixed on dev before select/final): window 0-250 ms after onset (5 ms bins in the cache), blank\npresentations excluded, blocked 5-fold CV in presentation order, L2 logistic regression with inner-CV C, a matched\none-hidden-layer MLP (32 units) for the temporal comparison, paired trial bootstrap within session and session-level\nWilcoxon / bootstrap across sessions.\nTasks: DG orientation (8), SG orientation (6), SG spatial frequency (5), NS image identity (118), Gabor x and y\nposition (receptive-field mapping stimulus, where cached).\nRepresentations:\n  temporal (Section 9)  counts | tb50 (5 bins) | tb25 (10 bins) | lat (count + spike-time centroid per unit) |\n                        basis (6 raised-cosine temporal bases per unit) | area_tb{50,25,10,5} (per-area totals)\n  spatial (Section 11)  dmap_peak (peak-channel depth, 40 um bins per probe) | dmap_p12c (P12 line20 position of the\n                        CORRECTED mean waveform) | dmap_shuf (positions permuted within probe) | dmap_rand (uniform\n                        random coordinates) | counts_rp (dimension-matched random projection) | ccf_surface (CCF\n                        AP x ML 200 um grid totals: cortical-surface position, the retinotopically organized axis)\nCross-mouse (Section 10): per-area x time features (area_tb25) with no normalization | per-session z-score (label-free)\n| per-session z-score + permuted area identities (control) | shuffled training labels (control).\nParameterized-stimulus reconstruction (Section 12): SG (orientation, SF) combinations split so that test combinations\nare never seen in training; ridge regression of (cos 2theta, sin 2theta) and log SF.\n",
+ "split": "final",
+ "sessions_by_split": {
+  "dev": [
+   "715093703",
+   "719161530"
+  ],
+  "select": [
+   "721123822",
+   "732592105",
+   "739448407",
+   "756029989",
+   "743475441",
+   "760345702",
+   "773418906",
+   "762602078",
+   "758798717"
+  ],
+  "final": [
+   "760693773",
+   "757970808",
+   "763673393",
+   "798911424",
+   "750749662",
+   "757216464"
+  ]
+ },
+ "tasks": {
+  "DG_orientation8": {
+   "760693773": {
+    "chance": 0.125,
+    "n_train_mice": 11,
+    "raw": 0.14833333333333334,
+    "zscore": 0.175,
+    "zscore_area_perm": 0.135,
+    "shuffled_train_labels": 0.12333333333333334
+   },
+   "757970808": {
+    "chance": 0.125,
+    "n_train_mice": 11,
+    "raw": 0.18000000000000002,
+    "zscore": 0.23333333333333334,
+    "zscore_area_perm": 0.14833333333333334,
+    "shuffled_train_labels": 0.11833333333333335
+   },
+   "763673393": {
+    "chance": 0.125,
+    "n_train_mice": 11,
+    "raw": 0.16999999999999998,
+    "zscore": 0.17333333333333334,
+    "zscore_area_perm": 0.18,
+    "shuffled_train_labels": 0.13333333333333333
+   },
+   "798911424": {
+    "chance": 0.125,
+    "n_train_mice": 11,
+    "raw": 0.21166666666666667,
+    "zscore": 0.20500000000000002,
+    "zscore_area_perm": 0.17333333333333334,
+    "shuffled_train_labels": 0.12333333333333334
+   },
+   "750749662": {
+    "chance": 0.125,
+    "n_train_mice": 11,
+    "raw": 0.2,
+    "zscore": 0.23166666666666666,
+    "zscore_area_perm": 0.18166666666666664,
+    "shuffled_train_labels": 0.14500000000000002
+   },
+   "757216464": {
+    "chance": 0.125,
+    "n_train_mice": 11,
+    "raw": 0.14833333333333332,
+    "zscore": 0.15000000000000002,
+    "zscore_area_perm": 0.14,
+    "shuffled_train_labels": 0.16833333333333333
+   }
+  },
+  "SG_orientation6": {
+   "760693773": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 11,
+    "raw": 0.2420014428665496,
+    "zscore": 0.26258354816119134,
+    "zscore_area_perm": 0.1658959987564358,
+    "shuffled_train_labels": 0.1457956404822399
+   },
+   "757970808": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 11,
+    "raw": 0.22812123707540496,
+    "zscore": 0.24352322518233302,
+    "zscore_area_perm": 0.16579883704762197,
+    "shuffled_train_labels": 0.14370226544657697
+   },
+   "763673393": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 11,
+    "raw": 0.22268084762972049,
+    "zscore": 0.2370441728285675,
+    "zscore_area_perm": 0.1885811787844286,
+    "shuffled_train_labels": 0.14716035604055078
+   },
+   "798911424": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 11,
+    "raw": 0.17980711773701238,
+    "zscore": 0.23226780087972018,
+    "zscore_area_perm": 0.18927691418267648,
+    "shuffled_train_labels": 0.16828494055480994
+   },
+   "750749662": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 11,
+    "raw": 0.18505040863033598,
+    "zscore": 0.21054414985380843,
+    "zscore_area_perm": 0.18008667418053295,
+    "shuffled_train_labels": 0.16519270462367797
+   },
+   "757216464": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 11,
+    "raw": 0.20733084678638639,
+    "zscore": 0.20602700706328794,
+    "zscore_area_perm": 0.17626008661153814,
+    "shuffled_train_labels": 0.1739407367987562
+   }
+  },
+  "SG_sf5": {
+   "760693773": {
+    "chance": 0.2,
+    "n_train_mice": 11,
+    "raw": 0.457298079446419,
+    "zscore": 0.5076491830755552,
+    "zscore_area_perm": 0.32600103535620956,
+    "shuffled_train_labels": 0.16234171177675644
+   },
+   "757970808": {
+    "chance": 0.2,
+    "n_train_mice": 11,
+    "raw": 0.38789201307214266,
+    "zscore": 0.3682557133664856,
+    "zscore_area_perm": 0.2918826001482609,
+    "shuffled_train_labels": 0.21573021184956648
+   },
+   "763673393": {
+    "chance": 0.2,
+    "n_train_mice": 11,
+    "raw": 0.3752022112106443,
+    "zscore": 0.3741649116389184,
+    "zscore_area_perm": 0.3096404007848736,
+    "shuffled_train_labels": 0.20407879357704967
+   },
+   "798911424": {
+    "chance": 0.2,
+    "n_train_mice": 11,
+    "raw": 0.3521563234744135,
+    "zscore": 0.4789888175253891,
+    "zscore_area_perm": 0.3128090262379909,
+    "shuffled_train_labels": 0.22516172989711308
+   },
+   "750749662": {
+    "chance": 0.2,
+    "n_train_mice": 11,
+    "raw": 0.3566114988058412,
+    "zscore": 0.43431339959220433,
+    "zscore_area_perm": 0.3190992945287536,
+    "shuffled_train_labels": 0.17865340942773963
+   },
+   "757216464": {
+    "chance": 0.2,
+    "n_train_mice": 11,
+    "raw": 0.36077266255081675,
+    "zscore": 0.3663460784077938,
+    "zscore_area_perm": 0.2555253110273671,
+    "shuffled_train_labels": 0.21265742954733655
+   }
+  },
+  "NS_image118": {
+   "760693773": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 11,
+    "raw": 0.04406779661016949,
+    "zscore": 0.06813559322033898,
+    "zscore_area_perm": 0.016610169491525422,
+    "shuffled_train_labels": 0.00847457627118644
+   },
+   "757970808": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 11,
+    "raw": 0.03677966101694914,
+    "zscore": 0.032711864406779666,
+    "zscore_area_perm": 0.01847457627118644,
+    "shuffled_train_labels": 0.008135593220338983
+   },
+   "763673393": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 11,
+    "raw": 0.029491525423728817,
+    "zscore": 0.02932203389830509,
+    "zscore_area_perm": 0.02067796610169492,
+    "shuffled_train_labels": 0.009491525423728815
+   },
+   "798911424": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 11,
+    "raw": 0.02830508474576271,
+    "zscore": 0.04220338983050847,
+    "zscore_area_perm": 0.02101694915254237,
+    "shuffled_train_labels": 0.00864406779661017
+   },
+   "750749662": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 11,
+    "raw": 0.03508474576271186,
+    "zscore": 0.05559322033898304,
+    "zscore_area_perm": 0.012203389830508475,
+    "shuffled_train_labels": 0.006949152542372882
+   },
+   "757216464": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 11,
+    "raw": 0.032711864406779666,
+    "zscore": 0.03864406779661017,
+    "zscore_area_perm": 0.013389830508474577,
+    "shuffled_train_labels": 0.0052542372881355945
+   }
+  },
+  "GB_x": {
+   "760693773": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.2128943758573388,
+    "zscore": 0.2554183813443073,
+    "zscore_area_perm": 0.1385459533607682,
+    "shuffled_train_labels": 0.11385459533607681
+   },
+   "757970808": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.15967078189300413,
+    "zscore": 0.18161865569272978,
+    "zscore_area_perm": 0.11989026063100137,
+    "shuffled_train_labels": 0.11714677640603566
+   },
+   "763673393": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.13936899862825788,
+    "zscore": 0.14814814814814817,
+    "zscore_area_perm": 0.18271604938271604,
+    "shuffled_train_labels": 0.10150891632373114
+   },
+   "798911424": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.1873799725651578,
+    "zscore": 0.21865569272976682,
+    "zscore_area_perm": 0.08093278463648834,
+    "shuffled_train_labels": 0.11906721536351166
+   },
+   "750749662": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.22304526748971196,
+    "zscore": 0.24197530864197533,
+    "zscore_area_perm": 0.11522633744855966,
+    "shuffled_train_labels": 0.1075445816186557
+   },
+   "757216464": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.10864197530864197,
+    "zscore": 0.099039780521262,
+    "zscore_area_perm": 0.12208504801097393,
+    "shuffled_train_labels": 0.11577503429355279
+   }
+  },
+  "GB_y": {
+   "760693773": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.16104252400548696,
+    "zscore": 0.22359396433470508,
+    "zscore_area_perm": 0.08449931412894375,
+    "shuffled_train_labels": 0.10727023319615911
+   },
+   "757970808": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.18820301783264745,
+    "zscore": 0.17256515775034295,
+    "zscore_area_perm": 0.18024691358024691,
+    "shuffled_train_labels": 0.11220850480109738
+   },
+   "763673393": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.14266117969821673,
+    "zscore": 0.1390946502057613,
+    "zscore_area_perm": 0.17366255144032922,
+    "shuffled_train_labels": 0.12016460905349795
+   },
+   "798911424": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.09794238683127571,
+    "zscore": 0.12482853223593963,
+    "zscore_area_perm": 0.22085048010973937,
+    "shuffled_train_labels": 0.11604938271604939
+   },
+   "750749662": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.17119341563786009,
+    "zscore": 0.17503429355281208,
+    "zscore_area_perm": 0.12290809327846366,
+    "shuffled_train_labels": 0.10589849108367627
+   },
+   "757216464": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 11,
+    "raw": 0.17777777777777776,
+    "zscore": 0.2197530864197531,
+    "zscore_area_perm": 0.06968449931412894,
+    "shuffled_train_labels": 0.10096021947873798
+   }
+  }
+ },
+ "runtime_s": 309.53715801239014
+}

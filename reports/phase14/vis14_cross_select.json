@@ -1,0 +1,476 @@
+{
+ "protocol": "Phase 14V: visual decoding on Allen Visual Coding Neuropixels with the corrected waveform map (data/ibl-venv).\n\nUsage:\n  run_vis14.py within <split>            split in dev | select | final  (final only after frozen_p14.json exists)\n  run_vis14.py cross <split>             leave-one-mouse-out within select; final = train on dev+select, test each\n                                         final mouse once\nSplits (reports/phase14/allen_split14.json, reserved before fetching): dev = 2 Phase 13 dev mice; select = 3 Phase 13\nselect/final mice + the first 6 eligible 'train expansion' mice; final = the first 6 eligible 'final candidate'\nmice. Every session is a different mouse.\n\nProtocol (fixed on dev before select/final): window 0-250 ms after onset (5 ms bins in the cache), blank\npresentations excluded, blocked 5-fold CV in presentation order, L2 logistic regression with inner-CV C, a matched\none-hidden-layer MLP (32 units) for the temporal comparison, paired trial bootstrap within session and session-level\nWilcoxon / bootstrap across sessions.\nTasks: DG orientation (8), SG orientation (6), SG spatial frequency (5), NS image identity (118), Gabor x and y\nposition (receptive-field mapping stimulus, where cached).\nRepresentations:\n  temporal (Section 9)  counts | tb50 (5 bins) | tb25 (10 bins) | lat (count + spike-time centroid per unit) |\n                        basis (6 raised-cosine temporal bases per unit) | area_tb{50,25,10,5} (per-area totals)\n  spatial (Section 11)  dmap_peak (peak-channel depth, 40 um bins per probe) | dmap_p12c (P12 line20 position of the\n                        CORRECTED mean waveform) | dmap_shuf (positions permuted within probe) | dmap_rand (uniform\n                        random coordinates) | counts_rp (dimension-matched random projection) | ccf_surface (CCF\n                        AP x ML 200 um grid totals: cortical-surface position, the retinotopically organized axis)\nCross-mouse (Section 10): per-area x time features (area_tb25) with no normalization | per-session z-score (label-free)\n| per-session z-score + permuted area identities (control) | shuffled training labels (control).\nParameterized-stimulus reconstruction (Section 12): SG (orientation, SF) combinations split so that test combinations\nare never seen in training; ridge regression of (cos 2theta, sin 2theta) and log SF.\n",
+ "split": "select",
+ "sessions_by_split": {
+  "dev": [
+   "715093703",
+   "719161530"
+  ],
+  "select": [
+   "721123822",
+   "732592105",
+   "739448407",
+   "756029989",
+   "743475441",
+   "760345702",
+   "773418906",
+   "762602078",
+   "758798717"
+  ],
+  "final": [
+   "760693773",
+   "757970808",
+   "763673393",
+   "798911424",
+   "750749662",
+   "757216464"
+  ]
+ },
+ "tasks": {
+  "DG_orientation8": {
+   "721123822": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.15421171171171172,
+    "zscore": 0.1808783783783784,
+    "zscore_area_perm": 0.16027027027027027,
+    "shuffled_train_labels": 0.15364864864864863
+   },
+   "732592105": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.18180180180180183,
+    "zscore": 0.18065315315315314,
+    "zscore_area_perm": 0.16551801801801802,
+    "shuffled_train_labels": 0.15069819819819819
+   },
+   "739448407": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.15999999999999998,
+    "zscore": 0.16333333333333333,
+    "zscore_area_perm": 0.13166666666666668,
+    "shuffled_train_labels": 0.14500000000000002
+   },
+   "756029989": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.15333333333333332,
+    "zscore": 0.12833333333333333,
+    "zscore_area_perm": 0.125,
+    "shuffled_train_labels": 0.10833333333333334
+   },
+   "743475441": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.16166666666666668,
+    "zscore": 0.16,
+    "zscore_area_perm": 0.13666666666666666,
+    "shuffled_train_labels": 0.13833333333333334
+   },
+   "760345702": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.15166666666666667,
+    "zscore": 0.195,
+    "zscore_area_perm": 0.135,
+    "shuffled_train_labels": 0.15166666666666667
+   },
+   "773418906": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.12666666666666665,
+    "zscore": 0.13666666666666666,
+    "zscore_area_perm": 0.12833333333333333,
+    "shuffled_train_labels": 0.12333333333333335
+   },
+   "762602078": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.16833333333333333,
+    "zscore": 0.12833333333333333,
+    "zscore_area_perm": 0.165,
+    "shuffled_train_labels": 0.12
+   },
+   "758798717": {
+    "chance": 0.125,
+    "n_train_mice": 10,
+    "raw": 0.21666666666666667,
+    "zscore": 0.21,
+    "zscore_area_perm": 0.15333333333333335,
+    "shuffled_train_labels": 0.12
+   }
+  },
+  "SG_orientation6": {
+   "721123822": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.22364300103862322,
+    "zscore": 0.23307939284678594,
+    "zscore_area_perm": 0.17039225691092505,
+    "shuffled_train_labels": 0.16208270054604687
+   },
+   "732592105": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.16782179072728712,
+    "zscore": 0.1625664535017822,
+    "zscore_area_perm": 0.18833610616747706,
+    "shuffled_train_labels": 0.1743532172096148
+   },
+   "739448407": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.18815337515940547,
+    "zscore": 0.20991718261209522,
+    "zscore_area_perm": 0.1671926939583334,
+    "shuffled_train_labels": 0.16197435473160257
+   },
+   "756029989": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.20460534082112913,
+    "zscore": 0.22467600930742335,
+    "zscore_area_perm": 0.15869944435410713,
+    "shuffled_train_labels": 0.16402231392795436
+   },
+   "743475441": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.17680995299261407,
+    "zscore": 0.17729707305071518,
+    "zscore_area_perm": 0.18609358417477292,
+    "shuffled_train_labels": 0.16164016164629735
+   },
+   "760345702": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.18509933544776513,
+    "zscore": 0.2306513661140146,
+    "zscore_area_perm": 0.18361434670407492,
+    "shuffled_train_labels": 0.1846479523896527
+   },
+   "773418906": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.15976543613210228,
+    "zscore": 0.15637627277486724,
+    "zscore_area_perm": 0.17894771817490748,
+    "shuffled_train_labels": 0.15507128990610725
+   },
+   "762602078": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.22438149834061263,
+    "zscore": 0.21764568591675323,
+    "zscore_area_perm": 0.18048744979079556,
+    "shuffled_train_labels": 0.16066026579957246
+   },
+   "758798717": {
+    "chance": 0.16666666666666666,
+    "n_train_mice": 10,
+    "raw": 0.2191137863411697,
+    "zscore": 0.21438814355396382,
+    "zscore_area_perm": 0.15632368683023715,
+    "shuffled_train_labels": 0.1616594968395906
+   }
+  },
+  "SG_sf5": {
+   "721123822": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.4014094014707005,
+    "zscore": 0.40933366819798495,
+    "zscore_area_perm": 0.32855618743523285,
+    "shuffled_train_labels": 0.17135779874037488
+   },
+   "732592105": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.3456156738650325,
+    "zscore": 0.3651548389138635,
+    "zscore_area_perm": 0.27713727081096173,
+    "shuffled_train_labels": 0.20943663154260536
+   },
+   "739448407": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.31940728336975194,
+    "zscore": 0.3527837516034774,
+    "zscore_area_perm": 0.24710958226776367,
+    "shuffled_train_labels": 0.2098524746794479
+   },
+   "756029989": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.4060618084081197,
+    "zscore": 0.4755235723725023,
+    "zscore_area_perm": 0.30311698872645404,
+    "shuffled_train_labels": 0.17917064677082886
+   },
+   "743475441": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.35557836541950777,
+    "zscore": 0.3495518139879077,
+    "zscore_area_perm": 0.2652371343440607,
+    "shuffled_train_labels": 0.21334733848480525
+   },
+   "760345702": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.5447809834494851,
+    "zscore": 0.5987012244959761,
+    "zscore_area_perm": 0.3567123985048165,
+    "shuffled_train_labels": 0.15660999948205406
+   },
+   "773418906": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.3494749272730772,
+    "zscore": 0.37966192395956505,
+    "zscore_area_perm": 0.2878630174867247,
+    "shuffled_train_labels": 0.19000218127126917
+   },
+   "762602078": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.3757640203656094,
+    "zscore": 0.311334467865506,
+    "zscore_area_perm": 0.4253242719207863,
+    "shuffled_train_labels": 0.17235636513818556
+   },
+   "758798717": {
+    "chance": 0.2,
+    "n_train_mice": 10,
+    "raw": 0.4744035631424223,
+    "zscore": 0.5047977370207146,
+    "zscore_area_perm": 0.40778496642577344,
+    "shuffled_train_labels": 0.18329638379232563
+   }
+  },
+  "NS_image118": {
+   "721123822": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.03813559322033898,
+    "zscore": 0.03677966101694915,
+    "zscore_area_perm": 0.01711864406779661,
+    "shuffled_train_labels": 0.009152542372881357
+   },
+   "732592105": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.029661016949152547,
+    "zscore": 0.046101694915254225,
+    "zscore_area_perm": 0.013389830508474577,
+    "shuffled_train_labels": 0.011016949152542373
+   },
+   "739448407": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.03186440677966102,
+    "zscore": 0.04423728813559322,
+    "zscore_area_perm": 0.016610169491525426,
+    "shuffled_train_labels": 0.008305084745762711
+   },
+   "756029989": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.04508474576271187,
+    "zscore": 0.07220338983050847,
+    "zscore_area_perm": 0.020000000000000004,
+    "shuffled_train_labels": 0.007118644067796611
+   },
+   "743475441": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.024406779661016953,
+    "zscore": 0.026101694915254235,
+    "zscore_area_perm": 0.013220338983050847,
+    "shuffled_train_labels": 0.006949152542372882
+   },
+   "760345702": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.0464406779661017,
+    "zscore": 0.06593220338983052,
+    "zscore_area_perm": 0.01847457627118644,
+    "shuffled_train_labels": 0.007627118644067798
+   },
+   "773418906": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.02186440677966102,
+    "zscore": 0.031016949152542373,
+    "zscore_area_perm": 0.015593220338983051,
+    "shuffled_train_labels": 0.007288135593220339
+   },
+   "762602078": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.026779661016949157,
+    "zscore": 0.02220338983050847,
+    "zscore_area_perm": 0.016610169491525422,
+    "shuffled_train_labels": 0.007966101694915255
+   },
+   "758798717": {
+    "chance": 0.00847457627118644,
+    "n_train_mice": 10,
+    "raw": 0.03677966101694915,
+    "zscore": 0.04508474576271186,
+    "zscore_area_perm": 0.03050847457627119,
+    "shuffled_train_labels": 0.008644067796610169
+   }
+  },
+  "GB_x": {
+   "721123822": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.1728395061728395,
+    "zscore": 0.19012345679012344,
+    "zscore_area_perm": 0.12290809327846366,
+    "shuffled_train_labels": 0.11385459533607684
+   },
+   "732592105": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.13689986282578875,
+    "zscore": 0.155281207133059,
+    "zscore_area_perm": 0.06858710562414266,
+    "shuffled_train_labels": 0.11687242798353908
+   },
+   "739448407": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.14787379972565157,
+    "zscore": 0.16213991769547326,
+    "zscore_area_perm": 0.17311385459533607,
+    "shuffled_train_labels": 0.11165980795610425
+   },
+   "756029989": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.20027434842249658,
+    "zscore": 0.24746227709190668,
+    "zscore_area_perm": 0.1037037037037037,
+    "shuffled_train_labels": 0.12126200274348424
+   },
+   "743475441": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.13086419753086417,
+    "zscore": 0.14705075445816188,
+    "zscore_area_perm": 0.1657064471879287,
+    "shuffled_train_labels": 0.11138545953360768
+   },
+   "760345702": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.13113854595336077,
+    "zscore": 0.13497942386831274,
+    "zscore_area_perm": 0.17530864197530863,
+    "shuffled_train_labels": 0.10699588477366256
+   },
+   "773418906": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.1821673525377229,
+    "zscore": 0.18024691358024691,
+    "zscore_area_perm": 0.11961591220850482,
+    "shuffled_train_labels": 0.11083676268861455
+   },
+   "762602078": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.08038408779149521,
+    "zscore": 0.09958847736625515,
+    "zscore_area_perm": 0.08340192043895747,
+    "shuffled_train_labels": 0.10452674897119342
+   },
+   "758798717": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.16213991769547326,
+    "zscore": 0.18847736625514402,
+    "zscore_area_perm": 0.22112482853223595,
+    "shuffled_train_labels": 0.11193415637860081
+   }
+  },
+  "GB_y": {
+   "721123822": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.2216735253772291,
+    "zscore": 0.25459533607681756,
+    "zscore_area_perm": 0.1336076817558299,
+    "shuffled_train_labels": 0.10068587105624142
+   },
+   "732592105": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.18353909465020576,
+    "zscore": 0.21481481481481482,
+    "zscore_area_perm": 0.08120713305898491,
+    "shuffled_train_labels": 0.10699588477366255
+   },
+   "739448407": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.2592592592592593,
+    "zscore": 0.28806584362139914,
+    "zscore_area_perm": 0.10836762688614539,
+    "shuffled_train_labels": 0.1358024691358025
+   },
+   "756029989": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.22743484224965707,
+    "zscore": 0.244718792866941,
+    "zscore_area_perm": 0.16680384087791494,
+    "shuffled_train_labels": 0.1130315500685871
+   },
+   "743475441": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.12647462277091906,
+    "zscore": 0.13470507544581617,
+    "zscore_area_perm": 0.097119341563786,
+    "shuffled_train_labels": 0.11028806584362139
+   },
+   "760345702": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.21152263374485597,
+    "zscore": 0.22853223593964334,
+    "zscore_area_perm": 0.08888888888888889,
+    "shuffled_train_labels": 0.09931412894375857
+   },
+   "773418906": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.18024691358024691,
+    "zscore": 0.26886145404663925,
+    "zscore_area_perm": 0.13799725651577505,
+    "shuffled_train_labels": 0.13031550068587106
+   },
+   "762602078": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.14238683127572016,
+    "zscore": 0.13909465020576134,
+    "zscore_area_perm": 0.18875171467764063,
+    "shuffled_train_labels": 0.08971193415637861
+   },
+   "758798717": {
+    "chance": 0.1111111111111111,
+    "n_train_mice": 10,
+    "raw": 0.22359396433470508,
+    "zscore": 0.18957475994513034,
+    "zscore_area_perm": 0.21755829903978052,
+    "shuffled_train_labels": 0.0935528120713306
+   }
+  }
+ },
+ "runtime_s": 494.8962528705597
+}

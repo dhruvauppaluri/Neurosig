@@ -1,0 +1,81 @@
+{
+ "versions": {
+  "python": "3.12.15",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "git": "9c36963"
+ },
+ "split": "dev",
+ "sessions": {
+  "A": {
+   "thr2_selfcal": 5.827379510441212,
+   "n_isolated": 400,
+   "two_isolated": 0.0,
+   "n_coincident": 606,
+   "two_coincident": 0.0033003300330033004,
+   "templates": {
+    "N1": {
+     "n_units": 4,
+     "false_two": 0.0
+    },
+    "N10": {
+     "n_units": 4,
+     "false_two": 0.0
+    },
+    "N50": {
+     "n_units": 4,
+     "false_two": 0.5
+    }
+   }
+  },
+  "B": {
+   "thr2_selfcal": 4.259044799395619,
+   "n_isolated": 400,
+   "two_isolated": 0.0,
+   "n_coincident": 1239,
+   "two_coincident": 0.01937046004842615,
+   "templates": {
+    "N1": {
+     "n_units": 3,
+     "false_two": 0.0
+    },
+    "N10": {
+     "n_units": 3,
+     "false_two": 0.3333333333333333
+    },
+    "N50": {
+     "n_units": 3,
+     "false_two": 0.6666666666666666
+    }
+   }
+  },
+  "C": {
+   "thr2_selfcal": 4.627460968587191,
+   "n_isolated": 400,
+   "two_isolated": 0.005,
+   "n_coincident": 665,
+   "two_coincident": 0.03308270676691729,
+   "templates": {
+    "N1": {
+     "n_units": 3,
+     "false_two": 0.3333333333333333
+    },
+    "N10": {
+     "n_units": 3,
+     "false_two": 0.3333333333333333
+    },
+    "N50": {
+     "n_units": 3,
+     "false_two": 0.6666666666666666
+    }
+   }
+  }
+ },
+ "summary": {
+  "two_isolated_median": 0.0,
+  "two_coincident_median": 0.01937046004842615,
+  "template_false_two_N1_median": 0.0,
+  "template_false_two_N10_median": 0.3333333333333333,
+  "template_false_two_N50_median": 0.6666666666666666
+ }
+}

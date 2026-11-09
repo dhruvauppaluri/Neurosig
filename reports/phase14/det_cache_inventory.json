@@ -1,0 +1,116 @@
+{
+ "A": {
+  "n_events": 3713,
+  "matched_frac": 0.45758147050902237,
+  "n_windows": 8,
+  "seconds": 3
+ },
+ "B": {
+  "n_events": 3579,
+  "matched_frac": 0.5965353450684548,
+  "n_windows": 8,
+  "seconds": 3
+ },
+ "C": {
+  "n_events": 5301,
+  "matched_frac": 0.38898321071495945,
+  "n_windows": 8,
+  "seconds": 4
+ },
+ "D": {
+  "n_events": 5700,
+  "matched_frac": 0.6829824561403509,
+  "n_windows": 8,
+  "seconds": 4
+ },
+ "E": {
+  "n_events": 4132,
+  "matched_frac": 0.6200387221684415,
+  "n_windows": 6,
+  "seconds": 3
+ },
+ "F": {
+  "n_events": 2007,
+  "matched_frac": 0.23517688091679123,
+  "n_windows": 6,
+  "seconds": 2
+ },
+ "G": {
+  "n_events": 2101,
+  "matched_frac": 0.42027605901951454,
+  "n_windows": 6,
+  "seconds": 2
+ },
+ "H": {
+  "n_events": 3221,
+  "matched_frac": 0.6230984166407948,
+  "n_windows": 6,
+  "seconds": 3
+ },
+ "I": {
+  "n_events": 2943,
+  "matched_frac": 0.5008494733265375,
+  "n_windows": 6,
+  "seconds": 3
+ },
+ "J": {
+  "n_events": 1642,
+  "matched_frac": 0.3337393422655298,
+  "n_windows": 6,
+  "seconds": 2
+ },
+ "K": {
+  "n_events": 1476,
+  "matched_frac": 0.24525745257452575,
+  "n_windows": 6,
+  "seconds": 2
+ },
+ "L": {
+  "n_events": 5534,
+  "matched_frac": 0.6461872063606794,
+  "n_windows": 6,
+  "seconds": 3
+ },
+ "M": {
+  "n_events": 2966,
+  "matched_frac": 0.7356709372892785,
+  "n_windows": 6,
+  "seconds": 3
+ },
+ "N": {
+  "n_events": 1023,
+  "matched_frac": 0.28934506353861195,
+  "n_windows": 6,
+  "seconds": 2
+ },
+ "O": {
+  "n_events": 4247,
+  "matched_frac": 0.6402166234989404,
+  "n_windows": 6,
+  "seconds": 3
+ },
+ "P": {
+  "n_events": 3480,
+  "matched_frac": 0.6597701149425287,
+  "n_windows": 6,
+  "seconds": 3
+ },
+ "Q": {
+  "n_events": 2915,
+  "matched_frac": 0.49433962264150944,
+  "n_windows": 8,
+  "seconds": 3
+ },
+ "R": {
+  "n_events": 5917,
+  "matched_frac": 0.7603515294912963,
+  "n_windows": 8,
+  "seconds": 4
+ },
+ "S": {
+  "n_events": 1077,
+  "matched_frac": 0.007428040854224698,
+  "n_windows": 8,
+  "seconds": 3
+ }
+}

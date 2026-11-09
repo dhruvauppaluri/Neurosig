@@ -1,0 +1,99 @@
+{
+ "versions": {
+  "python": "3.12.15",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "git": "fedec6d"
+ },
+ "stored": {
+  "11A_dev_matched_weighted": {
+   "A": {
+    "spread_median": 14.368865742888762,
+    "dev_p90": 74.35278874618223,
+    "n_units": 125
+   },
+   "B": {
+    "spread_median": 14.438974691111824,
+    "dev_p90": 50.75363512887532,
+    "n_units": 125
+   },
+   "C": {
+    "spread_median": 15.690227422576221,
+    "dev_p90": 51.67281646937561,
+    "n_units": 125
+   }
+  },
+  "11A_dev_events": {
+   "sorter": 12872,
+   "detector": 12625,
+   "matched": 5900
+  },
+  "11E_select_OV-A": {
+   "res_recall": 0.9411764705882353,
+   "false_two_singles": 0.041666666666666664,
+   "simultaneous_res": 0.7391304347826086,
+   "triples": 0.0,
+   "k2_ms_median": 7.742082998447586
+  }
+ },
+ "reproduced": {
+  "11A_dev_matched_weighted": {
+   "A": {
+    "spread_median": 14.368865742888762,
+    "dev_p90": 74.35278874618223,
+    "n_units": 125
+   },
+   "B": {
+    "spread_median": 14.438974691111824,
+    "dev_p90": 50.75363512887532,
+    "n_units": 125
+   },
+   "C": {
+    "spread_median": 15.690227422576221,
+    "dev_p90": 51.67281646937561,
+    "n_units": 125
+   }
+  },
+  "11A_dev_events": {
+   "sorter": 12872,
+   "detector": 12625,
+   "matched": 5900
+  },
+  "11E_select_OV-A": {
+   "res_recall": 0.9411764705882353,
+   "false_two_singles": 0.041666666666666664,
+   "simultaneous_res": 0.7391304347826086,
+   "triples": 0.0,
+   "k2_ms_median": 8.580145506130066
+  },
+  "weighted_ms_median": 3.1458330049645156
+ },
+ "note": "ms in (c) is the time to run one engine on one snippet inside run_windows; K<=2 ms is the space-time pipeline per event on the p11select pool. Runtimes are machine-dependent and not expected to match exactly.",
+ "difference": {
+  "11A_dev_matched_weighted": {
+   "A": {
+    "spread_median": 0.0,
+    "dev_p90": 0.0,
+    "n_units": 0
+   },
+   "B": {
+    "spread_median": 0.0,
+    "dev_p90": 0.0,
+    "n_units": 0
+   },
+   "C": {
+    "spread_median": 0.0,
+    "dev_p90": 0.0,
+    "n_units": 0
+   }
+  },
+  "11E_select_OV-A": {
+   "res_recall": 0.0,
+   "false_two_singles": 0.0,
+   "simultaneous_res": 0.0,
+   "triples": 0.0,
+   "k2_ms_median": 0.8380625076824799
+  }
+ },
+ "runtime_s": 272.1678647994995
+}

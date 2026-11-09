@@ -1,0 +1,75 @@
+{
+ "versions": {
+  "python": "3.12.15",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "git": "fedec6d"
+ },
+ "split": "select",
+ "windows": 40,
+ "pipeline": "P12: E3 + mean3 + FastLine20 + area; fast K<=2 analysis + P12-LR on every event (gate rejected)",
+ "workers": {
+  "1": {
+   "events": 20608,
+   "recording_s": 80.00003806337594,
+   "event_rate_per_s": 257.59987743598776,
+   "latency_ms": {
+    "median": 5.5734170018695295,
+    "p95": 9.53682950566872,
+    "p99": 12.367494633654147
+   },
+   "single_source_ms": {
+    "median": 0.8841249946272001,
+    "p95": 1.2487766514823306
+   },
+   "processing_events_per_s": 161.534099576558,
+   "wall_s_including_load_and_detector": 138.54209862499556,
+   "two_declared_fraction": 0.047263198757763976,
+   "sustained_events_per_s_one_core": 161.534099576558,
+   "throughput_margin_one_core": 0.6270736662780376
+  },
+  "2": {
+   "events": 20608,
+   "recording_s": 80.00003806337594,
+   "event_rate_per_s": 257.59987743598776,
+   "latency_ms": {
+    "median": 5.617250004434027,
+    "p95": 9.60684419478638,
+    "p99": 12.473925505764782
+   },
+   "single_source_ms": {
+    "median": 0.8812909945845604,
+    "p95": 1.299193648446817
+   },
+   "processing_events_per_s": 160.39508459477517,
+   "wall_s_including_load_and_detector": 76.77141283301171,
+   "two_declared_fraction": 0.047263198757763976,
+   "parallel_events_per_s_estimate": 320.79016918955034
+  },
+  "4": {
+   "events": 20608,
+   "recording_s": 80.00003806337594,
+   "event_rate_per_s": 257.59987743598776,
+   "latency_ms": {
+    "median": 5.827416498505045,
+    "p95": 10.124306700890878,
+    "p99": 13.662542181409663
+   },
+   "single_source_ms": {
+    "median": 0.9423334995517507,
+    "p95": 1.3263336470117792
+   },
+   "processing_events_per_s": 153.11433321117423,
+   "wall_s_including_load_and_detector": 43.532798750005895,
+   "two_declared_fraction": 0.047263198757763976,
+   "parallel_events_per_s_estimate": 612.4573328446969
+  }
+ },
+ "queue_one_core_buffer64": {
+  "events": 11824,
+  "drops": 5192,
+  "wait_ms_median": 360.8866350657207,
+  "wait_ms_p99": 412.9570034899527
+ },
+ "peak_traced_mib_one_window": 89.46404647827148
+}

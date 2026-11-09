@@ -1,0 +1,41 @@
+{
+ "keys": "declared count (1|2) x snr_group x chi1 tercile x dropout",
+ "chi1_tercile_edges": [
+  8.462059406409821,
+  32.72531439820098
+ ],
+ "table": {
+  "2|high|0|none": 8.496826418434079,
+  "1|high|0|none": 61.59389479805688,
+  "2|high|1|none": 25.741147487070613,
+  "1|high|1|none": Infinity,
+  "2|mid|0|none": 7.5706220373507245,
+  "1|mid|0|none": 34.68049708279979,
+  "2|low|0|none": 28.35021598528924,
+  "2|mid|1|none": 31.697450671799153,
+  "1|low|0|none": Infinity,
+  "2|low|1|none": 179.87122138757775,
+  "1|low|1|none": 96.23293773330249,
+  "1|low|2|none": Infinity,
+  "2|low|2|none": 331.57949102381264,
+  "1|mid|2|none": 174.08873988288076,
+  "1|mid|1|none": 218.62268816626286,
+  "1|low|2|dead": Infinity,
+  "1|high|2|none": Infinity,
+  "2|high|2|none": 179.87122138757775,
+  "1|low|1|dead": 130.72899879360307,
+  "1|high|2|dead": 179.87122138757775,
+  "1|low|0|dead": 186.93089993055403,
+  "1|mid|2|dead": Infinity,
+  "1|mid|1|dead": 179.87122138757775,
+  "1|mid|0|dead": 179.87122138757775,
+  "2|low|2|dead": Infinity,
+  "1|high|1|dead": 179.87122138757775,
+  "2|low|1|dead": Infinity,
+  "2|mid|2|dead": Infinity,
+  "2|low|0|dead": 179.87122138757775,
+  "2|mid|2|none": Infinity
+ },
+ "pooled": 179.87122138757775,
+ "fitted_on": "p12dev, all events"
+}

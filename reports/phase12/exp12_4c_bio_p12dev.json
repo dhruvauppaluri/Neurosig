@@ -1,0 +1,151 @@
+{
+ "versions": {
+  "python": "3.12.15",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "git": "fedec6d"
+ },
+ "pool": "p12dev",
+ "tau_F": 2918.413669173512,
+ "all": {
+  "false_two": 0.017857142857142856,
+  "false_two_ci95": [
+   0.013141121124473276,
+   0.02422408326428572
+  ],
+  "n_singles": 2240,
+  "by_cond": {
+   "ampjit": 0.0,
+   "artifact": 0.0,
+   "clean": 0.002,
+   "dead": 0.078,
+   "single": 0.0
+  },
+  "resolvable_pairs": {
+   "n": 589,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.006479977113616857
+   ],
+   "err_median": null
+  },
+  "all_pairs": {
+   "n": 1360,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.002816749393771241
+   ],
+   "err_median": null
+  },
+  "simultaneous_resolvable": {
+   "n": 130,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.02870258574314712
+   ],
+   "err_median": null
+  },
+  "triples": {
+   "n": 340,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.01117258644678247
+   ],
+   "err_median": null
+  }
+ },
+ "syn": {
+  "false_two": 0.0,
+  "false_two_ci95": [
+   -1.734723475976807e-18,
+   0.015754489799935698
+  ],
+  "n_singles": 240,
+  "by_cond": {
+   "single": 0.0
+  },
+  "resolvable_pairs": {
+   "n": 302,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.012560750401515034
+   ],
+   "err_median": null
+  },
+  "all_pairs": {
+   "n": 960,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    -4.336808689942018e-19,
+    0.003985717155184006
+   ],
+   "err_median": null
+  },
+  "simultaneous_resolvable": {
+   "n": 52,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.06879459041288215
+   ],
+   "err_median": null
+  },
+  "triples": null
+ },
+ "bio": {
+  "false_two": 0.02,
+  "false_two_ci95": [
+   0.014721643767243237,
+   0.02711878912924918
+  ],
+  "n_singles": 2000,
+  "by_cond": {
+   "ampjit": 0.0,
+   "artifact": 0.0,
+   "clean": 0.002,
+   "dead": 0.078
+  },
+  "resolvable_pairs": {
+   "n": 287,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.01320856438693777
+   ],
+   "err_median": null
+  },
+  "all_pairs": {
+   "n": 400,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.009512640599680667
+   ],
+   "err_median": null
+  },
+  "simultaneous_resolvable": {
+   "n": 78,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.04693945377411976
+   ],
+   "err_median": null
+  },
+  "triples": {
+   "n": 100,
+   "all_sources_recovered": 0.0,
+   "ci95": [
+    0.0,
+    0.03699480747600191
+   ],
+   "err_median": null
+  }
+ },
+ "ms_median": 4.461750002519693
+}

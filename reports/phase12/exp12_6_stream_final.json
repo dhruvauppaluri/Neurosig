@@ -1,0 +1,75 @@
+{
+ "versions": {
+  "python": "3.12.15",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "git": "fedec6d"
+ },
+ "split": "final",
+ "windows": 24,
+ "pipeline": "P12: E3 + mean3 + FastLine20 + area; fast K<=2 analysis + P12-LR on every event (gate rejected)",
+ "workers": {
+  "1": {
+   "events": 9893,
+   "recording_s": 48.00002852899866,
+   "event_rate_per_s": 206.104044167875,
+   "latency_ms": {
+    "median": 5.646124991471879,
+    "p95": 9.9505419988418,
+    "p99": 12.962801714311354
+   },
+   "single_source_ms": {
+    "median": 0.8959159895312041,
+    "p95": 1.2295909982640296
+   },
+   "processing_events_per_s": 158.15995335273735,
+   "wall_s_including_load_and_detector": 69.19632187500247,
+   "two_declared_fraction": 0.04518346305468513,
+   "sustained_events_per_s_one_core": 158.15995335273735,
+   "throughput_margin_one_core": 0.7673791845826837
+  },
+  "2": {
+   "events": 9893,
+   "recording_s": 48.00002852899866,
+   "event_rate_per_s": 206.104044167875,
+   "latency_ms": {
+    "median": 5.618084003799595,
+    "p95": 9.885983599815518,
+    "p99": 12.985045364475807
+   },
+   "single_source_ms": {
+    "median": 0.8930420008255169,
+    "p95": 1.2109495990443975
+   },
+   "processing_events_per_s": 159.08300609019136,
+   "wall_s_including_load_and_detector": 37.19175770798756,
+   "two_declared_fraction": 0.04518346305468513,
+   "parallel_events_per_s_estimate": 318.1660121803827
+  },
+  "4": {
+   "events": 9893,
+   "recording_s": 48.00002852899866,
+   "event_rate_per_s": 206.104044167875,
+   "latency_ms": {
+    "median": 6.0305419901851565,
+    "p95": 10.473608394386245,
+    "p99": 13.455468272441067
+   },
+   "single_source_ms": {
+    "median": 1.0057910112664104,
+    "p95": 1.3702330033993346
+   },
+   "processing_events_per_s": 148.7855642375341,
+   "wall_s_including_load_and_detector": 21.4286942500039,
+   "two_declared_fraction": 0.04518346305468513,
+   "parallel_events_per_s_estimate": 595.1422569501364
+  }
+ },
+ "queue_one_core_buffer64": {
+  "events": 9417,
+  "drops": 3688,
+  "wait_ms_median": 371.2049754506168,
+  "wait_ms_p99": 432.64970784747135
+ },
+ "peak_traced_mib_one_window": 89.4335126876831
+}

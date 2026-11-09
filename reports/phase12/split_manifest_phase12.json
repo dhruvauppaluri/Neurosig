@@ -1,0 +1,205 @@
+{
+ "seed": 20271301,
+ "window_s": 2.0,
+ "skipped_for_availability": [
+  {
+   "pid": "0eb65305-bb95-4bf1-a154-1b810c0cff25",
+   "lab": "churchlandlab",
+   "reason": "degenerate probe sync file shape (2, 2)"
+  }
+ ],
+ "rule": "Phase 12 final windows are reserved before any Phase 12 evaluation and evaluated ONCE by scripts/phase12/run_final12.py after all Phase 12 configurations and analysis protocols are frozen",
+ "sessions": {
+  "Q": {
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "lab": "wittenlab",
+   "probe_duration_s": 4620.0,
+   "vis_contacts": 68,
+   "lab_new_in_phase12": false
+  },
+  "R": {
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "lab": "cortexlab",
+   "probe_duration_s": 4120.0,
+   "vis_contacts": 60,
+   "lab_new_in_phase12": false
+  },
+  "S": {
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "lab": "churchlandlab_ucla",
+   "probe_duration_s": 4360.010392496,
+   "vis_contacts": 64,
+   "lab_new_in_phase12": false
+  }
+ },
+ "windows": [
+  {
+   "session": "Q",
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "t0_s": 435.813,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "Q",
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "t0_s": 2949.37,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "Q",
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "t0_s": 4217.853,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "Q",
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "t0_s": 1081.821,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "Q",
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "t0_s": 1445.256,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "Q",
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "t0_s": 3921.249,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "Q",
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "t0_s": 4150.266,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "Q",
+   "pid": "11a5a93e-58a9-4ed0-995e-52279ec16b98",
+   "t0_s": 374.612,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "R",
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "t0_s": 2966.89,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "R",
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "t0_s": 3547.868,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "R",
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "t0_s": 608.648,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "R",
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "t0_s": 1702.306,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "R",
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "t0_s": 802.025,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "R",
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "t0_s": 3438.911,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "R",
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "t0_s": 1766.663,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "R",
+   "pid": "16799c7a-e395-435d-a4c4-a678007e1550",
+   "t0_s": 902.633,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "S",
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "t0_s": 1382.405,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "S",
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "t0_s": 2348.923,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "S",
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "t0_s": 2533.722,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "S",
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "t0_s": 1264.233,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "S",
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "t0_s": 3446.414,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "S",
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "t0_s": 851.355,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "S",
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "t0_s": 3603.333,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  },
+  {
+   "session": "S",
+   "pid": "17fa2600-6349-4b6f-a7e4-d8ea5558fa12",
+   "t0_s": 3732.667,
+   "duration_s": 2.0,
+   "split": "final_p12"
+  }
+ ]
+}

@@ -1,0 +1,314 @@
+{
+ "protocol": "Phase 13 / Section 11 controlled simulation: when does localization quality change stimulus decoding?\n\nFixed design (no real data; known positions). Each simulated session has 60 new neurons at uniform depths 0-1000 um\n(identities never shared across sessions). K = 4 stimuli, 40 trials each, Poisson counts in a 100 ms window,\nbaseline 5 Hz, peak drive 40 Hz, log-normal gains (sigma 0.5).\n  M1 spatially organized   stimulus k drives neurons near depth c_k (150 / 400 / 650 / 900 um, Gaussian width 80 um)\n  M2 salt-and-pepper       each neuron's preferred stimulus is random, independent of depth (same rate statistics)\nDecoders (L2 logistic, C = 0.1, features z-scored within session):\n  within-session counts    unit-identity features, trained and tested inside a session (blocked 5-fold): position-free\n  cross-session depth map  20 bins of 50 um built from ESTIMATED positions; train on 7 sessions, test on the 8th\nPosition error: unit-level static error N(0, sigma_u) per neuron, sigma_u in {0, 3, 5, 12, 25, 50, 100, 200} um,\nand permuted positions; event-level error N(0, sigma_e) per spike (trial-varying), sigma_e in {0, 12, 25, 50, 100} um.\nReference precisions from Phase 12 (real data, proxies): unit-level pooled l20_robust (N = 25-50 spikes) ~2-4 um\npairwise disagreement; single-event median deviation ~10-14 um. 10 repetitions with different seeds.\n\nRevision after a pilot (recorded, not hidden): with 250 um bands and 40 Hz drive every decoder saturated (100% up to\nsigma 100 um), which cannot show where precision matters. The reported design sweeps the spatial scale instead:\nM1 becomes a periodic code (stimulus k preferred in bands of width delta repeating every K*delta um, Gaussian tuning\nof width delta/3, peak drive 15 Hz), delta in {20, 50, 100, 250} um, depth-map bins of delta/2; 5 seeds per cell.\n",
+ "chance": 0.25,
+ "M1_delta20": {
+  "within_counts": {
+   "mean": 0.984375,
+   "sd": 0.0034938562148434313
+  },
+  "cross_unit_sigma0": {
+   "mean": 0.9721875000000001,
+   "sd": 0.006821524985294712
+  },
+  "cross_unit_sigma3": {
+   "mean": 0.9593750000000002,
+   "sd": 0.0073785743456985025
+  },
+  "cross_unit_sigma5": {
+   "mean": 0.9310937499999999,
+   "sd": 0.0074346107833564825
+  },
+  "cross_unit_sigma12": {
+   "mean": 0.653125,
+   "sd": 0.026154961885844926
+  },
+  "cross_unit_sigma25": {
+   "mean": 0.2928125,
+   "sd": 0.015628124687562465
+  },
+  "cross_unit_sigma50": {
+   "mean": 0.28390624999999997,
+   "sd": 0.033470340181644416
+  },
+  "cross_unit_sigma100": {
+   "mean": 0.24484374999999997,
+   "sd": 0.01620486520308021
+  },
+  "cross_unit_sigma200": {
+   "mean": 0.2359375,
+   "sd": 0.025199400104466772
+  },
+  "cross_unit_permuted": {
+   "mean": 0.28953125,
+   "sd": 0.07047134834455773
+  },
+  "cross_event_sigma12": {
+   "mean": 0.72359375,
+   "sd": 0.0075809434191926196
+  },
+  "cross_event_sigma25": {
+   "mean": 0.325,
+   "sd": 0.013755325673171108
+  },
+  "cross_event_sigma50": {
+   "mean": 0.26421875000000006,
+   "sd": 0.01775621590105841
+  },
+  "cross_event_sigma100": {
+   "mean": 0.26046874999999997,
+   "sd": 0.027637263963261646
+  },
+  "cross_total_count": {
+   "mean": 0.27375,
+   "sd": 0.04133277679396824
+  }
+ },
+ "M1_delta50": {
+  "within_counts": {
+   "mean": 0.9862500000000001,
+   "sd": 0.0014490028899212172
+  },
+  "cross_unit_sigma0": {
+   "mean": 0.98203125,
+   "sd": 0.007733980419227874
+  },
+  "cross_unit_sigma3": {
+   "mean": 0.98203125,
+   "sd": 0.006573651239988334
+  },
+  "cross_unit_sigma5": {
+   "mean": 0.9765625,
+   "sd": 0.007781187248742961
+  },
+  "cross_unit_sigma12": {
+   "mean": 0.9556250000000001,
+   "sd": 0.006354593564894567
+  },
+  "cross_unit_sigma25": {
+   "mean": 0.82453125,
+   "sd": 0.02201739369226066
+  },
+  "cross_unit_sigma50": {
+   "mean": 0.46312499999999995,
+   "sd": 0.05958925160001592
+  },
+  "cross_unit_sigma100": {
+   "mean": 0.28250000000000003,
+   "sd": 0.04742026613827679
+  },
+  "cross_unit_sigma200": {
+   "mean": 0.26390625000000006,
+   "sd": 0.031958377471720936
+  },
+  "cross_unit_permuted": {
+   "mean": 0.23984375,
+   "sd": 0.039165489233188445
+  },
+  "cross_event_sigma12": {
+   "mean": 0.9581250000000001,
+   "sd": 0.012583704119813056
+  },
+  "cross_event_sigma25": {
+   "mean": 0.8821875,
+   "sd": 0.014585751287643701
+  },
+  "cross_event_sigma50": {
+   "mean": 0.5365624999999999,
+   "sd": 0.033440420433212215
+  },
+  "cross_event_sigma100": {
+   "mean": 0.28468750000000004,
+   "sd": 0.02727267548527279
+  },
+  "cross_total_count": {
+   "mean": 0.25734375,
+   "sd": 0.04719060420253168
+  }
+ },
+ "M1_delta100": {
+  "within_counts": {
+   "mean": 0.9824999999999999,
+   "sd": 0.006242182611074433
+  },
+  "cross_unit_sigma0": {
+   "mean": 0.9823437500000001,
+   "sd": 0.0031483502624390274
+  },
+  "cross_unit_sigma3": {
+   "mean": 0.98109375,
+   "sd": 0.0029810600044279626
+  },
+  "cross_unit_sigma5": {
+   "mean": 0.9803124999999999,
+   "sd": 0.0026791294061691237
+  },
+  "cross_unit_sigma12": {
+   "mean": 0.97890625,
+   "sd": 0.0028384222069664264
+  },
+  "cross_unit_sigma25": {
+   "mean": 0.9584374999999999,
+   "sd": 0.008830544469340517
+  },
+  "cross_unit_sigma50": {
+   "mean": 0.8748437499999999,
+   "sd": 0.0077717688221536725
+  },
+  "cross_unit_sigma100": {
+   "mean": 0.58046875,
+   "sd": 0.02211365351711473
+  },
+  "cross_unit_sigma200": {
+   "mean": 0.33234375,
+   "sd": 0.04235960265984561
+  },
+  "cross_unit_permuted": {
+   "mean": 0.29953124999999997,
+   "sd": 0.03325446398605759
+  },
+  "cross_event_sigma12": {
+   "mean": 0.9778125,
+   "sd": 0.0023489525591207454
+  },
+  "cross_event_sigma25": {
+   "mean": 0.9743749999999999,
+   "sd": 0.004457919568027275
+  },
+  "cross_event_sigma50": {
+   "mean": 0.913125,
+   "sd": 0.006139650845121383
+  },
+  "cross_event_sigma100": {
+   "mean": 0.619375,
+   "sd": 0.012167451458707379
+  },
+  "cross_total_count": {
+   "mean": 0.3296875,
+   "sd": 0.055713588165276176
+  }
+ },
+ "M1_delta250": {
+  "within_counts": {
+   "mean": 0.98609375,
+   "sd": 0.005812836011793205
+  },
+  "cross_unit_sigma0": {
+   "mean": 0.9909375,
+   "sd": 0.003909373750998966
+  },
+  "cross_unit_sigma3": {
+   "mean": 0.9910937499999999,
+   "sd": 0.004001952648395493
+  },
+  "cross_unit_sigma5": {
+   "mean": 0.9909375,
+   "sd": 0.003909373750998955
+  },
+  "cross_unit_sigma12": {
+   "mean": 0.9910937499999999,
+   "sd": 0.0049558598522355096
+  },
+  "cross_unit_sigma25": {
+   "mean": 0.9887499999999999,
+   "sd": 0.002548360379734394
+  },
+  "cross_unit_sigma50": {
+   "mean": 0.98265625,
+   "sd": 0.007218005914031946
+  },
+  "cross_unit_sigma100": {
+   "mean": 0.94203125,
+   "sd": 0.007483706259267529
+  },
+  "cross_unit_sigma200": {
+   "mean": 0.7640625,
+   "sd": 0.03003497310428293
+  },
+  "cross_unit_permuted": {
+   "mean": 0.24281250000000001,
+   "sd": 0.05035130491109443
+  },
+  "cross_event_sigma12": {
+   "mean": 0.993125,
+   "sd": 0.003021731188408413
+  },
+  "cross_event_sigma25": {
+   "mean": 0.9921875,
+   "sd": 0.0043075152350282
+  },
+  "cross_event_sigma50": {
+   "mean": 0.9878125000000001,
+   "sd": 0.004805798906009308
+  },
+  "cross_event_sigma100": {
+   "mean": 0.9596875,
+   "sd": 0.004703099044778918
+  },
+  "cross_total_count": {
+   "mean": 0.221875,
+   "sd": 0.04215276347702485
+  }
+ },
+ "M2_delta50": {
+  "within_counts": {
+   "mean": 0.8370312500000001,
+   "sd": 0.003336586953759833
+  },
+  "cross_unit_sigma0": {
+   "mean": 0.23562499999999997,
+   "sd": 0.01711347696261632
+  },
+  "cross_unit_sigma3": {
+   "mean": 0.2425,
+   "sd": 0.02388428320831503
+  },
+  "cross_unit_sigma5": {
+   "mean": 0.24703124999999998,
+   "sd": 0.035096824776252915
+  },
+  "cross_unit_sigma12": {
+   "mean": 0.2365625,
+   "sd": 0.04279481842904581
+  },
+  "cross_unit_sigma25": {
+   "mean": 0.24187499999999998,
+   "sd": 0.028459812675068696
+  },
+  "cross_unit_sigma50": {
+   "mean": 0.23953125000000003,
+   "sd": 0.029003636625430273
+  },
+  "cross_unit_sigma100": {
+   "mean": 0.23859375,
+   "sd": 0.026343768534987537
+  },
+  "cross_unit_sigma200": {
+   "mean": 0.23484374999999996,
+   "sd": 0.016890906854725118
+  },
+  "cross_unit_permuted": {
+   "mean": 0.2453125,
+   "sd": 0.027492896809903467
+  },
+  "cross_event_sigma12": {
+   "mean": 0.22703125000000002,
+   "sd": 0.02297778308769146
+  },
+  "cross_event_sigma25": {
+   "mean": 0.221875,
+   "sd": 0.021217806495959952
+  },
+  "cross_event_sigma50": {
+   "mean": 0.2128125,
+   "sd": 0.028558294274606093
+  },
+  "cross_event_sigma100": {
+   "mean": 0.24375,
+   "sd": 0.015972693984578817
+  },
+  "cross_total_count": {
+   "mean": 0.23203125,
+   "sd": 0.029732695860365574
+  }
+ }
+}

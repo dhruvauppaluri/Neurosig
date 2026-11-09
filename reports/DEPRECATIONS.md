@@ -24,3 +24,8 @@ Unaffected: `reports/ibl-decode.json` (uses only session-clock quantities), MEAr
 ## Phase 11 additions
 * **False two-source rates from single pools are not stable.** Five fresh 120-single pools (Phases 10-11) gave 3.3-9.2% with similar rules (`reports/phase11/final11.json`, `exp11e_overlap.json`). Single-pool figures, including Phase 9's 3.2% and Phase 10's 7.5%, should be read with that spread.
 * **Phase 9 conformal regions** under-cover low-SNR events (78% at nominal 90%) and are oversized for pairs (median area 6,668 um^2 on p11select). Superseded by the Phase 11 Mondrian calibration (`reports/phase11/calibration_p11.json`).
+
+## Phase 12 additions
+* **Phase 9-11 false two-source rates (3-9%) are artifacts of the line-source benchmark.** On model-mismatched MEArec/NEURON singles with real noise, the P11 rule declares two sources for 76-84% of events and for 67% of noise-free singles. On real detector-confirmed events it does so for 85% (dev) and 76-84% (select / final). It does not separate sorter-coincident from sorter-isolated events. See `reports/phase12/phase12-validation.md` §3. P12-LR replaces it, at much lower recall.
+* **Phase 11 calibrated coverage (90.5%)** was computed on matched primaries only. On the complete event population (unmatched primaries and count errors included), the same protocol covers 81.6% on p12final (`reports/phase12/exp12_5_uncertainty_p12final.json`).
+* **weighted_scan (the Phase 9-11 headline engine)** has a 45-58 um bias on biophysical sources (`reports/phase12/exp12_3_biophys_*.json`). Its real-data within-unit stability is not evidence of accuracy. P12 uses mean3 + line20.

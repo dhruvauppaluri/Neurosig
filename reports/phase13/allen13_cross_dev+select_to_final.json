@@ -1,0 +1,63 @@
+{
+ "protocol": "Phase 13 Allen Brain Observatory (Visual Coding Neuropixels, DANDI 000021) decoding. Run in data/ibl-venv.\nUsage: run_allen13.py within <split> | cross <train_split> <test_split>\n\nSessions (compact caches from fetch_allen13.py) are assigned to splits by sorted session id: the first 2 'dev', next\n2 'select', the remaining 'final' (each session is a different mouse in this dataset; recorded in the report).\nWindow 0-250 ms after onset, 5 bins of 50 ms. Blocked 5-fold CV over presentation order. Blank presentations\n(orientation / frame missing or -1) are excluded.\nTasks: DG orientation (8 classes), SG orientation (6), SG spatial frequency (5), NS natural-image identity (118);\ncontinuous: DG orientation as (cos 2theta, sin 2theta) ridge regression -> median angular error.\nRepresentations: counts, tcounts, total, area (per-area totals), dmap (unit counts in 40 um bins of probe vertical\nposition, per probe), dmap_shuf (positions permuted within probe), dmap_p12 (positions from the P12 line20 fit of the\nunit mean waveform instead of the peak channel), counts_rp (dimension-matched random projection of counts).\nCross-session: a decoder trained on other mice and tested on a held-out mouse can only use features defined\nidentically across mice: VISp cortical-depth maps (vertical position relative to the shallowest VISp unit, 100 um\nbins to 1000 um) x 5 time bins, versus VISp total count x 5 time bins and per-area totals x 5 time bins.\n",
+ "train": [
+  "715093703",
+  "719161530",
+  "721123822",
+  "732592105"
+ ],
+ "test": [
+  "739448407"
+ ],
+ "tasks": {
+  "DG_orientation8": {
+   "739448407": {
+    "vmap": {
+     "accuracy": 0.13333333333333333,
+     "chance": 0.125
+    },
+    "vtotal": {
+     "accuracy": 0.17,
+     "chance": 0.125
+    },
+    "areas": {
+     "accuracy": 0.14666666666666667,
+     "chance": 0.125
+    }
+   }
+  },
+  "NS_image118": {
+   "739448407": {
+    "vmap": {
+     "accuracy": 0.010169491525423728,
+     "chance": 0.00847457627118644
+    },
+    "vtotal": {
+     "accuracy": 0.016440677966101696,
+     "chance": 0.00847457627118644
+    },
+    "areas": {
+     "accuracy": 0.0288135593220339,
+     "chance": 0.00847457627118644
+    }
+   }
+  },
+  "SG_orientation6": {
+   "739448407": {
+    "vmap": {
+     "accuracy": 0.16098484848484848,
+     "chance": 0.16666666666666666
+    },
+    "vtotal": {
+     "accuracy": 0.1659779614325069,
+     "chance": 0.16666666666666666
+    },
+    "areas": {
+     "accuracy": 0.2066115702479339,
+     "chance": 0.16666666666666666
+    }
+   }
+  }
+ },
+ "runtime_s": 7.209333181381226
+}

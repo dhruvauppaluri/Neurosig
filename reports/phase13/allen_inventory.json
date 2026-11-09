@@ -1,0 +1,204 @@
+{
+ "sub-699733573/sub-699733573_ses-715093703.nwb": {
+  "status": "ok",
+  "session": "715093703",
+  "subject": "sub-699733573",
+  "n_vis_good_units": 637,
+  "areas": [
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "n_probes_vis": 6,
+  "trials": {
+   "dg": 628,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "labels": {
+   "dg_orientation": [
+    0.0,
+    45.0,
+    90.0,
+    135.0,
+    180.0,
+    225.0,
+    270.0,
+    315.0
+   ],
+   "sg_orientation": [
+    0.0,
+    30.0,
+    60.0,
+    90.0,
+    120.0,
+    150.0
+   ],
+   "ns_frames": 119
+  }
+ },
+ "sub-703279277/sub-703279277_ses-719161530.nwb": {
+  "status": "ok",
+  "session": "719161530",
+  "subject": "sub-703279277",
+  "n_vis_good_units": 396,
+  "areas": [
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "n_probes_vis": 6,
+  "trials": {
+   "dg": 628,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "labels": {
+   "dg_orientation": [
+    0.0,
+    45.0,
+    90.0,
+    135.0,
+    180.0,
+    225.0,
+    270.0,
+    315.0
+   ],
+   "sg_orientation": [
+    0.0,
+    30.0,
+    60.0,
+    90.0,
+    120.0,
+    150.0
+   ],
+   "ns_frames": 119
+  }
+ },
+ "sub-707296975/sub-707296975_ses-721123822.nwb": {
+  "status": "ok",
+  "session": "721123822",
+  "subject": "sub-707296975",
+  "n_vis_good_units": 622,
+  "areas": [
+   "VIS",
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISrl"
+  ],
+  "n_probes_vis": 6,
+  "trials": {
+   "dg": 628,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "labels": {
+   "dg_orientation": [
+    0.0,
+    45.0,
+    90.0,
+    135.0,
+    180.0,
+    225.0,
+    270.0,
+    315.0
+   ],
+   "sg_orientation": [
+    0.0,
+    30.0,
+    60.0,
+    90.0,
+    120.0,
+    150.0
+   ],
+   "ns_frames": 119
+  }
+ },
+ "sub-716813540/sub-716813540_ses-739448407.nwb": {
+  "status": "ok",
+  "session": "739448407",
+  "subject": "sub-716813540",
+  "n_vis_good_units": 654,
+  "areas": [
+   "VIS",
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISrl"
+  ],
+  "n_probes_vis": 6,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "labels": {
+   "dg_orientation": [
+    0.0,
+    45.0,
+    90.0,
+    135.0,
+    180.0,
+    225.0,
+    270.0,
+    315.0
+   ],
+   "sg_orientation": [
+    0.0,
+    30.0,
+    60.0,
+    90.0,
+    120.0,
+    150.0
+   ],
+   "ns_frames": 119
+  }
+ },
+ "sub-717038285/sub-717038285_ses-732592105.nwb": {
+  "status": "ok",
+  "session": "732592105",
+  "subject": "sub-717038285",
+  "n_vis_good_units": 952,
+  "areas": [
+   "VISal",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "n_probes_vis": 5,
+  "trials": {
+   "dg": 628,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "labels": {
+   "dg_orientation": [
+    0.0,
+    45.0,
+    90.0,
+    135.0,
+    180.0,
+    225.0,
+    270.0,
+    315.0
+   ],
+   "sg_orientation": [
+    0.0,
+    30.0,
+    60.0,
+    90.0,
+    120.0,
+    150.0
+   ],
+   "ns_frames": 119
+  }
+ }
+}

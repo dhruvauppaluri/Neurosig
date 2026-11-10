@@ -1,0 +1,224 @@
+{
+ "split": "dev",
+ "cfg": {
+  "tau_rel": 0.1
+ },
+ "sessions": {
+  "A": {
+   "n_events": 3713,
+   "precision": 0.9177101967799642,
+   "n_precision_events": 559,
+   "coverage_all": 0.26286022084567734,
+   "coverage_matched": 0.32901706886403764,
+   "coverage_hq": 0.708502024291498,
+   "n_hq": 247,
+   "precision_hq": 0.9714285714285714,
+   "n_units": 30,
+   "merge_rate": 0.07692307692307693,
+   "fragmentation_mean": 1.4545454545454546,
+   "duplicate_units_frac": 0.36363636363636365,
+   "ari": 0.7722771589195583,
+   "by_snr": {
+    "0-6": {
+     "n": 791,
+     "coverage": 0.0,
+     "precision": NaN
+    },
+    "6-8": {
+     "n": 481,
+     "coverage": 0.5467775467775468,
+     "precision": 0.9011406844106464
+    },
+    "8-12": {
+     "n": 206,
+     "coverage": 0.7184466019417476,
+     "precision": 0.9256756756756757
+    },
+    "12-inf": {
+     "n": 221,
+     "coverage": 0.669683257918552,
+     "precision": 0.9391891891891891
+    }
+   },
+   "ms_per_event": 0.1977052695930948,
+   "abstention_all": {
+    "assigned": 0.26286022084567734,
+    "ambiguous": 0.00538647993536224,
+    "gray": 0.06894694317263668,
+    "low_gain": 0.0010772959870724481,
+    "tentative_never_active": 0.0783732830595206,
+    "weak": 0.5833557769997306
+   },
+   "abstention_hq": {
+    "ambiguous": 0.004048582995951417,
+    "assigned": 0.708502024291498,
+    "gray": 0.15384615384615385,
+    "tentative_never_active": 0.13360323886639677
+   },
+   "abstention_matched": {
+    "ambiguous": 0.009417304296645085,
+    "assigned": 0.32901706886403764,
+    "gray": 0.1153619776339023,
+    "low_gain": 0.0005885815185403178,
+    "tentative_never_active": 0.08004708652148322,
+    "weak": 0.4655679811653914
+   },
+   "spread_reduction": 0.8695603054847458,
+   "duration_s": 1432.4573999999998
+  },
+  "B": {
+   "n_events": 3579,
+   "precision": 0.7155555555555555,
+   "n_precision_events": 225,
+   "coverage_all": 0.06370494551550712,
+   "coverage_matched": 0.1053864168618267,
+   "coverage_hq": 0.4166666666666667,
+   "n_hq": 120,
+   "precision_hq": 1.0,
+   "n_units": 3,
+   "merge_rate": 0.0,
+   "fragmentation_mean": 1.0,
+   "duplicate_units_frac": 0.0,
+   "ari": 0.5652360644548707,
+   "by_snr": {
+    "0-6": {
+     "n": 1442,
+     "coverage": 0.0,
+     "precision": NaN
+    },
+    "6-8": {
+     "n": 409,
+     "coverage": 0.28117359413202936,
+     "precision": 0.5565217391304348
+    },
+    "8-12": {
+     "n": 242,
+     "coverage": 0.4256198347107438,
+     "precision": 0.912621359223301
+    },
+    "12-inf": {
+     "n": 42,
+     "coverage": 0.16666666666666666,
+     "precision": 0.42857142857142855
+    }
+   },
+   "ms_per_event": 0.05020720396098764,
+   "abstention_all": {
+    "assigned": 0.06370494551550712,
+    "ambiguous": 0.005308745459625594,
+    "gray": 0.08074881251746298,
+    "low_gain": 0.0036322995250069852,
+    "tentative_never_active": 0.05727856943280246,
+    "weak": 0.7893266275495948
+   },
+   "abstention_hq": {
+    "ambiguous": 0.025,
+    "assigned": 0.4166666666666667,
+    "gray": 0.325,
+    "tentative_never_active": 0.23333333333333334
+   },
+   "abstention_matched": {
+    "ambiguous": 0.008899297423887589,
+    "assigned": 0.1053864168618267,
+    "gray": 0.12131147540983607,
+    "low_gain": 0.00468384074941452,
+    "tentative_never_active": 0.08430913348946135,
+    "weak": 0.6754098360655738
+   },
+   "spread_reduction": 0.5621167461684592,
+   "duration_s": 3462.0355666666665
+  },
+  "C": {
+   "n_events": 5301,
+   "precision": 0.9221854304635762,
+   "n_precision_events": 604,
+   "coverage_all": 0.14129409545368798,
+   "coverage_matched": 0.2929194956353055,
+   "coverage_hq": 0.688195991091314,
+   "n_hq": 449,
+   "precision_hq": 0.9967637540453075,
+   "n_units": 14,
+   "merge_rate": 0.16666666666666666,
+   "fragmentation_mean": 1.0,
+   "duplicate_units_frac": 0.0,
+   "ari": 0.9374704950199463,
+   "by_snr": {
+    "0-6": {
+     "n": 786,
+     "coverage": 0.0,
+     "precision": NaN
+    },
+    "6-8": {
+     "n": 510,
+     "coverage": 0.3784313725490196,
+     "precision": 0.8704663212435233
+    },
+    "8-12": {
+     "n": 535,
+     "coverage": 0.5233644859813084,
+     "precision": 0.95
+    },
+    "12-inf": {
+     "n": 231,
+     "coverage": 0.5670995670995671,
+     "precision": 0.9389312977099237
+    }
+   },
+   "ms_per_event": 0.13160459516880765,
+   "abstention_all": {
+    "assigned": 0.14129409545368798,
+    "ambiguous": 0.0018864365214110545,
+    "gray": 0.10205621580833805,
+    "low_gain": 0.03999245425391436,
+    "tentative_never_active": 0.03829466138464441,
+    "weak": 0.6764761365780041
+   },
+   "abstention_hq": {
+    "assigned": 0.688195991091314,
+    "gray": 0.19599109131403117,
+    "tentative_never_active": 0.11581291759465479
+   },
+   "abstention_matched": {
+    "ambiguous": 0.002909796314258002,
+    "assigned": 0.2929194956353055,
+    "gray": 0.20417070805043647,
+    "low_gain": 0.03540252182347236,
+    "tentative_never_active": 0.08341416100872939,
+    "weak": 0.38118331716779824
+   },
+   "spread_reduction": 0.5272498896468277,
+   "duration_s": 4185.994137085854
+  }
+ },
+ "summary": {
+  "precision": 0.9177101967799642,
+  "precision_hq": 0.9967637540453075,
+  "coverage_hq": 0.688195991091314,
+  "coverage_all": 0.14129409545368798,
+  "coverage_matched": 0.2929194956353055,
+  "merge_rate": 0.07692307692307693,
+  "fragmentation_mean": 1.0,
+  "ari": 0.7722771589195583,
+  "spread_reduction": 0.5621167461684592,
+  "ms_per_event": 0.13160459516880765
+ },
+ "summary_min": {
+  "precision": 0.7155555555555555,
+  "precision_hq": 0.9714285714285714,
+  "coverage_hq": 0.4166666666666667
+ },
+ "abstention_hq_median": {
+  "ambiguous": 0.004048582995951417,
+  "assigned": 0.688195991091314,
+  "gray": 0.19599109131403117,
+  "tentative_never_active": 0.13360323886639677
+ },
+ "abstention_all_median": {
+  "ambiguous": 0.005308745459625594,
+  "assigned": 0.14129409545368798,
+  "gray": 0.08074881251746298,
+  "low_gain": 0.0036322995250069852,
+  "tentative_never_active": 0.05727856943280246,
+  "weak": 0.6764761365780041
+ }
+}

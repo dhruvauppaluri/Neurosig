@@ -296,6 +296,19 @@ Phase 14 separates one complex neuron from two overlapping neurons on a morpholo
 
 See [`reports/phase14/phase14-validation.md`](reports/phase14/phase14-validation.md) and [`docs/phase14-localization.md`](docs/phase14-localization.md).
 
+### Phase 15: multi-track research cycle (software only)
+
+Phase 15 pushes every Phase 14 track from the frozen P14 baseline, with a dashboard, an experiment registry and a single-use final on 4 new IBL insertions and 6 never-opened Allen mice (frozen P15 hash `1bcba1777bd6`). All 13 biophysical morphologies were already used, so overlap, localization and uncertainty results are leave-one-morphology-out cross-validation, not final results.
+
+- **Cross-animal decoding.** Grouping units by CCF area and by a label-free functional cluster of their averaged response raises spatial-frequency accuracy on the new mice from 0.438 (Phase 14 spec, same mice) to 0.536 (6/6 mice improved; target 0.60). Orientation, Gabor position and natural-image identity stay within about 1 point of the reference.
+- **Online identity.** An amplitude-proportional assignment threshold raises high-quality coverage from 0.51 to 0.74 (2 s windows) and from 0.69 to 0.85 (30 s windows), with high-quality precision 1.00 and 0.97. All-event coverage stays near 10%.
+- **Overlap (cross-validated).** A learned count model raises resolvable-pair recall from 31% to 42% and triple detection from 32% to 56% at a pooled 1.4% false additional-source rate. The worst morphology reaches 8.9%.
+- **Localization (cross-validated).** Averaging the ms3 and line20 centres cuts the median error from 21.8 to 15.7 um. Conformal discs cover 0.90 overall, but only 0.76-0.85 for pairs, triples and low-SNR events.
+- **Runtime.** A batched path processes real events in 1.04-1.08 ms each (0.8 ms in batches). Two workers sustain 1,900-2,200 events/s with no drops (Phase 14: 773).
+- **Not replicated.** On the new IBL insertions the Phase 13 timing advantage did not replicate; decoding is near chance there.
+
+See [`reports/phase15/phase15-validation.md`](reports/phase15/phase15-validation.md) and [`docs/phase15-research.md`](docs/phase15-research.md).
+
 ### Integrated RTL stress and finite-recording behavior
 
 `rtl/tb/generate_pipeline_stress.py` makes seeded dense ADC streams and exact Python event vectors. With seed `20261103`, 256 frames at 1, 4, and 32 channels all passed end-to-end RTL comparison: respectively 5, 20, and 160 channel candidates merged to 5 events in each case. The detector's `end_of_stream` closes a partial 16-sample peak search at the end of a finite recording; the pipeline sends this signal to one channel per clock before flushing the event merge. Stop input and let the filter drain before asserting `flush`, and reset between recordings. Directed tests cover partial searches, a midstream integrated reset, and sticky queue overflow at 65 candidates with queue depth 64. See `reports/rtl-stress.json`. A system-level source still needs to exercise queue sizing under varied event densities.

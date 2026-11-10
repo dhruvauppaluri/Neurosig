@@ -1,0 +1,85 @@
+{
+ "phase": 15,
+ "frozen_on": "2026-11-09",
+ "rule": "chosen on development (leave-one-mouse-out / LOMO / dev sessions) and confirmed on selection data before any final data were opened; final data are evaluated once by scripts/phase15/run_final15.py",
+ "identity": {
+  "ID-P15": {
+   "tau_rel": 0.2
+  },
+  "OU-P14_reference": {},
+  "note": "OnlineUnits15 on top of frozen OU-P14 parameters (min_gain 80, merge off, snr_assign 6); assignment threshold max(tau_assign, 1 + tau_rel * mean(mu^2))"
+ },
+ "count": {
+  "B-P15": {
+   "model_file": "reports/phase15/count_b_p15.json",
+   "model_sha256_16": "cd50df62910d3ea4",
+   "features": "line20 + ms3 spatially whitened K=1/K=2 statistics + temporal features + SNR",
+   "threshold": "per-recording self-calibrated quantile 0.998 of development singles (nested LOMO choice)"
+  },
+  "P14-C_reference": "frozen P14 F21, 98th percentile self-calibration"
+ },
+ "localization": {
+  "A-P15": "mean of ms3 and line20 spatially whitened K=1 centres",
+  "uncertainty": "Mondrian split-conformal discs, bins observed-SNR tertile x declared overlap, calibrated leave-one-morphology-out (reports/phase15/uncertainty15_lomo.json)"
+ },
+ "deployment": {
+  "D-P15_batch": {
+   "module": "edge/phase15/batch.py",
+   "step_um": 10,
+   "rank": 6,
+   "n_cand": 2,
+   "batch_max": 32,
+   "batch_timeout_ms": 2
+  }
+ },
+ "vision": {
+  "D-P15": {
+   "unit_norm": "none",
+   "groups": [
+    "area",
+    "fclust"
+   ],
+   "k_fclust": 6
+  },
+  "D-P15_tags": [
+   "e7n_fclust"
+  ],
+  "D-P15-route_secondary": {
+   "SG_sf5": "e7n_fclust",
+   "GB_x": "e7n_fclust",
+   "GB_y": "e7n_fclust",
+   "SG_orientation6": "e11_layer_mlp",
+   "DG_orientation8": "e11_layer_mlp",
+   "NS_image118": "e11_layer_mlp"
+  },
+  "e11_layer_mlp": {
+   "unit_norm": "none",
+   "groups": [
+    "area",
+    "layer"
+   ],
+   "model": "mlp",
+   "extra": {
+    "hidden": 64,
+    "alpha": 1.0
+   }
+  },
+  "reference_p14": {
+   "groups": [
+    "area"
+   ],
+   "unit_norm": "none",
+   "sess_norm": "z",
+   "bin_ms": 25
+  },
+  "selection_mean_lift_over_chance": {
+   "e0_ph14like": 0.0897,
+   "e3n_layer": 0.0973,
+   "e11_layer_mlp": 0.0978,
+   "e7n_fclust": 0.106,
+   "route": 0.11
+  },
+  "primary": "D-P15 (single spec) decides the reported result; the routed variant is a pre-registered secondary"
+ },
+ "hash": "1bcba1777bd6"
+}

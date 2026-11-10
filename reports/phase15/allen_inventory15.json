@@ -1,0 +1,266 @@
+{
+ "797828357": {
+  "status": "ok",
+  "session": "797828357",
+  "n_vis_good_units": 761,
+  "areas": [
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7398160315374507,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "train_candidates"
+ },
+ "744228101": {
+  "status": "ok",
+  "session": "744228101",
+  "n_vis_good_units": 645,
+  "areas": [
+   "VIS",
+   "VISal",
+   "VISl",
+   "VISp",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7813953488372093,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "train_candidates"
+ },
+ "762120172": {
+  "status": "ok",
+  "session": "762120172",
+  "n_vis_good_units": 682,
+  "areas": [
+   "VIS",
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISp"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7346041055718475,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "train_candidates"
+ },
+ "754312389": {
+  "status": "ok",
+  "session": "754312389",
+  "n_vis_good_units": 562,
+  "areas": [
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7900355871886121,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "train_candidates"
+ },
+ "799864342": {
+  "status": "ok",
+  "session": "799864342",
+  "n_vis_good_units": 628,
+  "areas": [
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISmma",
+   "VISp",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7882165605095541,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "train_candidates"
+ },
+ "791319847": {
+  "status": "ok",
+  "session": "791319847",
+  "n_vis_good_units": 734,
+  "areas": [
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7520435967302452,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "train_candidates"
+ },
+ "751348571": {
+  "status": "ok",
+  "session": "751348571",
+  "n_vis_good_units": 628,
+  "areas": [
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7261146496815286,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "train_candidates"
+ },
+ "755434585": {
+  "status": "ok",
+  "session": "755434585",
+  "n_vis_good_units": 794,
+  "areas": [
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7455919395465995,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "final_candidates"
+ },
+ "737581020": {
+  "status": "ok",
+  "session": "737581020",
+  "n_vis_good_units": 415,
+  "areas": [
+   "VISl",
+   "VISmma",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.763855421686747,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "final_candidates"
+ },
+ "746083955": {
+  "status": "ok",
+  "session": "746083955",
+  "n_vis_good_units": 559,
+  "areas": [
+   "VISal",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7549194991055456,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "final_candidates"
+ },
+ "759883607": {
+  "status": "ok",
+  "session": "759883607",
+  "n_vis_good_units": 623,
+  "areas": [
+   "VISal",
+   "VISam",
+   "VISp",
+   "VISpm"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7271268057784912,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "final_candidates"
+ },
+ "754829445": {
+  "status": "ok",
+  "session": "754829445",
+  "n_vis_good_units": 433,
+  "areas": [
+   "VISam",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7297921478060047,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "final_candidates"
+ },
+ "750332458": {
+  "status": "ok",
+  "session": "750332458",
+  "n_vis_good_units": 700,
+  "areas": [
+   "VISal",
+   "VISam",
+   "VISl",
+   "VISp",
+   "VISpm",
+   "VISrl"
+  ],
+  "trough_peak_dist_median_um": 0.0,
+  "trough_on_peak_frac": 0.7728571428571429,
+  "trials": {
+   "dg": 630,
+   "sg": 6000,
+   "ns": 5950
+  },
+  "group": "final_candidates"
+ }
+}
